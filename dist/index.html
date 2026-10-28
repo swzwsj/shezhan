@@ -11,6 +11,7 @@
   <link rel="preload" href="assets/opponent.png" as="image">
   <!-- Precompiled Tailwind CSS; no runtime CDN dependency. -->
   <link rel="stylesheet" href="assets/tailwind.css">
+  <link rel="stylesheet" href="assets/stage.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -277,7 +278,7 @@
   <!-- ========================================================
        TOP FILM LETTERBOX BAR: SCENARIO, AUDIO & CONFIG CONTROLS
        ======================================================== -->
-  <header class="relative z-40 h-11 w-full bg-black/95 border-b border-white/10 px-3 sm:px-6 flex items-center justify-between shrink-0">
+  <header id="gameHeader" class="relative z-40 h-11 w-full bg-black/95 border-b border-white/10 px-3 sm:px-6 flex items-center justify-between shrink-0">
     <div class="flex items-center space-x-2 sm:space-x-3">
       <span class="px-2 py-0.5 rounded bg-rose-500/20 border border-rose-400/40 text-[10px] font-cinzel text-rose-300 font-bold tracking-wider">
         舌战
@@ -296,9 +297,9 @@
       </select>
 
       <!-- Replace Actor Portrait Button -->
-      <button id="openSpriteModalBtn" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 border border-cinemaGold/40 text-[11px] text-cinemaGold transition flex items-center space-x-1">
+      <button id="openSpriteModalBtn" aria-label="设置场景与立绘" title="设置场景与立绘" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 border border-cinemaGold/40 text-[11px] text-cinemaGold transition flex items-center space-x-1">
         <span>🖼️</span>
-        <span class="hidden sm:inline">换立绘</span>
+        <span class="hidden sm:inline">场景/立绘</span>
       </button>
 
       <!-- JSON Config Modal Button -->
@@ -318,6 +319,11 @@
        MAIN CINEMATIC VIEWPORT (CONTINUOUS CAMERA PLATE)
        ======================================================== -->
   <main id="mainGameStage" class="relative flex-1 w-full flex flex-col justify-between overflow-hidden">
+
+    <div id="sceneBackdrop" aria-hidden="true">
+      <img id="sceneBackground" src="assets/backgrounds/study.png" alt="" fetchpriority="high">
+    </div>
+    <div id="sceneLoadNotice" role="status" hidden>场景图片未加载，可通过右上角“场景/立绘”更换。</div>
 
     <!-- Cinematic Environment Backdrop (Canvas Weather & Lighting) -->
     <canvas id="ambientAtmosphereCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
@@ -357,7 +363,7 @@
         </div>
 
         <!-- Player Nameplate Pedestal -->
-        <div class="mt-[-10px] z-20 px-3 py-1 rounded-full bg-gradient-to-r from-rose-950 via-black to-rose-950 border border-rose-400/70 shadow-[0_0_15px_rgba(244,63,94,0.4)] flex items-center space-x-1.5">
+        <div id="playerNameplate" class="mt-[-10px] z-20 px-3 py-1 rounded-full bg-gradient-to-r from-rose-950 via-black to-rose-950 border border-rose-400/70 shadow-[0_0_15px_rgba(244,63,94,0.4)] flex items-center space-x-1.5">
           <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
           <span class="text-[10px] sm:text-xs font-bold text-rose-100 tracking-wider">女主 · 你</span>
           <span class="text-[9px] px-1.5 py-0.2 bg-rose-500/30 rounded text-rose-200 font-mono">LEFT</span>
@@ -413,7 +419,7 @@
         </div>
 
         <!-- Opponent Nameplate Pedestal -->
-        <div class="mt-[-10px] z-20 px-3 py-1 rounded-full bg-gradient-to-r from-sky-950 via-black to-sky-950 border border-sky-400/70 shadow-[0_0_15px_rgba(56,189,248,0.4)] flex items-center space-x-1.5">
+        <div id="opponentNameplate" class="mt-[-10px] z-20 px-3 py-1 rounded-full bg-gradient-to-r from-sky-950 via-black to-sky-950 border border-sky-400/70 shadow-[0_0_15px_rgba(56,189,248,0.4)] flex items-center space-x-1.5">
           <span class="text-[9px] px-1.5 py-0.2 bg-sky-500/30 rounded text-sky-200 font-mono">RIGHT</span>
           <span id="opponentPedestalName" class="text-[10px] sm:text-xs font-bold text-sky-100 tracking-wider">陆衍 · 禁欲系执行官</span>
           <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
@@ -428,7 +434,7 @@
     <!-- ========================================================
          TOP HUD: Left (Player Turn & Timer) vs Right (Opponent Pulse & Hand)
          ======================================================== -->
-    <div class="relative z-20 w-full px-3 sm:px-6 pt-2.5 flex items-start justify-between pointer-events-none">
+    <div id="topGameHud" class="relative z-20 w-full px-3 sm:px-6 pt-2.5 flex items-start justify-between pointer-events-none">
       
       <!-- LEFT TOP: Player Stance & Turn Countdown -->
       <div class="flex flex-col items-start space-y-1.5">
@@ -436,8 +442,8 @@
           <div class="flex items-center space-x-1.5">
             <span class="text-sm">⚔</span>
             <div class="flex flex-col">
-              <span class="text-[10px] uppercase font-cinzel text-rose-300 font-bold tracking-wider">YOUR STANCE · 左方阵营</span>
-              <span class="text-[11px] text-white/90 font-medium">从下方选牌向右侧攻心</span>
+              <span id="playerStatusTitle" class="text-[10px] uppercase font-cinzel text-rose-300 font-bold tracking-wider"><span class="desktop-stance-label">YOUR STANCE · </span>我方出牌</span>
+              <span id="playerStatusHint" class="text-[11px] text-white/90 font-medium">点击下方手牌，向对手出招</span>
             </div>
           </div>
           <div class="h-6 w-px bg-white/10"></div>
@@ -603,7 +609,7 @@
     <!-- ========================================================
          BOTTOM HUD: SUBTITLE BOX, 3D TENSION RUNWAY & HAND CARDS
          ======================================================== -->
-    <div class="relative z-30 w-full px-3 sm:px-6 pb-2.5 flex flex-col items-center space-y-2 bg-gradient-to-t from-black via-black/90 to-transparent pt-4">
+    <div id="bottomGameHud" class="relative z-30 w-full px-3 sm:px-6 pb-2.5 flex flex-col items-center space-y-2 bg-gradient-to-t from-black via-black/90 to-transparent pt-4">
       
       <!-- Natural Movie Subtitle Box -->
       <div id="cinematicSubtitleBox" class="w-full max-w-2xl px-4 py-1.5 rounded-xl cinema-hud gold-foil-border min-h-[52px] flex flex-col justify-center items-center shadow-lg transition-all duration-300">
@@ -644,7 +650,7 @@
       <!-- Player 4-Card Interactive Hand Tray -->
       <div class="w-full max-w-3xl flex flex-col items-center">
         <div class="flex items-center justify-between w-full px-2 mb-1 text-[10px] text-white/60">
-          <span>👈 点击下方手牌向右侧【对手】出招（直球 ⚔ 克 掩饰 🛡 | 掩饰 🛡 克 试探 ❧ | 试探 ❧ 克 直球 ⚔）</span>
+          <span id="handRules">👈 点击下方手牌向右侧【对手】出招（直球 ⚔ 克 掩饰 🛡 | 掩饰 🛡 克 试探 ❧ | 试探 ❧ 克 直球 ⚔）</span>
           <span id="turnCounterBadge" class="font-mono text-cinemaGold">TURN 1</span>
         </div>
         <div id="playerHandContainer" class="w-full grid grid-cols-4 gap-2 sm:gap-3.5 pt-1 pb-1 pointer-events-auto">
@@ -698,13 +704,17 @@
     <div class="cinema-hud w-full max-w-lg rounded-2xl p-5 border border-cinemaGold/40 flex flex-col max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
         <div>
-          <h3 class="text-sm font-bold font-cinzel text-cinemaGold">左右双人立绘 / 剧照图配置</h3>
-          <p class="text-[10px] text-white/50">支持分别配置左方【女主】与右方【对手】立绘，系统将自动进行对峙渲染</p>
+          <h3 class="text-sm font-bold font-cinzel text-cinemaGold">本幕场景与双人立绘</h3>
+          <p class="text-[10px] text-white/50">场景随剧本切换，也可在这里更换。本次应用仅在当前页面生效。</p>
         </div>
         <button id="closeSpriteBtn" class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs text-white/70 hover:text-white">✕</button>
       </div>
 
       <div class="space-y-2.5 text-xs">
+        <div class="p-2 rounded-lg bg-black/40 border border-cinemaGold/30">
+          <label for="sceneBackgroundInput" class="block text-cinemaGold text-[11px] mb-1 font-bold">本幕背景图片链接：</label>
+          <input type="text" id="sceneBackgroundInput" class="w-full bg-black/80 border border-white/10 rounded px-2.5 py-1.5 text-cinemaGold font-mono text-xs focus:border-cinemaGold outline-none" placeholder="assets/backgrounds/study.png 或 https://...">
+        </div>
         <div class="p-2 rounded-lg bg-rose-950/30 border border-rose-500/30">
           <label class="block text-rose-300 text-[11px] mb-1 font-bold">👈 左方【我方女主】立绘链接：</label>
           <input type="text" id="spriteInputPlayer" class="w-full bg-black/80 border border-white/10 rounded px-2.5 py-1.5 text-rose-200 font-mono text-xs focus:border-rose-400 outline-none" placeholder="https://...">
@@ -735,7 +745,7 @@
         <span id="spriteStatusMsg" class="text-[11px] text-emerald-400"></span>
         <div class="flex space-x-2">
           <button id="saveSpriteBtn" class="px-4 py-1.5 rounded-lg bg-cinemaGold text-black font-bold text-xs hover:brightness-110 transition">
-            保存并应用立绘
+            应用场景与立绘
           </button>
         </div>
       </div>
@@ -840,6 +850,7 @@
           characterName: "陆衍",
           actorTag: "禁欲系执行官",
           themeBg: "penthouse",
+          background: "assets/backgrounds/study.png",
           usePhotoSprite: true,
           playerSprite: "assets/heroine.png",
           sprites: {
@@ -877,6 +888,7 @@
           characterName: "齐枭",
           actorTag: "白切黑财阀幼子",
           themeBg: "masquerade",
+          background: "assets/backgrounds/ballroom.png",
           usePhotoSprite: true,
           playerSprite: "assets/heroine.png",
           sprites: {
@@ -914,6 +926,7 @@
           characterName: "百里华",
           actorTag: "无情道清冷仙尊",
           themeBg: "bamboo",
+          background: "assets/backgrounds/bamboo.png",
           usePhotoSprite: true,
           playerSprite: "assets/heroine.png",
           sprites: {
@@ -1109,23 +1122,7 @@
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
       atmosCtx.clearRect(0, 0, atmosCanvas.width, atmosCanvas.height);
 
-      // Cinematic backdrop gradient
-      const grad = atmosCtx.createRadialGradient(
-        atmosCanvas.width * 0.5, atmosCanvas.height * 0.35, 50,
-        atmosCanvas.width * 0.5, atmosCanvas.height * 0.5, atmosCanvas.width * 0.85
-      );
-      if (scen.themeBg === 'penthouse') {
-        grad.addColorStop(0, '#1e162b');
-        grad.addColorStop(1, '#07050c');
-      } else if (scen.themeBg === 'masquerade') {
-        grad.addColorStop(0, '#2a1225');
-        grad.addColorStop(1, '#080409');
-      } else {
-        grad.addColorStop(0, '#0f242c');
-        grad.addColorStop(1, '#050a0e');
-      }
-      atmosCtx.fillStyle = grad;
-      atmosCtx.fillRect(0, 0, atmosCanvas.width, atmosCanvas.height);
+      // Keep this canvas transparent so the selected scene remains visible.
 
       // Render particles
       particles.forEach(p => {
@@ -1396,6 +1393,32 @@
       }
     }
 
+    function renderSceneBackground() {
+      const scen = GAME_CONFIG.scenarios[currentScenarioId];
+      const image = document.getElementById('sceneBackground');
+      const notice = document.getElementById('sceneLoadNotice');
+      const target = scen.background || '';
+      image.onload = () => {
+        image.style.opacity = '1';
+        notice.hidden = true;
+      };
+      image.onerror = () => {
+        image.style.opacity = '0';
+        notice.hidden = false;
+      };
+      if (!target) {
+        image.removeAttribute('src');
+        image.style.opacity = '0';
+        notice.hidden = true;
+      } else if (image.getAttribute('src') !== target) {
+        notice.hidden = true;
+        image.src = target;
+      } else if (image.complete) {
+        image.style.opacity = image.naturalWidth > 0 ? '1' : '0';
+        notice.hidden = image.naturalWidth > 0;
+      }
+    }
+
     /* ========================================================
        6. CINEMATIC STANCE SHIFT & HUD UPDATES
        ======================================================== */
@@ -1421,7 +1444,7 @@
 
       // RTK11 Tug-of-War Spatial Stance Shift
       if (pWrap && oWrap) {
-        const shiftPx = distance * 14;
+        const shiftPx = distance * Math.min(14, window.innerWidth * 0.012);
         const pScale = 1 + Math.max(0, distance) * 0.025;
         const oScale = 1 + Math.max(0, -distance) * 0.025;
         pWrap.style.transform = `translateX(${shiftPx}px) scale(${pScale})`;
@@ -2023,6 +2046,7 @@
     document.getElementById('openSpriteModalBtn').addEventListener('click', () => {
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
       const sprites = scen.sprites || {};
+      document.getElementById('sceneBackgroundInput').value = scen.background || '';
       document.getElementById('spriteInputPlayer').value = scen.playerSprite || '';
       document.getElementById('spriteInputIdle').value = sprites.idle || '';
       document.getElementById('spriteInputFlustered').value = sprites.flustered || '';
@@ -2040,6 +2064,7 @@
     document.getElementById('saveSpriteBtn').addEventListener('click', () => {
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
       if (!scen.sprites) scen.sprites = {};
+      scen.background = document.getElementById('sceneBackgroundInput').value.trim();
       scen.playerSprite = document.getElementById('spriteInputPlayer').value.trim();
       scen.sprites.idle = document.getElementById('spriteInputIdle').value.trim();
       scen.sprites.flustered = document.getElementById('spriteInputFlustered').value.trim();
@@ -2048,7 +2073,8 @@
       scen.usePhotoSprite = !document.getElementById('spriteToggleFallback').checked;
 
       renderActorFrame();
-      document.getElementById('spriteStatusMsg').textContent = '✓ 双人立绘配置已更新生效';
+      renderSceneBackground();
+      document.getElementById('spriteStatusMsg').textContent = '✓ 本幕场景与立绘已应用';
       setTimeout(() => {
         document.getElementById('spriteModal').classList.add('hidden');
       }, 500);
@@ -2102,6 +2128,7 @@
       document.getElementById('grandFinaleCutIn').classList.add('hidden');
 
       document.getElementById('sceneContextTitle').textContent = scen.title;
+      renderSceneBackground();
       setActiveActorSpotlight('NONE');
       setSubtitleSpeaker('OPPONENT', scen.characterName, scen.initialDialogue);
 
