@@ -1,0 +1,84 @@
+/* V4: broad dialogue, restrained cards, transparent game verdicts. */
+#topGameHud { padding-top: 12px; }
+#playerStatusTitle { font-family: 'Noto Serif SC', serif; font-size: 13px; letter-spacing: 0; }
+#playerStatusHint { font-size: 11px; }
+#bottomGameHud { gap: 8px; padding: 8px 24px 12px; }
+#bottomGameHud > * + * { margin-top: 0; }
+#cinematicSubtitleBox { width: 100%; max-width: 1200px; min-height: 100px; display: grid; grid-template-columns: 116px minmax(0,1fr); gap: 20px; padding: 16px 22px; border: 1px solid rgba(223,183,108,.55); border-radius: 6px; background: rgba(10,10,16,.94); backdrop-filter: none; box-shadow: 0 8px 22px rgba(0,0,0,.28); }
+#cinematicSubtitleBox > div:first-child { flex-direction: column; gap: 6px; margin: 0; align-items: flex-start; }
+#cinematicSpeakerName { font-size: 16px; line-height: 1.4; margin: 0; }
+#speakerSideBadge { font-size: 10px; padding: 2px 6px; }
+#cinematicSubtitleText { margin: 0; font-size: 21px; line-height: 1.65; text-align: left; color: #fff2e4; letter-spacing: .02em; font-weight: 500; }
+#bottomGameHud > .perspective-runway { max-width: 760px; }
+#turnCounterBadge { display: none; }
+#handRules { max-width: none; font-size: 10px; line-height: 1.5; }
+#bottomGameHud > div:last-child > div:first-child { padding: 3px 8px; background: rgba(10,10,16,.88); }
+#tensionDistanceLabel { font-size: 11px; min-width: 88px; text-align: center; }
+#lossThresholdLabel, #winThresholdLabel { font-size: 10px; }
+#playerStanceWrapper { width: 40vw; height: 78dvh; left: 0; bottom: 32px; transform-origin: 50% 100%; }
+#opponentStanceWrapper { width: 40vw; height: 72dvh; right: 0; bottom: 58px; transform-origin: 50% 100%; }
+#playerNameplate, #opponentNameplate { top: auto; bottom: -26px; }
+#playerActionCallout, #opponentActionCallout { top: 30%; }
+#playerWinCrownBadge, #opponentWinCrownBadge { top: 43%; }
+#playerStanceWrapper.grand-winner-player { transform: translateX(22px) scale(1.05) !important; }
+#opponentStanceWrapper.grand-winner-opponent { transform: translateX(-22px) scale(1.05) !important; }
+#actorDollyFrame > div:nth-child(2) { top: 22%; }
+#judgementFx[hidden] { display: none; }
+.judgement-fx { --verdict-edge: #754b14; --verdict-ink: #fff1c9; position: absolute; z-index: 36; left: 50%; top: 28%; width: min(740px,76%); display: flex; flex-direction: column; align-items: center; gap: 7px; transform: translate(-50%,-50%); pointer-events: none; color: var(--verdict-ink); text-align: center; background: none; border: 0; box-shadow: none; }
+.judgement-title { font-family: 'Noto Serif SC', serif; font-size: clamp(44px,5.6vw,78px); line-height: 1.12; font-weight: 900; letter-spacing: .04em; -webkit-text-stroke: 1px var(--verdict-edge); paint-order: stroke fill; text-shadow: 0 3px 1px var(--verdict-edge),0 8px 16px #09080c; transform: skew(-6deg); }
+.judgement-proof { font-size: 15px; line-height: 1.5; font-weight: 700; letter-spacing: .03em; text-shadow: 0 2px 4px #000,0 2px 10px #000; }
+.judgement-damage { font-size: 31px; line-height: 1.2; font-weight: 900; font-variant-numeric: tabular-nums; -webkit-text-stroke: .7px var(--verdict-edge); paint-order: stroke fill; text-shadow: 0 3px 1px var(--verdict-edge),0 6px 12px #09080c; }
+.judgement-fx[data-winner="OPPONENT"] { --verdict-edge: #154965; --verdict-ink: #e4f5ff; }
+.judgement-fx[data-kind="crush"] { --verdict-edge: #8a2113; --verdict-ink: #ffe5a1; }
+.judgement-fx[data-kind="draw"] { --verdict-edge: #3b3947; --verdict-ink: #f1eaf2; }
+.judgement-fx[data-kind="special"] { --verdict-edge: #5b336b; --verdict-ink: #f3dfff; }
+.judgement-enter { animation: judgement-arrive .95s cubic-bezier(.16,1,.3,1) both; }
+@keyframes judgement-arrive { 0% { opacity: 1; transform: translate(-50%,-50%) scale(1.3); filter: blur(2px); } 24% { opacity: 1; transform: translate(-50%,-50%) scale(1.03); filter: none; } 45%,100% { opacity: 1; transform: translate(-50%,-50%) scale(1); filter: none; } }
+#mainGameStage[data-judging="true"] #clashStageContainer { opacity: .13; }
+#mainGameStage[data-judging="true"] #playerWinCrownBadge, #mainGameStage[data-judging="true"] #opponentWinCrownBadge { display: none; }
+#mainGameStage[data-judging="true"] #playerActionCallout, #mainGameStage[data-judging="true"] #opponentActionCallout { opacity: 0 !important; }
+#clashResultBanner.round-verdict-detail { background: none; border: 0; color: #f5e8d1; font-size: 12px; box-shadow: none; }
+.match-result-badge { padding: 6px 12px; border: 1px solid #bba27b; color: #f8e4bd; font-size: 12px; border-radius: 4px; }
+
+@media (max-width: 767px) {
+  #playerStatusTitle { font-size: 11px; }
+  #bottomGameHud { gap: 6px; padding: 6px 10px max(10px,env(safe-area-inset-bottom)); }
+  #cinematicSubtitleBox { width: 100%; max-width: none; min-height: 112px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 7px; padding: 12px 14px; }
+  #cinematicSubtitleBox > div:first-child { flex-direction: row; align-items: center; gap: 8px; }
+  #cinematicSpeakerName { font-size: 13px; }
+  #cinematicSubtitleText { font-size: 17px; line-height: 1.6; }
+  #handRules { font-size: 9px; line-height: 1.45; }
+  #playerStanceWrapper { width: 70vw; height: 60svh; left: -12vw; bottom: 130px; }
+  #opponentStanceWrapper { width: 70vw; height: 55svh; right: -12vw; bottom: 150px; }
+  #playerNameplate, #opponentNameplate { top: -18px; bottom: auto; }
+  #playerActionCallout, #opponentActionCallout { top: 32%; }
+  .judgement-fx { top: 40%; width: 88%; gap: 6px; }
+  .judgement-title { font-size: 44px; }
+  .judgement-proof { font-size: 12px; }
+  .judgement-damage { font-size: 26px; }
+}
+
+@media (max-height: 560px) and (min-width: 768px) {
+  #topGameHud { padding-top: 6px; }
+  #topGameHud > div:last-child > .cinema-hud:first-child { padding: 4px 8px; gap: 8px; }
+  #topGameHud > div:last-child > div:first-child > div:first-child > div:first-child > span:first-child { font-size: 8px; line-height: 11px; letter-spacing: 0; }
+  #actorHeartNum { font-size: 16px; line-height: 20px; }
+  #ekgPulseCanvas { width: 60px; height: 18px; }
+  #bottomGameHud { gap: 4px; padding: 0 16px 8px; }
+  #bottomGameHud > div:last-child > div:first-child { display: none; }
+  #cinematicSubtitleBox { width: 100%; max-width: none; min-height: 68px; grid-template-columns: 74px minmax(0,1fr); gap: 14px; padding: 10px 16px; }
+  #cinematicSpeakerName { font-size: 13px; }
+  #speakerSideBadge { font-size: 8px; padding: 2px 4px; white-space: nowrap; }
+  #cinematicSubtitleText { font-size: 16px; line-height: 1.5; }
+  #bottomGameHud .runway-track { height: 18px; }
+  #lossThresholdLabel, #winThresholdLabel, #tensionDistanceLabel { font-size: 9px; }
+  #playerStanceWrapper { width: 38vw; height: 70dvh; left: 0; bottom: 24px; }
+  #opponentStanceWrapper { width: 38vw; height: 64dvh; right: 0; bottom: 42px; }
+  #playerNameplate, #opponentNameplate { bottom: -23px; top: auto; }
+  .judgement-fx { top: 29%; width: 54%; gap: 3px; }
+  .judgement-title { font-size: 35px; }
+  .judgement-proof { font-size: 10px; }
+  .judgement-damage { font-size: 23px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .judgement-enter { animation: none; } .judgement-fx { filter: none; } }

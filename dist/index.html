@@ -7,12 +7,13 @@
   <meta name="description" content="舌战：双人卡牌对峙，在直球、试探和掩饰之间出牌交锋，体验三幕故事。">
   <meta name="theme-color" content="#09070d">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/heroine.png" as="image">
-  <link rel="preload" href="assets/opponent.png" as="image">
+  <link rel="preload" href="assets/character-pink.png" as="image">
+  <link rel="preload" href="assets/character-suit.png" as="image">
   <!-- Precompiled Tailwind CSS; no runtime CDN dependency. -->
   <link rel="stylesheet" href="assets/tailwind.css">
   <link rel="stylesheet" href="assets/stage.css">
-  <link rel="stylesheet" href="assets/cards.css">
+  <link rel="stylesheet" href="assets/cards.css?v=4">
+  <link rel="stylesheet" href="assets/duel-ui.css?v=4">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -329,6 +330,12 @@
     <!-- Cinematic Environment Backdrop (Canvas Weather & Lighting) -->
     <canvas id="ambientAtmosphereCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
+    <div id="judgementFx" class="judgement-fx" role="status" aria-live="polite" hidden>
+      <strong id="judgementTitle" class="judgement-title"></strong>
+      <span id="judgementProof" class="judgement-proof"></span>
+      <b id="judgementDamage" class="judgement-damage"></b>
+    </div>
+
     <!-- DUAL-CHARACTER STANCE STAGE: Left (Player/You) vs Right (Opponent/Him) -->
     <div id="actorDollyFrame" class="absolute inset-0 z-10 flex items-end justify-between px-2 sm:px-10 md:px-16 pb-36 sm:pb-32 pointer-events-none transition-transform duration-700 ease-out">
       
@@ -359,7 +366,7 @@
 
         <!-- Player Portrait Box -->
         <div id="playerViewport" class="relative w-full h-full flex items-end justify-center actor-breathing z-10">
-          <img id="playerActorImg" src="" alt="女主（图2）" class="w-full h-full object-contain object-bottom filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)] transition-all duration-500 rounded-2xl">
+          <img id="playerActorImg" src="assets/character-pink.png" alt="女主（图1，粉色人物）" class="w-full h-full object-contain object-bottom filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)] transition-all duration-500 rounded-2xl">
           <div id="playerSvgContainer" class="w-full h-full hidden"></div>
         </div>
 
@@ -409,7 +416,7 @@
         <div id="actorViewport" class="relative w-full h-full flex items-end justify-center actor-breathing z-10">
           <!-- Photographic Image Sprite Layer -->
           <div id="actorImageLayer" class="absolute inset-0 flex items-end justify-center pointer-events-none transition-opacity duration-500">
-            <img id="primaryActorImg" src="" alt="对手（图1）" class="w-full h-full object-contain object-bottom filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)] transition-all duration-500 rounded-2xl">
+            <img id="primaryActorImg" src="assets/character-suit.png" alt="男主（图2，西装人物）" class="w-full h-full object-contain object-bottom filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)] transition-all duration-500 rounded-2xl">
           </div>
 
           <!-- Dynamic Emotional Micro-Blush Overlay -->
@@ -500,7 +507,7 @@
     <!-- ========================================================
          MIDDLE: DUAL-STANCE CLASH ARENA (Left Player vs Right Opponent)
          ======================================================== -->
-    <div id="clashStageContainer" class="relative z-30 w-full max-w-3xl mx-auto my-auto flex flex-col justify-center pointer-events-none transition-all duration-300 opacity-0 px-3 sm:px-10">
+    <div id="clashStageContainer" aria-hidden="true" class="relative z-30 w-full max-w-3xl mx-auto my-auto flex flex-col justify-center pointer-events-none transition-all duration-300 opacity-0 px-3 sm:px-10">
       
       <!-- Top Floating Outcome Status Pill -->
       <div class="w-full flex justify-center mb-2.5">
@@ -519,8 +526,7 @@
             <span class="text-[10px] font-bold text-rose-100 tracking-wider">左方【你】打出</span>
           </div>
 
-          <div id="playerClashSlot" class="illustrated-clash-card w-36 h-44 sm:w-44 sm:h-52 rounded-xl p-2.5 flex flex-col justify-between cinema-hud player-slot-theme shadow-2xl transition-all duration-300 bg-black/90">
-            <img id="playerClashArt" class="clash-card-art" src="assets/cards/direct.png" alt="" aria-hidden="true">
+          <div id="playerClashSlot" class="duel-clash-card w-36 h-44 sm:w-44 sm:h-52 rounded-xl p-2.5 flex flex-col justify-between cinema-hud player-slot-theme shadow-2xl transition-all duration-300 bg-black/90">
             <div class="flex items-center justify-between border-b border-white/10 pb-1">
               <div class="flex items-center space-x-1">
                 <span id="playerClashAffinityIcon" class="text-sm font-bold text-rose-400">⚔</span>
@@ -541,7 +547,7 @@
 
             <div class="border-t border-white/10 pt-1 flex items-center justify-between text-[9px] text-cinemaGold font-mono">
               <span>我方攻势</span>
-              <span id="playerClashEffectText">胜:推+1 | 克+3</span>
+              <span id="playerClashEffectText">伤害 1 · 碾压 3</span>
             </div>
           </div>
         </div>
@@ -549,7 +555,7 @@
         <!-- CENTER CLASH SPARK -->
         <div class="flex flex-col items-center justify-center relative pointer-events-none px-1">
           <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/90 border border-cinemaGold/80 flex items-center justify-center text-cinemaGold font-cinzel font-black text-xs shadow-[0_0_20px_rgba(223,183,108,0.5)]">
-            VS
+            对决
           </div>
           <div id="clashSparkFx" class="absolute w-28 sm:w-44 h-1 arena-boundary-line opacity-0 transition-opacity duration-200 flex items-center justify-center">
             <div class="px-2.5 py-0.5 rounded-full bg-cinemaRed border border-white text-white font-cinzel font-black text-[10px] shadow-[0_0_25px_#e11d48] whitespace-nowrap">
@@ -570,15 +576,14 @@
               <!-- Back of Card (Face-Down State) -->
               <div class="flip-card-back cinema-hud opponent-slot-theme flex flex-col items-center justify-center p-3 bg-gradient-to-br from-sky-950 via-slate-950 to-black">
                 <div class="w-10 h-10 rounded-full border border-sky-400/50 flex items-center justify-center mb-2 shadow-[0_0_15px_rgba(56,189,248,0.4)]">
-                  <span class="text-lg text-sky-300">🛡</span>
+                  <span class="text-lg text-sky-300">?</span>
                 </div>
-                <span class="text-[10px] font-cinzel text-sky-200 tracking-widest uppercase">HIS RESPONSE</span>
+                <span class="text-[10px] font-cinzel text-sky-200 tracking-widest uppercase">对方暗牌</span>
                 <span class="text-[9px] text-white/40 mt-0.5">心防暗牌 · 准备揭晓</span>
               </div>
 
               <!-- Front of Card (Revealed State) -->
-              <div id="opponentCardFace" class="illustrated-clash-card flip-card-front cinema-hud opponent-slot-theme p-2.5 flex flex-col justify-between bg-black/95">
-                <img id="opponentClashArt" class="clash-card-art" src="assets/cards/rational.png" alt="" aria-hidden="true">
+              <div id="opponentCardFace" class="duel-clash-card flip-card-front cinema-hud opponent-slot-theme p-2.5 flex flex-col justify-between bg-black/95">
                 <div class="flex items-center justify-between border-b border-white/10 pb-1">
                   <div class="flex items-center space-x-1">
                     <span id="opponentClashAffinityIcon" class="text-sm font-bold text-sky-400">🛡</span>
@@ -599,7 +604,7 @@
 
                 <div class="border-t border-white/10 pt-1 flex items-center justify-between text-[9px] text-sky-300 font-mono">
                   <span>对方防线</span>
-                  <span id="opponentClashEffectText">胜:反推-1</span>
+                  <span id="opponentClashEffectText">伤害 1 · 碾压 3</span>
                 </div>
               </div>
             </div>
@@ -625,10 +630,10 @@
         </p>
       </div>
 
-      <!-- 3D Perspective Tension Runway (-5 to +5) -->
+      <!-- Tension runway; bounds are rendered from GAME_CONFIG.rules. -->
       <div class="w-full max-w-2xl perspective-runway">
         <div class="runway-track relative h-6 rounded-full px-4 flex items-center justify-between">
-          <span class="text-[9px] sm:text-[10px] font-bold text-sky-300 tracking-wider z-10">◀ -5 被他反客为主</span>
+          <span id="lossThresholdLabel" class="text-[9px] sm:text-[10px] font-bold text-sky-300 tracking-wider z-10">-8 对方主导</span>
           
           <!-- Center Graduations -->
           <div class="absolute inset-x-24 flex items-center justify-between pointer-events-none opacity-40">
@@ -643,7 +648,7 @@
             PROXIMITY : 0
           </span>
 
-          <span class="text-[9px] sm:text-[10px] font-bold text-rose-300 tracking-wider z-10">+5 彻底攻破心防 ▶</span>
+          <span id="winThresholdLabel" class="text-[9px] sm:text-[10px] font-bold text-rose-300 tracking-wider z-10">+8 我方主导</span>
 
           <!-- Sliding Jeweled Marker -->
           <div id="tensionPointer" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-rose-400 via-cinemaGold to-rose-600 border-2 border-white shadow-[0_0_15px_#f43f5e] transition-all duration-500 z-20" style="left: 50%;"></div>
@@ -654,7 +659,7 @@
       <div class="w-full max-w-3xl flex flex-col items-center">
         <div class="flex items-center justify-between w-full px-2 mb-1 text-[10px] text-white/60">
           <span id="handRules">👈 点击下方手牌向右侧【对手】出招（直球 ⚔ 克 掩饰 🛡 | 掩饰 🛡 克 试探 ❧ | 试探 ❧ 克 直球 ⚔）</span>
-          <span id="turnCounterBadge" class="font-mono text-cinemaGold">TURN 1</span>
+          <span id="turnCounterBadge" class="font-mono text-cinemaGold">第 1 / 10 回合</span>
         </div>
         <div id="playerHandContainer" class="w-full grid grid-cols-4 gap-2 sm:gap-3.5 pt-1 pb-1 pointer-events-auto">
           <!-- Dynamically populated by renderPlayerHand() -->
@@ -664,7 +669,7 @@
     </div>
 
     <!-- ========================================================
-         SEAMLESS STORY BRANCHING OVERLAY (At +5 or -5 Resolution)
+         STORY BRANCHING OVERLAY (Threshold or round-limit resolution)
          ======================================================== -->
     <!-- Grand Finale Floating Cut-In Banner (Appears during Grand Winner Animation) -->
     <div id="grandFinaleCutIn" class="fixed inset-x-0 top-16 z-40 pointer-events-none hidden flex justify-center px-4">
@@ -782,17 +787,20 @@
   <!-- ========================================================
        GAME ENGINE & CONFIGURATION SCRIPT
        ======================================================== -->
+  <script src="assets/duel-rules.js?v=4"></script>
   <script>
     /* ========================================================
        1. DECOUPLED GAME CONFIGURATION TABLE (GAME_CONFIG)
        ======================================================== */
     let GAME_CONFIG = {
       rules: {
-        minDistance: -5,
-        maxDistance: 5,
+        minDistance: -8,
+        maxDistance: 8,
+        maxRounds: 10,
         startingDistance: 0,
         baseWinPush: 1,
-        counterWinPush: 2,
+        crushWinPush: 3,
+        crushGap: 4,
         heartPanicThreshold: 75
       },
       affinities: {
@@ -832,7 +840,7 @@
           value: 9,
           isSpecial: true,
           effectType: "IMMUNE_AND_HEART",
-          desc: "免疫本轮反推，令对手心率飙升 +22%",
+          desc: "抵消本轮攻势，心率 +22%，不推进",
           quote: "（不发一言，只是安静地迎着他的目光一步步走近）"
         },
         {
@@ -842,7 +850,7 @@
           value: 10,
           isSpecial: true,
           effectType: "FORCE_PUSH",
-          desc: "无视生克，强制将对峙距离向他推进 +2",
+          desc: "无视属性克制，强制推进 +1",
           quote: "“既然你不肯说实话，那今晚就由我来定规矩。”"
         }
       ],
@@ -855,12 +863,12 @@
           themeBg: "penthouse",
           background: "assets/backgrounds/study.png",
           usePhotoSprite: true,
-          playerSprite: "assets/heroine.png",
+          playerSprite: "assets/character-pink.png",
           sprites: {
-            idle: "assets/opponent.png",
-            flustered: "assets/opponent.png",
-            overload: "assets/opponent.png",
-            defeated: "assets/opponent.png"
+            idle: "assets/character-suit.png",
+            flustered: "assets/character-suit.png",
+            overload: "assets/character-suit.png",
+            defeated: "assets/character-suit.png"
           },
           hairColor: "#171424",
           initialDialogue: "“深夜擅自来到我的私人书房，你做好承担后果的准备了么？”",
@@ -893,12 +901,12 @@
           themeBg: "masquerade",
           background: "assets/backgrounds/ballroom.png",
           usePhotoSprite: true,
-          playerSprite: "assets/heroine.png",
+          playerSprite: "assets/character-pink.png",
           sprites: {
-            idle: "assets/opponent.png",
-            flustered: "assets/opponent.png",
-            overload: "assets/opponent.png",
-            defeated: "assets/opponent.png"
+            idle: "assets/character-suit.png",
+            flustered: "assets/character-suit.png",
+            overload: "assets/character-suit.png",
+            defeated: "assets/character-suit.png"
           },
           hairColor: "#2b1725",
           initialDialogue: "“姐姐把我堵在这无人的露台角落，就不怕被外面的宾客看见么？”",
@@ -931,12 +939,12 @@
           themeBg: "bamboo",
           background: "assets/backgrounds/bamboo.png",
           usePhotoSprite: true,
-          playerSprite: "assets/heroine.png",
+          playerSprite: "assets/character-pink.png",
           sprites: {
-            idle: "assets/opponent.png",
-            flustered: "assets/opponent.png",
-            overload: "assets/opponent.png",
-            defeated: "assets/opponent.png"
+            idle: "assets/character-suit.png",
+            flustered: "assets/character-suit.png",
+            overload: "assets/character-suit.png",
+            defeated: "assets/character-suit.png"
           },
           hairColor: "#e2e8f0",
           initialDialogue: "“夜深露重，不在弟子房中静修，擅闯为师的寒潭禁地所为何事？”",
@@ -971,6 +979,7 @@
     let distance = 0;
     let heartRate = 22;
     let turn = 1;
+    let matchEpoch = 0;
     let gazeAversion = 0;
     let isInteracting = false;
     let playerHand = [];
@@ -1435,10 +1444,11 @@
       const pWrap = document.getElementById('playerStanceWrapper');
       const oWrap = document.getElementById('opponentStanceWrapper');
 
-      const pct = 50 + (distance / 5) * 44;
+      const range = distance >= 0 ? GAME_CONFIG.rules.maxDistance : Math.abs(GAME_CONFIG.rules.minDistance);
+      const pct = 50 + (distance / range) * 44;
       tensionPointer.style.left = `${pct}%`;
       const formattedDist = distance > 0 ? '+' + distance : distance;
-      distLabel.textContent = `PROXIMITY : ${formattedDist}`;
+      distLabel.textContent = `交锋 ${formattedDist} / ${GAME_CONFIG.rules.maxDistance}`;
       if (stageBadge) {
         stageBadge.textContent = distance > 0
           ? `我方压进 ${formattedDist}`
@@ -1447,13 +1457,23 @@
 
       // RTK11 Tug-of-War Spatial Stance Shift
       if (pWrap && oWrap) {
-        const shiftPx = distance * Math.min(10, window.innerWidth * 0.012);
-        const pScale = 1 + Math.max(0, distance) * 0.01;
-        const oScale = 1 + Math.max(0, -distance) * 0.01;
+        const pressure = distance / range;
+        const shiftPx = pressure * Math.min(50, window.innerWidth * 0.06);
+        const pScale = 1 + Math.max(0, pressure) * 0.05;
+        const oScale = 1 + Math.max(0, -pressure) * 0.05;
         pWrap.style.transform = `translateX(${shiftPx}px) scale(${pScale})`;
         oWrap.style.transform = `translateX(${shiftPx}px) scale(${oScale})`;
       }
 
+      const roundText = `第 ${Math.min(turn, GAME_CONFIG.rules.maxRounds)} / ${GAME_CONFIG.rules.maxRounds} 回合`;
+      document.getElementById('playerStatusTitle').textContent = roundText;
+      document.getElementById('turnCounterBadge').textContent = roundText;
+      document.getElementById('lossThresholdLabel').textContent = `${GAME_CONFIG.rules.minDistance} 对方主导`;
+      document.getElementById('winThresholdLabel').textContent = `+${GAME_CONFIG.rules.maxDistance} 我方主导`;
+      document.getElementById('handRules').textContent = `直球克掩饰 · 掩饰克试探 · 试探克直球｜克制且领先${GAME_CONFIG.rules.crushGap}点才碾压`;
+      document.getElementById('mainGameStage').dataset.round = Math.min(turn, GAME_CONFIG.rules.maxRounds);
+      document.getElementById('mainGameStage').dataset.completedRounds = turn - 1;
+      document.getElementById('mainGameStage').dataset.distance = distance;
       actorHeartNum.textContent = `${heartRate}%`;
       if (heartRate >= GAME_CONFIG.rules.heartPanicThreshold) {
         rageTag.classList.remove('hidden');
@@ -1497,7 +1517,7 @@
       }
       for (let i = 0; i < 4; i++) {
         const slot = document.getElementById(`aiHandSlot${i}`);
-        if (slot) slot.style.opacity = '1';
+        if (slot) { slot.style.opacity = '1'; slot.style.transform = ''; slot.querySelector('span').textContent = '?'; }
       }
     }
 
@@ -1527,7 +1547,7 @@
       return {
         moveTitle,
         restraintLabel: aff.counterLabel,
-        effectSummary: isOpponent ? "胜:反推-1 | 克-2" : "胜:推+1 | 克+2",
+        effectSummary: isOpponent ? `伤害 ${GAME_CONFIG.rules.baseWinPush} · 碾压 ${GAME_CONFIG.rules.crushWinPush}` : `伤害 ${GAME_CONFIG.rules.baseWinPush} · 碾压 ${GAME_CONFIG.rules.crushWinPush}`,
         quotePreview
       };
     }
@@ -1541,11 +1561,11 @@
     }
 
     const CARD_VISUALS = {
-      direct: { art: 'assets/cards/direct.png', color: '#ffadab' },
-      subtle: { art: 'assets/cards/subtle.png', color: '#f4d386' },
-      rational: { art: 'assets/cards/rational.png', color: '#a9d9f5' },
-      gaze: { art: 'assets/cards/gaze.png', color: '#e1bafa' },
-      reversal: { art: 'assets/cards/reversal.png', color: '#f7d994' }
+      direct: { color: '#ffadab' },
+      subtle: { color: '#f4d386' },
+      rational: { color: '#a9d9f5' },
+      gaze: { color: '#e1bafa' },
+      reversal: { color: '#f7d994' }
     };
 
     function getCardVisual(card) {
@@ -1570,7 +1590,7 @@
     function renderPlayerHand() {
       const container = document.getElementById('playerHandContainer');
       const turnBadge = document.getElementById('turnCounterBadge');
-      if (turnBadge) turnBadge.textContent = `TURN ${turn}`;
+      if (turnBadge) turnBadge.textContent = `第 ${Math.min(turn, GAME_CONFIG.rules.maxRounds)} / ${GAME_CONFIG.rules.maxRounds} 回合`;
       if (!container) return;
 
       container.innerHTML = '';
@@ -1583,7 +1603,7 @@
         const visual = getCardVisual(card);
         const aff = card.isSpecial ? null : GAME_CONFIG.affinities[card.affinity];
         const family = card.isSpecial ? '奇策' : aff.name;
-        const counter = card.isSpecial ? '专属攻心' : `克 ${GAME_CONFIG.affinities[aff.counters].name}`;
+        const counter = card.isSpecial ? '' : `克 ${GAME_CONFIG.affinities[aff.counters].name}`;
         cardEl.className = `card-item deck-card ${disabledClass}`;
         cardEl.disabled = isInteracting;
         cardEl.dataset.cardFamily = visual.key;
@@ -1591,21 +1611,17 @@
         cardEl.setAttribute('aria-label', `${family}，${meta.moveTitle}${card.isSpecial ? '' : `，${card.value}点`}，${counter}，${meta.effectSummary}，${meta.quotePreview}`);
         cardEl.title = `${meta.moveTitle} · ${counter}\n${meta.effectSummary}\n${meta.quotePreview}`;
         cardEl.innerHTML = `
-          <img class="deck-card__art" alt="" aria-hidden="true" draggable="false">
           <span class="deck-card__suit">${getCardGlyph(visual.key)}<span class="deck-card__family"></span></span>
           <span class="deck-card__rank"></span>
           <span class="deck-card__caption">
             <strong class="deck-card__name"></strong>
-            <span class="deck-card__quote"></span>
             <span class="deck-card__counter"></span>
             <span class="deck-card__effect"></span>
           </span>`;
-        cardEl.querySelector('.deck-card__art').src = visual.art;
         cardEl.querySelector('.deck-card__family').textContent = family;
         if (card.isSpecial) cardEl.querySelector('.deck-card__rank').innerHTML = getCardGlyph('special');
         else cardEl.querySelector('.deck-card__rank').textContent = card.value;
         cardEl.querySelector('.deck-card__name').textContent = meta.moveTitle.replace(/[【】]/g, '');
-        cardEl.querySelector('.deck-card__quote').textContent = meta.quotePreview;
         cardEl.querySelector('.deck-card__counter').textContent = counter;
         cardEl.querySelector('.deck-card__effect').textContent = meta.effectSummary;
 
@@ -1622,12 +1638,13 @@
        8. TURN COUNTDOWN & PHYSICAL FLIGHT TRAJECTORY
        ======================================================== */
     function startCountdown() {
+      const epoch = matchEpoch;
       clearInterval(turnTimer);
       turnTimeRemaining = 10;
       updateTimerUI();
 
       turnTimer = setInterval(() => {
-        if (isInteracting) return;
+        if (epoch !== matchEpoch || isInteracting) return;
         turnTimeRemaining--;
         updateTimerUI();
         if (turnTimeRemaining <= 0) {
@@ -1650,6 +1667,7 @@
     }
 
     function animateCardFlight(originEl, targetEl, onComplete, originBounds) {
+      const animationEpoch = matchEpoch;
       if (!originEl || !targetEl) {
         if (onComplete) onComplete();
         return;
@@ -1674,6 +1692,7 @@
       playSound('cardWhoosh');
 
       requestAnimationFrame(() => {
+        if (animationEpoch !== matchEpoch) { flyer.remove(); return; }
         flyer.style.left = `${endRect.left}px`;
         flyer.style.top = `${endRect.top}px`;
         flyer.style.transform = 'scale(1.05)';
@@ -1681,6 +1700,7 @@
 
       setTimeout(() => {
         flyer.remove();
+        if (animationEpoch !== matchEpoch) return;
         playSound('cardSnap');
         targetEl.classList.remove('slot-snapped');
         void targetEl.offsetWidth;
@@ -1733,6 +1753,7 @@
     function playPlayerCard(cardIdx, originEl) {
       if (isInteracting) return;
       const flightOriginBounds = originEl ? originEl.getBoundingClientRect() : null;
+      const epoch = matchEpoch;
       isInteracting = true;
       clearInterval(turnTimer);
 
@@ -1750,10 +1771,11 @@
       const aiSlotEl = document.getElementById(`aiHandSlot${aiIdx}`);
       if (aiSlotEl) {
         aiSlotEl.style.transform = 'translateY(8px) scale(0.85)';
-        setTimeout(() => { aiSlotEl.style.transform = ''; }, 600);
+        setTimeout(() => { if (epoch === matchEpoch) aiSlotEl.style.transform = ''; }, 600);
       }
 
       const stageContainer = document.getElementById('clashStageContainer');
+      stageContainer.setAttribute('aria-hidden', 'false');
       const pSlot = document.getElementById('playerClashSlot');
       const flipInner = document.getElementById('opponentFlipInner');
       const banner = document.getElementById('clashResultBanner');
@@ -1772,7 +1794,6 @@
 
       // Populate Player Left Slot
       const pMeta = getCardMoveMeta(pCard, false);
-      document.getElementById('playerClashArt').src = getCardVisual(pCard).art;
       if (pCallout) pCallout.textContent = `⚔ 出招：${pMeta.moveTitle}`;
       setActiveActorSpotlight('PLAYER');
       setSubtitleSpeaker('PLAYER', '你', getPlayerLine(pCard));
@@ -1797,10 +1818,11 @@
 
       // Fly Player Card into Left Slot
       animateCardFlight(originEl, pSlot, () => {
+        if (epoch !== matchEpoch) return;
         setTimeout(() => {
+          if (epoch !== matchEpoch) return;
           // Prepare Opponent Card Face Details
           const oMeta = getCardMoveMeta(aiCard, true);
-          document.getElementById('opponentClashArt').src = getCardVisual(aiCard).art;
           if (oCallout) oCallout.textContent = `🛡 应对：${oMeta.moveTitle}`;
           setActiveActorSpotlight('OPPONENT');
 
@@ -1825,147 +1847,103 @@
           flipInner.classList.add('is-flipped');
 
           setTimeout(() => {
-            resolveClashOutcome(pCard, aiCard);
+            if (epoch === matchEpoch) resolveClashOutcome(pCard, aiCard, epoch);
           }, 550);
         }, 420);
       }, flightOriginBounds);
     }
 
-    function resolveClashOutcome(pCard, oCard) {
-      const banner = document.getElementById('clashResultBanner');
+    function showJudgement(result, player, opponent) {
+      const fx = document.getElementById('judgementFx');
+      fx.dataset.kind = result.kind;
+      document.getElementById('mainGameStage').dataset.judging = 'true';
+      fx.dataset.winner = result.winner || 'DRAW';
+      fx.dataset.damage = result.damage;
+      document.getElementById('judgementTitle').textContent = result.label;
+      const proof = result.kind === 'special'
+        ? (result.damage === 0 ? '抵消本轮攻势 · 推进 0' : '无视属性克制 · 稳定推进')
+        : result.isCrush ? `克制成立 · 点数领先 ${result.gap}`
+        : result.hasCounter ? '属性克制成立'
+        : result.outcome === 'DRAW' ? `${player.value} : ${opponent.value} · 点数持平`
+        : `${player.value} : ${opponent.value} · 点数较量`;
+      document.getElementById('judgementProof').textContent = proof;
+      document.getElementById('judgementDamage').textContent = result.kind === 'special' && result.damage === 0
+        ? '心率 +22%' : result.damage === 0 ? '本轮无伤害' : `${result.winner === 'PLAYER' ? '造成伤害' : '受到伤害'} ${result.damage}`;
+      fx.hidden = false;
+      fx.classList.remove('judgement-enter');
+      void fx.offsetWidth;
+      fx.classList.add('judgement-enter');
+    }
+
+    function resolveClashOutcome(pCard, oCard, epoch) {
+      if (epoch !== matchEpoch) return;
+      const result = DuelRules.resolveRound(pCard, oCard, GAME_CONFIG.rules, GAME_CONFIG.affinities);
+      const { outcome, distDelta, heartDelta } = result;
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
-      const viewport = document.getElementById('actorViewport');
-      const playerViewport = document.getElementById('playerViewport');
+      const banner = document.getElementById('clashResultBanner');
       const pSlot = document.getElementById('playerClashSlot');
       const oWrapper = document.getElementById('opponentClashSlotWrapper');
-      const spark = document.getElementById('clashSparkFx');
       const mainStage = document.getElementById('mainGameStage');
-
-      let outcome = "DRAW";
-      let distDelta = 0;
-      let heartDelta = 6;
-
-      if (pCard.isSpecial) {
-        outcome = "WIN";
-        if (pCard.effectType === "IMMUNE_AND_HEART") {
-          distDelta = 1;
-          heartDelta = 22;
-        } else {
-          distDelta = 2;
-          heartDelta = 15;
-        }
-      } else {
-        const pAff = GAME_CONFIG.affinities[pCard.affinity];
-        const oAff = GAME_CONFIG.affinities[oCard.affinity];
-
-        if (pAff.counters === oCard.affinity) {
-          outcome = "WIN";
-          distDelta = GAME_CONFIG.rules.counterWinPush;
-          heartDelta = 18;
-        } else if (oAff.counters === pCard.affinity) {
-          outcome = "LOSE";
-          distDelta = -GAME_CONFIG.rules.counterWinPush;
-          heartDelta = 4;
-        } else {
-          if (pCard.value > oCard.value) {
-            outcome = "WIN";
-            distDelta = GAME_CONFIG.rules.baseWinPush;
-            heartDelta = 12;
-          } else if (pCard.value < oCard.value) {
-            outcome = "LOSE";
-            distDelta = -GAME_CONFIG.rules.baseWinPush;
-            heartDelta = 4;
-          } else {
-            outcome = "DRAW";
-            distDelta = 0;
-            heartDelta = 8;
-          }
-        }
-      }
-
-      // Physical Bump & Spark Animation
       pSlot.classList.remove('bump-player');
       oWrapper.classList.remove('bump-opponent');
       void pSlot.offsetWidth;
       pSlot.classList.add('bump-player');
       oWrapper.classList.add('bump-opponent');
-
-      spark.classList.remove('opacity-0');
-      mainStage.classList.remove('stage-jolt');
-      void mainStage.offsetWidth;
-      mainStage.classList.add('stage-jolt');
-
-      const pMeta = getCardMoveMeta(pCard, false);
-      const oMeta = getCardMoveMeta(oCard, true);
-
+      if (result.isCrush) {
+        mainStage.classList.remove('stage-jolt');
+        void mainStage.offsetWidth;
+        mainStage.classList.add('stage-jolt');
+      }
       setTimeout(() => {
-        spark.classList.add('opacity-0');
-
-        if (outcome === "WIN") {
-          playSound('clashWin');
-          const pName = pCard.isSpecial ? pMeta.moveTitle : `${pMeta.moveTitle}(${pCard.value}点)`;
-          const oName = oCard.isSpecial ? oMeta.moveTitle : `${oMeta.moveTitle}(${oCard.value}点)`;
-          banner.textContent = `⚡ 左方【你】${pName} 击穿了 右方【${scen.characterName}】${oName}！`;
-          banner.className = "px-4 py-1 rounded-full text-xs font-cinzel uppercase tracking-widest font-bold shadow-2xl bg-rose-950/95 border border-cinemaRed text-rose-200 animate-bounce text-center";
-
+        if (epoch !== matchEpoch) return;
+        showJudgement(result, pCard, oCard);
+        banner.textContent = `本轮判定：${result.label}`;
+        banner.className = 'round-verdict-detail';
+        if (outcome === 'WIN') {
+          playSound(result.isCrush ? 'grandWin' : 'clashWin');
           setActiveActorSpotlight('PLAYER');
           triggerRoundWinnerEffect('PLAYER');
           gazeAversion = 1;
-
           setTimeout(() => {
-            const reactLine = (heartRate + heartDelta >= GAME_CONFIG.rules.heartPanicThreshold)
-              ? scen.reactionQuotes.panicClash
-              : scen.reactionQuotes.loseClash;
-            setSubtitleSpeaker('OPPONENT', scen.characterName, reactLine);
+            if (epoch !== matchEpoch) return;
+            setSubtitleSpeaker('OPPONENT', scen.characterName, heartRate >= GAME_CONFIG.rules.heartPanicThreshold ? scen.reactionQuotes.panicClash : scen.reactionQuotes.loseClash);
           }, 550);
-
-        } else if (outcome === "LOSE") {
+        } else if (outcome === 'LOSE') {
           playSound('clashLose');
-          const pName = pCard.isSpecial ? pMeta.moveTitle : `${pMeta.moveTitle}(${pCard.value}点)`;
-          const oName = oCard.isSpecial ? oMeta.moveTitle : `${oMeta.moveTitle}(${oCard.value}点)`;
-          banner.textContent = `🛡 右方【${scen.characterName}】${oName} 反制了 左方【你】${pName}`;
-          banner.className = "px-4 py-1 rounded-full text-xs font-cinzel uppercase tracking-widest font-bold shadow-2xl bg-sky-950/95 border border-sky-400 text-sky-200 text-center";
-
           setActiveActorSpotlight('OPPONENT');
           triggerRoundWinnerEffect('OPPONENT');
           setSubtitleSpeaker('OPPONENT', scen.characterName, scen.reactionQuotes.winClash);
           gazeAversion = 0;
-
         } else {
-          banner.textContent = `⚖ 势均力敌 · 左右交锋平分秋色`;
-          banner.className = "px-4 py-1 rounded-full text-xs font-cinzel uppercase tracking-widest font-bold shadow-2xl bg-black/85 border border-white/40 text-white/80 text-center";
-
           setActiveActorSpotlight('NONE');
           setSubtitleSpeaker('OPPONENT', scen.characterName, scen.reactionQuotes.drawClash);
         }
-
-        // Update metrics
         distance = Math.max(GAME_CONFIG.rules.minDistance, Math.min(GAME_CONFIG.rules.maxDistance, distance + distDelta));
         heartRate = Math.max(10, Math.min(100, heartRate + heartDelta));
         turn++;
         updateCinematicHUD();
-
-        // Hide clash stage and continue or finish
         setTimeout(() => {
+          if (epoch !== matchEpoch) return;
+          document.getElementById('judgementFx').hidden = true;
+          mainStage.dataset.judging = 'false';
           document.getElementById('clashStageContainer').classList.add('opacity-0', 'pointer-events-none');
+          document.getElementById('clashStageContainer').setAttribute('aria-hidden', 'true');
           document.getElementById('playerWinCrownBadge').classList.add('hidden');
           document.getElementById('opponentWinCrownBadge').classList.add('hidden');
           gazeAversion = 0;
           setActiveActorSpotlight('NONE');
           renderActorFrame();
-
-          const isOver = checkBranchTransition();
-          if (!isOver) {
+          if (!checkBranchTransition()) {
             isInteracting = false;
             renderPlayerHand();
             startCountdown();
           }
-        }, 1350);
-
+        }, 2000);
       }, 260);
     }
 
     function triggerGrandFinaleSequence(winnerSide, onComplete) {
+      const epoch = matchEpoch;
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
       const pWrap = document.getElementById('playerStanceWrapper');
       const oWrap = document.getElementById('opponentStanceWrapper');
@@ -1989,7 +1967,7 @@
         cutInIcon.textContent = '👑';
         cutInText.textContent = `ABSOLUTE DOMINANCE · 【你】彻底击穿了${scen.characterName}的心防！`;
         spawnVictoryBurst(0.32, '#fb7185', 65);
-        setTimeout(() => spawnVictoryBurst(0.38, '#dfb76c', 55), 400);
+        setTimeout(() => { if (epoch === matchEpoch) spawnVictoryBurst(0.38, '#dfb76c', 55); }, 400);
       } else {
         playSound('grandLose');
         oWrap.classList.add('grand-winner-opponent');
@@ -2000,45 +1978,44 @@
         cutInIcon.textContent = '🔥';
         cutInText.textContent = `REVERSED CLIMAX · 【${scen.characterName}】反客为主掌控了全局！`;
         spawnVictoryBurst(0.68, '#38bdf8', 65);
-        setTimeout(() => spawnVictoryBurst(0.62, '#dfb76c', 55), 400);
+        setTimeout(() => { if (epoch === matchEpoch) spawnVictoryBurst(0.62, '#dfb76c', 55); }, 400);
       }
 
       setTimeout(() => {
-        if (onComplete) onComplete();
+        if (epoch === matchEpoch && onComplete) onComplete();
       }, 1750);
     }
 
     function checkBranchTransition() {
+      const finish = DuelRules.getFinish(distance, turn - 1, GAME_CONFIG.rules);
+      if (!finish) return false;
+      const epoch = matchEpoch;
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
-      const overlay = document.getElementById('branchingOverlay');
-      const badge = document.getElementById('branchOutcomeBadge');
-      const title = document.getElementById('branchTitle');
-      const diag = document.getElementById('branchDialogue');
-
-      if (distance >= GAME_CONFIG.rules.maxDistance) {
-        clearInterval(turnTimer);
-        triggerGrandFinaleSequence('PLAYER', () => {
-          badge.textContent = "CLIMAX REACHED · 心防彻底击穿 (+5)";
-          badge.className = "px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400 text-xs font-cinzel text-rose-300 font-bold tracking-widest";
-          title.textContent = scen.endings.winTitle;
-          diag.textContent = scen.endings.winText;
-          overlay.classList.remove('hidden');
-          isInteracting = false;
-        });
-        return true;
-      } else if (distance <= GAME_CONFIG.rules.minDistance) {
-        clearInterval(turnTimer);
-        triggerGrandFinaleSequence('OPPONENT', () => {
-          badge.textContent = "REVERSED · 被他反客为主 (-5)";
-          badge.className = "px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400 text-xs font-cinzel text-sky-300 font-bold tracking-widest";
-          title.textContent = scen.endings.loseTitle;
-          diag.textContent = scen.endings.loseText;
-          overlay.classList.remove('hidden');
-          isInteracting = false;
-        });
-        return true;
-      }
-      return false;
+      clearInterval(turnTimer);
+      const present = () => {
+        if (epoch !== matchEpoch) return;
+        const badge = document.getElementById('branchOutcomeBadge');
+        const title = document.getElementById('branchTitle');
+        const diag = document.getElementById('branchDialogue');
+        badge.textContent = finish.reason === 'round_limit' ? `${GAME_CONFIG.rules.maxRounds}回合战罢 · 交锋值 ${distance > 0 ? '+' : ''}${distance}` : `第${finish.roundsPlayed}回合 · 心防击破`;
+        badge.className = 'match-result-badge';
+        if (finish.winner === 'DRAW') {
+          title.textContent = `【${GAME_CONFIG.rules.maxRounds}轮交锋 · 难分高下】`;
+          diag.textContent = '双方都守住了最后的心防。这场舌战暂时平手，下一次交锋再见分晓。';
+        } else {
+          title.textContent = finish.winner === 'PLAYER' ? scen.endings.winTitle : scen.endings.loseTitle;
+          diag.textContent = finish.winner === 'PLAYER' ? scen.endings.winText : scen.endings.loseText;
+        }
+        const overlay = document.getElementById('branchingOverlay');
+        overlay.dataset.winner = finish.winner;
+        overlay.dataset.reason = finish.reason;
+        overlay.dataset.rounds = finish.roundsPlayed;
+        overlay.classList.remove('hidden');
+        isInteracting = false;
+      };
+      if (finish.winner === 'DRAW') present();
+      else triggerGrandFinaleSequence(finish.winner, present);
+      return true;
     }
 
     /* ========================================================
@@ -2119,15 +2096,27 @@
     document.getElementById('applyConfigBtn').addEventListener('click', () => {
       try {
         const parsed = JSON.parse(document.getElementById('configTextarea').value);
+        DuelRules.validateRules(parsed.rules);
+        if (!parsed.scenarios || !parsed.scenarios[currentScenarioId]) throw new Error('需要保留当前剧本的配置');
         GAME_CONFIG = parsed;
         document.getElementById('configModal').classList.add('hidden');
         resetGameWithScenario(currentScenarioId);
       } catch (err) {
-        document.getElementById('configErrorMsg').textContent = 'JSON 语法错误: ' + err.message;
+        document.getElementById('configErrorMsg').textContent = '配置未应用：' + err.message;
       }
     });
 
     function resetGameWithScenario(scenarioKey) {
+      matchEpoch++;
+      clearInterval(turnTimer);
+      document.querySelectorAll('[data-card-flight="true"]').forEach(el => el.remove());
+      document.getElementById('judgementFx').hidden = true;
+      document.getElementById('mainGameStage').dataset.judging = 'false';
+      document.getElementById('clashStageContainer').classList.add('opacity-0', 'pointer-events-none');
+      document.getElementById('clashStageContainer').setAttribute('aria-hidden', 'true');
+      document.getElementById('playerViewport').classList.remove('round-triumph-player', 'actor-flinch');
+      document.getElementById('actorViewport').classList.remove('round-triumph-opponent', 'actor-flinch');
+      document.getElementById('branchingOverlay').classList.add('hidden');
       currentScenarioId = scenarioKey;
       const scen = GAME_CONFIG.scenarios[scenarioKey];
 
