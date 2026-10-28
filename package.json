@@ -1,0 +1,13 @@
+{
+  "name": "shezhan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "舌战 · 双人卡牌对峙游戏",
+  "scripts": {
+    "build": "tailwindcss -c tailwind.config.cjs -i styles/tailwind.css -o dist/assets/tailwind.css --minify",
+    "preview": "node preview.mjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}
