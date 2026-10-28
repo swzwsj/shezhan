@@ -12,6 +12,7 @@
   <!-- Precompiled Tailwind CSS; no runtime CDN dependency. -->
   <link rel="stylesheet" href="assets/tailwind.css">
   <link rel="stylesheet" href="assets/stage.css">
+  <link rel="stylesheet" href="assets/cards.css">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -518,7 +519,8 @@
             <span class="text-[10px] font-bold text-rose-100 tracking-wider">左方【你】打出</span>
           </div>
 
-          <div id="playerClashSlot" class="w-36 h-44 sm:w-44 sm:h-52 rounded-xl p-2.5 flex flex-col justify-between cinema-hud player-slot-theme shadow-2xl transition-all duration-300 bg-black/90">
+          <div id="playerClashSlot" class="illustrated-clash-card w-36 h-44 sm:w-44 sm:h-52 rounded-xl p-2.5 flex flex-col justify-between cinema-hud player-slot-theme shadow-2xl transition-all duration-300 bg-black/90">
+            <img id="playerClashArt" class="clash-card-art" src="assets/cards/direct.png" alt="" aria-hidden="true">
             <div class="flex items-center justify-between border-b border-white/10 pb-1">
               <div class="flex items-center space-x-1">
                 <span id="playerClashAffinityIcon" class="text-sm font-bold text-rose-400">⚔</span>
@@ -575,7 +577,8 @@
               </div>
 
               <!-- Front of Card (Revealed State) -->
-              <div class="flip-card-front cinema-hud opponent-slot-theme p-2.5 flex flex-col justify-between bg-black/95">
+              <div id="opponentCardFace" class="illustrated-clash-card flip-card-front cinema-hud opponent-slot-theme p-2.5 flex flex-col justify-between bg-black/95">
+                <img id="opponentClashArt" class="clash-card-art" src="assets/cards/rational.png" alt="" aria-hidden="true">
                 <div class="flex items-center justify-between border-b border-white/10 pb-1">
                   <div class="flex items-center space-x-1">
                     <span id="opponentClashAffinityIcon" class="text-sm font-bold text-sky-400">🛡</span>
@@ -1444,9 +1447,9 @@
 
       // RTK11 Tug-of-War Spatial Stance Shift
       if (pWrap && oWrap) {
-        const shiftPx = distance * Math.min(14, window.innerWidth * 0.012);
-        const pScale = 1 + Math.max(0, distance) * 0.025;
-        const oScale = 1 + Math.max(0, -distance) * 0.025;
+        const shiftPx = distance * Math.min(10, window.innerWidth * 0.012);
+        const pScale = 1 + Math.max(0, distance) * 0.01;
+        const oScale = 1 + Math.max(0, -distance) * 0.01;
         pWrap.style.transform = `translateX(${shiftPx}px) scale(${pScale})`;
         oWrap.style.transform = `translateX(${shiftPx}px) scale(${oScale})`;
       }
@@ -1537,6 +1540,33 @@
       return (scen.playerLines && scen.playerLines[key]) || "“看着我的眼睛回答我。”";
     }
 
+    const CARD_VISUALS = {
+      direct: { art: 'assets/cards/direct.png', color: '#ffadab' },
+      subtle: { art: 'assets/cards/subtle.png', color: '#f4d386' },
+      rational: { art: 'assets/cards/rational.png', color: '#a9d9f5' },
+      gaze: { art: 'assets/cards/gaze.png', color: '#e1bafa' },
+      reversal: { art: 'assets/cards/reversal.png', color: '#f7d994' }
+    };
+
+    function getCardVisual(card) {
+      const key = card.isSpecial
+        ? (card.effectType === 'FORCE_PUSH' ? 'reversal' : 'gaze')
+        : card.affinity.toLowerCase();
+      return { key, ...CARD_VISUALS[key] };
+    }
+
+    function getCardGlyph(key) {
+      const paths = {
+        direct: '<path d="m4 20 4-9L17 3l4 4-8 9-9 4Zm0 0 8-8M8 11l5 5"/>',
+        subtle: '<circle cx="8" cy="8" r="5"/><path d="m12 12 9 9m-5-5 3-3m0 6 3-3"/>',
+        rational: '<path d="M3 7q9 4 18 0v6q-3 8-9 3-6 5-9-3Z"/><path d="M6 11h3m6 0h3"/>',
+        gaze: '<path d="M2 12q10-14 20 0-10 14-20 0Z"/><circle cx="12" cy="12" r="3"/>',
+        reversal: '<path d="m3 7 4 4 5-7 5 7 4-4-3 11H6ZM6 21h12"/>',
+        special: '<path d="m12 2 2.7 6.5 7 .6-5.3 4.6 1.6 6.8-6-3.7-6 3.7 1.6-6.8-5.3-4.6 7-.6Z"/>'
+      };
+      return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">${paths[key]}</svg>`;
+    }
+
     function renderPlayerHand() {
       const container = document.getElementById('playerHandContainer');
       const turnBadge = document.getElementById('turnCounterBadge');
@@ -1547,47 +1577,37 @@
 
       playerHand.forEach((card, idx) => {
         const meta = getCardMoveMeta(card, false);
-        const cardEl = document.createElement('div');
+        const cardEl = document.createElement('button');
+        cardEl.type = 'button';
         const disabledClass = isInteracting ? 'card-disabled' : '';
-
-        if (card.isSpecial) {
-          cardEl.className = `card-item hologram-card rounded-xl p-2 sm:p-2.5 flex flex-col justify-between h-32 sm:h-36 shadow-xl ${disabledClass}`;
-          cardEl.innerHTML = `
-            <div class="flex items-center justify-between border-b border-white/15 pb-1 pointer-events-none">
-              <span class="text-xs font-bold text-fuchsia-300">${card.icon} 特技</span>
-              <span class="text-[9px] px-1.5 py-0.2 rounded bg-fuchsia-500/20 border border-fuchsia-400/40 text-fuchsia-200 font-mono">奇策</span>
-            </div>
-            <div class="my-auto text-center pointer-events-none">
-              <div class="text-xs sm:text-sm font-black text-cinemaGold">${meta.moveTitle}</div>
-              <p class="text-[9px] sm:text-[10px] text-white/80 line-clamp-2 mt-1">${card.desc}</p>
-            </div>
-            <div class="border-t border-white/10 pt-1 text-[9px] text-fuchsia-200 font-mono text-center pointer-events-none">
-              点击发动专属攻心
-            </div>
-          `;
-        } else {
-          const aff = GAME_CONFIG.affinities[card.affinity];
-          cardEl.className = `card-item cinema-hud rounded-xl p-2 sm:p-2.5 flex flex-col justify-between h-32 sm:h-36 border ${aff.border} shadow-xl ${disabledClass}`;
-          cardEl.innerHTML = `
-            <div class="flex items-center justify-between border-b border-white/10 pb-1 pointer-events-none">
-              <span class="text-[11px] font-bold ${aff.color}">${aff.icon} ${aff.name}</span>
-              <span class="text-[9px] px-1 py-0.2 rounded bg-white/5 border border-white/15 text-cinemaGold font-mono">${meta.restraintLabel}</span>
-            </div>
-            <div class="my-auto flex flex-col items-center pointer-events-none">
-              <div class="flex items-baseline space-x-1">
-                <span class="text-xl sm:text-2xl font-cinzel font-black text-white">${card.value}</span>
-                <span class="text-[11px] sm:text-xs font-bold ${aff.color}">${meta.moveTitle}</span>
-              </div>
-              <p class="text-[9px] sm:text-[10px] text-white/70 italic text-center line-clamp-2 mt-0.5 px-0.5">
-                ${meta.quotePreview}
-              </p>
-            </div>
-            <div class="border-t border-white/10 pt-1 flex items-center justify-between text-[9px] text-white/50 font-mono pointer-events-none">
-              <span>我方左翼</span>
-              <span class="text-cinemaGold">${meta.effectSummary}</span>
-            </div>
-          `;
-        }
+        const visual = getCardVisual(card);
+        const aff = card.isSpecial ? null : GAME_CONFIG.affinities[card.affinity];
+        const family = card.isSpecial ? '奇策' : aff.name;
+        const counter = card.isSpecial ? '专属攻心' : `克 ${GAME_CONFIG.affinities[aff.counters].name}`;
+        cardEl.className = `card-item deck-card ${disabledClass}`;
+        cardEl.disabled = isInteracting;
+        cardEl.dataset.cardFamily = visual.key;
+        cardEl.style.setProperty('--card-accent', visual.color);
+        cardEl.setAttribute('aria-label', `${family}，${meta.moveTitle}${card.isSpecial ? '' : `，${card.value}点`}，${counter}，${meta.effectSummary}，${meta.quotePreview}`);
+        cardEl.title = `${meta.moveTitle} · ${counter}\n${meta.effectSummary}\n${meta.quotePreview}`;
+        cardEl.innerHTML = `
+          <img class="deck-card__art" alt="" aria-hidden="true" draggable="false">
+          <span class="deck-card__suit">${getCardGlyph(visual.key)}<span class="deck-card__family"></span></span>
+          <span class="deck-card__rank"></span>
+          <span class="deck-card__caption">
+            <strong class="deck-card__name"></strong>
+            <span class="deck-card__quote"></span>
+            <span class="deck-card__counter"></span>
+            <span class="deck-card__effect"></span>
+          </span>`;
+        cardEl.querySelector('.deck-card__art').src = visual.art;
+        cardEl.querySelector('.deck-card__family').textContent = family;
+        if (card.isSpecial) cardEl.querySelector('.deck-card__rank').innerHTML = getCardGlyph('special');
+        else cardEl.querySelector('.deck-card__rank').textContent = card.value;
+        cardEl.querySelector('.deck-card__name').textContent = meta.moveTitle.replace(/[【】]/g, '');
+        cardEl.querySelector('.deck-card__quote').textContent = meta.quotePreview;
+        cardEl.querySelector('.deck-card__counter').textContent = counter;
+        cardEl.querySelector('.deck-card__effect').textContent = meta.effectSummary;
 
         cardEl.addEventListener('click', (e) => {
           if (isInteracting) return;
@@ -1629,15 +1649,17 @@
       }
     }
 
-    function animateCardFlight(originEl, targetEl, onComplete) {
+    function animateCardFlight(originEl, targetEl, onComplete, originBounds) {
       if (!originEl || !targetEl) {
         if (onComplete) onComplete();
         return;
       }
-      const startRect = originEl.getBoundingClientRect();
+      const startRect = originBounds || originEl.getBoundingClientRect();
       const endRect = targetEl.getBoundingClientRect();
 
       const flyer = originEl.cloneNode(true);
+      flyer.tabIndex = -1;
+      flyer.dataset.cardFlight = 'true';
       flyer.style.position = 'fixed';
       flyer.style.left = `${startRect.left}px`;
       flyer.style.top = `${startRect.top}px`;
@@ -1710,6 +1732,7 @@
 
     function playPlayerCard(cardIdx, originEl) {
       if (isInteracting) return;
+      const flightOriginBounds = originEl ? originEl.getBoundingClientRect() : null;
       isInteracting = true;
       clearInterval(turnTimer);
 
@@ -1749,6 +1772,7 @@
 
       // Populate Player Left Slot
       const pMeta = getCardMoveMeta(pCard, false);
+      document.getElementById('playerClashArt').src = getCardVisual(pCard).art;
       if (pCallout) pCallout.textContent = `⚔ 出招：${pMeta.moveTitle}`;
       setActiveActorSpotlight('PLAYER');
       setSubtitleSpeaker('PLAYER', '你', getPlayerLine(pCard));
@@ -1776,6 +1800,7 @@
         setTimeout(() => {
           // Prepare Opponent Card Face Details
           const oMeta = getCardMoveMeta(aiCard, true);
+          document.getElementById('opponentClashArt').src = getCardVisual(aiCard).art;
           if (oCallout) oCallout.textContent = `🛡 应对：${oMeta.moveTitle}`;
           setActiveActorSpotlight('OPPONENT');
 
@@ -1803,7 +1828,7 @@
             resolveClashOutcome(pCard, aiCard);
           }, 550);
         }, 420);
-      });
+      }, flightOriginBounds);
     }
 
     function resolveClashOutcome(pCard, oCard) {
