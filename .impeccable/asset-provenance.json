@@ -1,0 +1,79 @@
+[
+  {
+    "path": "dist/assets/character-pink.png",
+    "sha256": "aa9f31feab314a4786708a0ae8df4741ff89bc6322154751ec6af7ea5e09226d",
+    "origin": "User-provided original Image 1; pink heroine",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/character-suit.png",
+    "sha256": "cac025ae82362449bc6a53256a6b9d816e7f375d32337fdfba3a9848b2a97f59",
+    "origin": "User-provided original Image 2; suited male character",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/backgrounds/ballroom.png",
+    "sha256": "9d22bc3d642fcfe0c6753001409d1a78cd6ef3374be8a3b7f9fd2ce161708ff4",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/backgrounds/bamboo.png",
+    "sha256": "3aad57ba3fe575a913ec8c3b29a3ed3025d3ac933cdc521dadec5cb9f49b7ec1",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/backgrounds/study.png",
+    "sha256": "4b4ee282e3096ddfce1f4a7289b8526c43e411816ab93227e3e27ab94dd8f0eb",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/cards/back.png",
+    "sha256": "e6351644e96af7eff5f04c2d98fdb4862b80ea3cdc7da5c5c1fb3ea786dc38c5",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/cards/direct.png",
+    "sha256": "2efdec20522fc6228e94a307463808093cf0ad840abcaf556927cd9197d104a7",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/cards/gaze.png",
+    "sha256": "4192c56e612a9f84d27ead4eec81939b97faf3286c894893aec809178724910c",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/cards/rational.png",
+    "sha256": "253df2c1f31c7a9d957dba2c1b2588617e590ae3e594a655ccfdb682c8fa51e6",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/cards/reversal.png",
+    "sha256": "dabbb99835ebebc04c77dc688a41696eab35fe986ff01e7a9ad033b987409054",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/cards/subtle.png",
+    "sha256": "553aabd52006263e4238fbd2914ee413ee83447abc8d6ae0821d39be5dae05ad",
+    "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
+    "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
+    "unchangedInV5": true
+  }
+]

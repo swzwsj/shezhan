@@ -1,84 +1,302 @@
-/* V4: broad dialogue, restrained cards, transparent game verdicts. */
-#topGameHud { padding-top: 12px; }
-#playerStatusTitle { font-family: 'Noto Serif SC', serif; font-size: 13px; letter-spacing: 0; }
-#playerStatusHint { font-size: 11px; }
-#bottomGameHud { gap: 8px; padding: 8px 24px 12px; }
+@font-face { font-family: DuelSerif; src: url("fonts/ZCOOLXiaoWei-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+:root {
+  --paper: #fff8fa;
+  --paper-blush: #f4e4ec;
+  --ink: #493144;
+  --ink-soft: #78576a;
+  --rose: #a5466e;
+  --rose-deep: #753950;
+  --plum: #52354d;
+  --gold-soft: #c6ab8a;
+  --line: #d8b7c6;
+  --font-display: DuelSerif, "Noto Serif SC", "Songti SC", SimSun, serif;
+  --font-ui: "Microsoft YaHei", "PingFang SC", sans-serif;
+  --ease-romance: cubic-bezier(.16,1,.3,1);
+  --cinema-gold: #c6ab8a;
+}
+body { font-family: var(--font-display); background: #382737; }
+::selection { background: #d9a8be; color: #402539; }
+button, select, input { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--rose); outline-offset: 4px; }
+input, textarea { caret-color: var(--rose); }
+* { scrollbar-color: #be8da3 var(--paper-blush); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper-blush); }
+::-webkit-scrollbar-thumb { background: #be8da3; border-radius: 8px; }
+.font-cinzel { font-family: var(--font-display); }
+.text-cinemaGold { color: var(--rose-deep); }
+#gameHeader { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 52px; padding: 0 28px; background: rgba(48,31,45,.94); border-bottom: 1px solid rgba(222,185,201,.35); color: #fff0f5; }
+.game-heading { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.game-wordmark { font: 400 28px/1 var(--font-display); white-space: nowrap; color: #ffe2ed; }
+#sceneContextTitle { min-width: 0; max-width: 540px; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 13px/1.5 var(--font-display); color: #f2dce6; }
+.game-tools { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.game-tools button, #scenarioSelect { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; min-width: 34px; padding: 0 10px; border: 1px solid rgba(225,187,204,.48); border-radius: 8px; background: transparent; color: #fff0f5; font: 400 11px/1 var(--font-ui); cursor: pointer; transition: background .2s ease; }
+.game-tools button:hover, #scenarioSelect:hover { background: rgba(255,236,244,.13); }
+.game-tools svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#scenarioSelect { width: 202px; padding-right: 4px; }
+#scenarioSelect option { background: var(--paper); color: var(--ink); }
+#toggleAudioBtn .sound-muted { display: none; }
+#toggleAudioBtn[aria-pressed="false"] .sound-muted { display: block; }
+#toggleAudioBtn[aria-pressed="false"] .sound-waves { display: none; }
+#sceneBackdrop::after { background: linear-gradient(180deg,rgba(43,24,42,.28),rgba(43,24,42,0) 32%,rgba(43,24,42,.12)); }
+#topGameHud { position: relative; z-index: 24; display: flex; justify-content: center; width: 100%; padding: 16px 24px 8px; pointer-events: none; }
+.romance-status { position: relative; display: grid; grid-template-columns: minmax(0,1fr) 76px minmax(0,1fr); column-gap: 12px; row-gap: 8px; width: min(640px,100%); padding: 18px 32px 10px; border-radius: 20px 20px 28px 28px; background: var(--paper); color: var(--ink); box-shadow: 0 10px 28px rgba(39,18,36,.24); }
+.romance-status::after { content: ""; position: absolute; left: 18%; right: 18%; bottom: -5px; height: 1px; background: var(--gold-soft); }
+.round-display { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.status-label { color: var(--ink-soft); font: 400 12px/1.3 var(--font-ui); }
+#playerStatusTitle { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; font: 400 18px/1 var(--font-display); letter-spacing: 0; color: var(--rose-deep); }
+#roundCurrent { font-size: 54px; line-height: 1; font-weight: 400; font-variant-numeric: tabular-nums; }
+#roundTotal { font-size: 23px; }
+.round-divider { color: #ac7f96; font-size: 22px; font-weight: 400; }
+.round-unit { font: 400 11px/1 var(--font-ui); }
+.heart-connection { display: flex; align-items: center; justify-content: center; position: relative; }
+.heart-connection svg { width: 48px; height: 48px; fill: #f4dbe6; stroke: var(--rose); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.heart-connection::before, .heart-connection::after { content: ""; position: absolute; top: 50%; width: 18px; height: 1px; background: var(--line); }
+.heart-connection::before { left: -8px; }
+.heart-connection::after { right: -8px; }
+.pulse-display { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-width: 0; gap: 2px; }
+.pulse-heading { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+.pulse-reading { display: flex; align-items: center; gap: 14px; }
+#actorHeartNum { color: var(--rose); font: 400 54px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+#ekgPulseCanvas { display: block; width: 90px; height: 28px; border: 0; border-radius: 0; background: none; }
+#rageTag { padding: 2px 4px; border-radius: 3px; background: #efd4e0; color: #853451; font: 600 9px/1.3 var(--font-ui); animation: none; }
+#rageTag.hidden { display: none; }
+.opponent-hand { display: flex; align-items: center; gap: 5px; height: 17px; color: var(--ink-soft); font: 400 9px/1 var(--font-ui); }
+#opponentHandHeaderLabel { margin-right: 3px; color: var(--ink-soft); font: inherit; letter-spacing: 0; }
+#romanceStatus .opponent-hand > div { display: grid; place-items: center; width: 12px; height: 17px; background: #efdbe5; border: 1px solid #bb8ca2; border-radius: 3px; box-shadow: none; }
+#romanceStatus .opponent-hand > div > span { color: #86516c; font: 400 10px/1 var(--font-display); }
+.response-line { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 5px 12px; grid-column: 1 / -1; margin-top: 2px; }
+#playerStatusHint { display: block; color: var(--ink-soft); font: 400 11px/1.4 var(--font-display); }
+.response-clock { display: flex; align-items: baseline; gap: 6px; color: var(--ink-soft); font: 400 10px/1.2 var(--font-ui); }
+#timerText { color: var(--rose-deep); font: 400 14px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.response-progress { grid-column: 1 / -1; height: 2px; overflow: hidden; border-radius: 2px; background: #ead3de; }
+#turnTimerProgress { height: 100%; background: #b77a97; transition: width .2s linear; }
+.romance-status[data-urgent="true"] #timerText { color: #a62e57; font-weight: 600; }
+#bottomGameHud { display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 30; width: 100%; padding: 24px 24px 12px; background: none; }
 #bottomGameHud > * + * { margin-top: 0; }
-#cinematicSubtitleBox { width: 100%; max-width: 1200px; min-height: 100px; display: grid; grid-template-columns: 116px minmax(0,1fr); gap: 20px; padding: 16px 22px; border: 1px solid rgba(223,183,108,.55); border-radius: 6px; background: rgba(10,10,16,.94); backdrop-filter: none; box-shadow: 0 8px 22px rgba(0,0,0,.28); }
-#cinematicSubtitleBox > div:first-child { flex-direction: column; gap: 6px; margin: 0; align-items: flex-start; }
-#cinematicSpeakerName { font-size: 16px; line-height: 1.4; margin: 0; }
-#speakerSideBadge { font-size: 10px; padding: 2px 6px; }
-#cinematicSubtitleText { margin: 0; font-size: 21px; line-height: 1.65; text-align: left; color: #fff2e4; letter-spacing: .02em; font-weight: 500; }
-#bottomGameHud > .perspective-runway { max-width: 760px; }
+#cinematicSubtitleBox { position: relative; display: block; width: 100%; max-width: 1120px; min-height: 110px; padding: 30px 42px 23px; border: 0; border-radius: 6px 22px 6px 22px; background: var(--paper); color: var(--ink); box-shadow: 0 10px 28px rgba(39,18,36,.24); }
+#cinematicSubtitleBox::after { content: ""; position: absolute; inset: 7px; border: 1px solid #dfbecd; border-radius: 2px 16px 2px 16px; pointer-events: none; }
+#cinematicSubtitleBox > .dialogue-speaker:first-child { position: absolute; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 14px; left: 28px; top: -17px; min-width: 168px; margin: 0; padding: 8px 22px; border-radius: 3px 14px 3px 14px; background: var(--plum); color: #fff2f7; z-index: 1; }
+#speakerSideBadge { color: #ebc6d7; font: 400 10px/1.3 var(--font-ui); border: 0; padding: 0; background: none; }
+#cinematicSpeakerName { margin: 0; color: #fff1f6; font: 400 20px/1.15 var(--font-display); letter-spacing: .04em; }
+#cinematicSubtitleBox[data-speaker="PLAYER"] > .dialogue-speaker:first-child { background: #914d6a; }
+#cinematicSubtitleBox[data-speaker="PLAYER"] #speakerSideBadge { color: #ffe4ee; }
+#cinematicSubtitleText { margin: 0; padding: 0 20px 0 0; color: var(--ink); text-align: left; font: 400 22px/1.65 var(--font-display); letter-spacing: .015em; overflow-wrap: anywhere; }
+.dialogue-sign { position: absolute; right: 18px; bottom: 13px; width: 31px; height: 24px; fill: none; stroke: #bc8b9f; stroke-width: 1; }
+#bottomGameHud > .perspective-runway { width: min(760px,100%); max-width: none; perspective: none; }
+.runway-track { position: relative; display: flex; align-items: center; justify-content: space-between; height: 22px; padding: 0 13px; border: 0; border-radius: 4px; background: #f4e4ec; box-shadow: none; transform: none; color: var(--ink-soft); }
+.runway-track::before { display: none; }
+#lossThresholdLabel, #winThresholdLabel { color: #78566c; font: 400 10px/1.2 var(--font-ui); letter-spacing: 0; }
+#tensionDistanceLabel { min-width: 110px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--rose-deep); text-align: center; font: 400 12px/1.2 var(--font-display); }
+#tensionPointer { position: absolute; top: 100%; z-index: 1; width: 7px; height: 7px; border: 0; border-radius: 1px; background: #b37891; box-shadow: none; transform: translate(-50%,-50%) rotate(45deg); transition: left .5s var(--ease-romance); }
+.hand-section { width: min(620px,100%); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.affinity-legend { display: grid; grid-template-columns: 64px minmax(0,1fr); gap: 3px 10px; align-items: center; width: 100%; padding: 6px 12px 5px; border-radius: 9px; background: var(--paper); color: var(--ink-soft); }
+.affinity-heading { font: 400 12px/1.4 var(--font-display); color: var(--rose-deep); }
+.affinity-relations { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
+.affinity-link { display: flex; align-items: center; gap: 6px; white-space: nowrap; padding: 2px 0; border-bottom: 1px solid transparent; font: 400 11px/1.3 var(--font-ui); transition: color .2s, border-color .2s; }
+.affinity-from { display: flex; align-items: center; gap: 4px; color: var(--affinity-accent); }
+.affinity-from b { font-weight: 600; }
+.affinity-from svg { width: 13px; height: 13px; }
+.affinity-arrow { width: 18px; height: 9px; fill: none; stroke: #986b81; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.affinity-link.is-active { border-color: var(--affinity-accent); color: var(--affinity-accent); background: #f8e5ee; }
+#handRules { grid-column: 1 / -1; margin: 0; padding: 0; max-width: none; color: var(--ink-soft); text-align: center; font: 400 10px/1.45 var(--font-ui); }
 #turnCounterBadge { display: none; }
-#handRules { max-width: none; font-size: 10px; line-height: 1.5; }
-#bottomGameHud > div:last-child > div:first-child { padding: 3px 8px; background: rgba(10,10,16,.88); }
-#tensionDistanceLabel { font-size: 11px; min-width: 88px; text-align: center; }
-#lossThresholdLabel, #winThresholdLabel { font-size: 10px; }
+#playerHandContainer { width: 100%; gap: 12px; padding: 0; }
 #playerStanceWrapper { width: 40vw; height: 78dvh; left: 0; bottom: 32px; transform-origin: 50% 100%; }
 #opponentStanceWrapper { width: 40vw; height: 72dvh; right: 0; bottom: 58px; transform-origin: 50% 100%; }
-#playerNameplate, #opponentNameplate { top: auto; bottom: -26px; }
-#playerActionCallout, #opponentActionCallout { top: 30%; }
-#playerWinCrownBadge, #opponentWinCrownBadge { top: 43%; }
+#playerNameplate, #opponentNameplate { top: auto; bottom: -26px; padding: 5px 12px; border: 0; border-radius: 4px 10px 4px 10px; background: #f5e6ed; color: var(--plum); font: 400 12px/1.2 var(--font-display); box-shadow: 0 5px 14px rgba(39,18,36,.18); }
+#playerNameplate > span:last-child, #opponentNameplate > span:first-child { display: none; }
+#playerNameplate span, #opponentNameplate span { color: var(--plum); background: none; font-family: var(--font-display); font-size: 12px; }
+#actorDollyFrame > div:nth-child(2), #playerActionCallout, #opponentActionCallout, #playerWinCrownBadge, #opponentWinCrownBadge { display: none; }
+.stance-active-player, .stance-active-opponent { filter: brightness(1.04); }
+.stance-dimmed { filter: brightness(.82) saturate(.9); }
 #playerStanceWrapper.grand-winner-player { transform: translateX(22px) scale(1.05) !important; }
 #opponentStanceWrapper.grand-winner-opponent { transform: translateX(-22px) scale(1.05) !important; }
-#actorDollyFrame > div:nth-child(2) { top: 22%; }
+#cinemaVignette { background: radial-gradient(ellipse at 50% 45%,transparent 42%,rgba(140,63,109,.12) 78%,rgba(105,38,81,.3)); }
+#clashStageContainer { position: absolute; left: 50%; top: 180px; width: 310px; margin: 0; transform: translateX(-50%); z-index: 26; }
+#playerClashSlot, #opponentClashSlotWrapper { width: 110px; height: 122px; }
+#playerClashSlot, #opponentCardFace { border: 0; border-radius: 12px; background: var(--paper); box-shadow: 0 7px 20px rgba(39,18,36,.22); color: var(--ink); }
+#playerClashTitle, #opponentClashTitle, #playerClashType, #opponentClashType { color: var(--ink); }
+#playerClashVal, #opponentClashVal { color: var(--rose-deep); font: 400 29px/1 var(--font-display); }
+#playerClashVal svg, #opponentClashVal svg { display: block; width: 26px; height: 26px; color: var(--rose); }
+#playerClashEffectText, #opponentClashEffectText { color: var(--ink-soft); }
+#playerClashRestraintTag, #opponentClashRestraintTag { color: var(--ink-soft); background: none; border: 0; }
+#playerClashAffinityIcon svg, #opponentClashAffinityIcon svg { width: 17px; height: 17px; color: var(--rose); }
+#opponentFlipInner .flip-card-back { background: var(--paper-blush); border: 1px solid #c79fb2; color: var(--rose-deep); }
+.flip-card-back > div > span, .flip-card-back > span:first-of-type { color: var(--rose-deep); }
+#clashStageContainer > div:last-child > div > div:first-child { background: var(--paper-blush); border-color: transparent; color: var(--ink); box-shadow: none; }
+#clashStageContainer > div:last-child > div > div:first-child span { color: var(--ink); }
+#clashResultBanner { max-width: 300px; padding: 4px 10px; background: var(--paper); border: 0; border-radius: 5px; color: var(--ink); font: 400 10px/1.4 var(--font-display); box-shadow: 0 5px 14px rgba(39,18,36,.16); backdrop-filter: none; }
 #judgementFx[hidden] { display: none; }
-.judgement-fx { --verdict-edge: #754b14; --verdict-ink: #fff1c9; position: absolute; z-index: 36; left: 50%; top: 28%; width: min(740px,76%); display: flex; flex-direction: column; align-items: center; gap: 7px; transform: translate(-50%,-50%); pointer-events: none; color: var(--verdict-ink); text-align: center; background: none; border: 0; box-shadow: none; }
-.judgement-title { font-family: 'Noto Serif SC', serif; font-size: clamp(44px,5.6vw,78px); line-height: 1.12; font-weight: 900; letter-spacing: .04em; -webkit-text-stroke: 1px var(--verdict-edge); paint-order: stroke fill; text-shadow: 0 3px 1px var(--verdict-edge),0 8px 16px #09080c; transform: skew(-6deg); }
-.judgement-proof { font-size: 15px; line-height: 1.5; font-weight: 700; letter-spacing: .03em; text-shadow: 0 2px 4px #000,0 2px 10px #000; }
-.judgement-damage { font-size: 31px; line-height: 1.2; font-weight: 900; font-variant-numeric: tabular-nums; -webkit-text-stroke: .7px var(--verdict-edge); paint-order: stroke fill; text-shadow: 0 3px 1px var(--verdict-edge),0 6px 12px #09080c; }
-.judgement-fx[data-winner="OPPONENT"] { --verdict-edge: #154965; --verdict-ink: #e4f5ff; }
-.judgement-fx[data-kind="crush"] { --verdict-edge: #8a2113; --verdict-ink: #ffe5a1; }
-.judgement-fx[data-kind="draw"] { --verdict-edge: #3b3947; --verdict-ink: #f1eaf2; }
-.judgement-fx[data-kind="special"] { --verdict-edge: #5b336b; --verdict-ink: #f3dfff; }
-.judgement-enter { animation: judgement-arrive .95s cubic-bezier(.16,1,.3,1) both; }
-@keyframes judgement-arrive { 0% { opacity: 1; transform: translate(-50%,-50%) scale(1.3); filter: blur(2px); } 24% { opacity: 1; transform: translate(-50%,-50%) scale(1.03); filter: none; } 45%,100% { opacity: 1; transform: translate(-50%,-50%) scale(1); filter: none; } }
-#mainGameStage[data-judging="true"] #clashStageContainer { opacity: .13; }
-#mainGameStage[data-judging="true"] #playerWinCrownBadge, #mainGameStage[data-judging="true"] #opponentWinCrownBadge { display: none; }
-#mainGameStage[data-judging="true"] #playerActionCallout, #mainGameStage[data-judging="true"] #opponentActionCallout { opacity: 0 !important; }
-#clashResultBanner.round-verdict-detail { background: none; border: 0; color: #f5e8d1; font-size: 12px; box-shadow: none; }
-.match-result-badge { padding: 6px 12px; border: 1px solid #bba27b; color: #f8e4bd; font-size: 12px; border-radius: 4px; }
+.judgement-fx { --verdict-edge: #783b5b; --verdict-ink: #fff0f5; position: absolute; z-index: 36; left: 50%; top: 40%; width: min(740px,76%); display: flex; flex-direction: column; align-items: center; gap: 7px; transform: translate(-50%,-50%); pointer-events: none; color: var(--verdict-ink); text-align: center; background: none; border: 0; box-shadow: none; }
+.judgement-title { font: 400 clamp(44px,5.6vw,78px)/1.12 var(--font-display); letter-spacing: .04em; -webkit-text-stroke: 1px var(--verdict-edge); paint-order: stroke fill; text-shadow: 0 3px 1px var(--verdict-edge),0 8px 16px #241421; }
+.judgement-proof { font: 500 15px/1.5 var(--font-ui); text-shadow: 0 2px 4px #241421,0 3px 10px #241421; }
+.judgement-damage { font: 400 31px/1.2 var(--font-display); -webkit-text-stroke: .7px var(--verdict-edge); paint-order: stroke fill; text-shadow: 0 3px 1px var(--verdict-edge),0 6px 12px #241421; }
+.judgement-fx[data-winner="OPPONENT"] { --verdict-edge: #51406b; --verdict-ink: #f5edff; }
+.judgement-fx[data-kind="crush"] { --verdict-edge: #8e3459; --verdict-ink: #ffe4ee; }
+.judgement-fx[data-kind="draw"] { --verdict-edge: #65555f; --verdict-ink: #fff6fa; }
+.judgement-fx[data-kind="special"] { --verdict-edge: #724478; --verdict-ink: #f9e8ff; }
+.judgement-enter { animation: judgement-arrive .8s var(--ease-romance) both; }
+@keyframes judgement-arrive { 0% { opacity: 1; transform: translate(-50%,-50%) scale(1.18); filter: blur(2px); } 35%,100% { opacity: 1; transform: translate(-50%,-50%) scale(1); filter: none; } }
+#mainGameStage[data-judging="true"] #clashStageContainer { opacity: .08; }
+#clashResultBanner.round-verdict-detail { background: none; box-shadow: none; }
+#grandFinaleCutIn { background: rgba(55,28,50,.36); }
+#grandFinaleCutIn > div { background: var(--paper-blush); border-color: #d3a9bd; box-shadow: 0 10px 30px rgba(39,18,36,.2); }
+#grandFinaleIcon svg { width: 36px; height: 36px; color: var(--rose); }
+#grandFinaleBannerText { color: var(--rose-deep); font-family: var(--font-display); }
+.match-result-badge { padding: 6px 12px; border: 1px solid var(--line); border-radius: 4px; color: var(--rose-deep); font: 400 12px/1.4 var(--font-display); }
+#branchingOverlay, #spriteModal, #configModal { background: rgba(43,25,41,.7); backdrop-filter: none; }
+#branchingOverlay > div, #spriteModal > div, #configModal > div { background: var(--paper); color: var(--ink); border: 0; box-shadow: 0 14px 36px rgba(39,18,36,.3); backdrop-filter: none; }
+#branchingOverlay h2, #spriteModal h3, #configModal h3 { color: var(--rose-deep); font-family: var(--font-display); }
+#branchingOverlay p, #spriteModal label, #spriteModal p, #configModal p { color: var(--ink-soft); }
+#spriteModal input[type="text"], #configModal textarea { color: var(--ink); background: #fffdfd; border-color: #cba3b7; user-select: text; -webkit-user-select: text; }
+#spriteModal .text-white\/50, #spriteModal .text-white\/60, #spriteModal .text-white\/70, #configModal .text-white\/50, #configModal .text-white\/60 { color: var(--ink-soft); }
+#branchingOverlay button, #spriteModal button, #configModal button { background: var(--plum); color: #fff4f9; border: 0; box-shadow: none; }
+#branchingOverlay button:hover, #spriteModal button:hover, #configModal button:hover { background: #714361; }
+#spriteModal #spriteStatusMsg, #configErrorMsg { color: #9b355a; }
+#configErrorMsg { max-width: 65%; line-height: 1.5; overflow-wrap: anywhere; }
+/* Functional copy remains readable on compact game screens. */
+.opponent-hand, #opponentHandHeaderLabel, #rageTag, .round-unit, .response-clock,
+#playerStatusHint, #speakerSideBadge, #lossThresholdLabel, #winThresholdLabel,
+.affinity-heading, .affinity-link, #handRules, #clashResultBanner,
+#playerClashType, #opponentClashType, #playerClashTitle, #opponentClashTitle,
+#playerClashEffectText, #opponentClashEffectText, #playerClashRestraintTag,
+#opponentClashRestraintTag { font-size: 11px; }
+#romanceStatus .opponent-hand > div > span { font-size: 11px; }
+#spriteModal p, #configModal p { font-size: 11px; line-height: 1.5; }
+#spriteModal input::placeholder, #configModal textarea::placeholder { color: var(--ink-soft); opacity: 1; }
+#spriteModal .bg-rose-950\/30, #spriteModal .bg-sky-950\/30 { background: var(--paper-blush); }
+#spriteModal .text-rose-300, #spriteModal .text-sky-300 { color: var(--rose-deep); }
+#spriteModal .modal-close, #configModal .modal-close { display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0; background: transparent; color: var(--plum); }
+.modal-close svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; }
 
 @media (max-width: 767px) {
-  #playerStatusTitle { font-size: 11px; }
-  #bottomGameHud { gap: 6px; padding: 6px 10px max(10px,env(safe-area-inset-bottom)); }
-  #cinematicSubtitleBox { width: 100%; max-width: none; min-height: 112px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 7px; padding: 12px 14px; }
-  #cinematicSubtitleBox > div:first-child { flex-direction: row; align-items: center; gap: 8px; }
-  #cinematicSpeakerName { font-size: 13px; }
-  #cinematicSubtitleText { font-size: 17px; line-height: 1.6; }
-  #handRules { font-size: 9px; line-height: 1.45; }
-  #playerStanceWrapper { width: 70vw; height: 60svh; left: -12vw; bottom: 130px; }
-  #opponentStanceWrapper { width: 70vw; height: 55svh; right: -12vw; bottom: 150px; }
-  #playerNameplate, #opponentNameplate { top: -18px; bottom: auto; }
-  #playerActionCallout, #opponentActionCallout { top: 32%; }
-  .judgement-fx { top: 40%; width: 88%; gap: 6px; }
+  #gameHeader { height: auto; min-height: 96px; flex-wrap: wrap; gap: 6px; padding: 7px 12px; }
+  #gameHeader > .game-heading { display: flex; width: 100%; gap: 12px; }
+  .game-wordmark { font-size: 25px; }
+  #sceneContextTitle { font-size: 11px; max-width: none; }
+  .game-tools { width: 100%; gap: 6px; }
+  .game-tools button, #scenarioSelect { height: 44px; min-width: 40px; border-radius: 7px; }
+  .game-tools button { padding: 0 10px; }
+  .game-tools button > span { display: none; }
+  #scenarioSelect { flex: 1; width: auto; min-width: 0; font-size: 11px; }
+  #topGameHud { padding: 10px 10px 5px; gap: 0; }
+  .romance-status { width: 100%; grid-template-columns: minmax(0,1fr) 42px minmax(0,1fr); column-gap: 8px; row-gap: 4px; padding: 12px 18px 8px; border-radius: 14px 14px 20px 20px; }
+  .status-label { font-size: 11px; }
+  #playerStatusTitle { gap: 5px; font-size: 13px; }
+  #roundCurrent, #actorHeartNum { font-size: 40px; }
+  #roundTotal, .round-divider { font-size: 18px; }
+  .round-unit { font-size: 11px; }
+  .heart-connection svg { width: 36px; height: 42px; }
+  .heart-connection::before, .heart-connection::after { width: 9px; }
+  .heart-connection::before { left: -5px; }
+  .heart-connection::after { right: -5px; }
+  .pulse-heading { gap: 4px; }
+  .pulse-reading { gap: 4px; }
+  #ekgPulseCanvas { display: block; width: 46px; height: 22px; }
+  #rageTag { position: absolute; right: 16px; top: 2px; font-size: 11px; padding: 1px 3px; }
+  .opponent-hand { gap: 3px; height: 14px; font-size: 11px; }
+  #romanceStatus .opponent-hand > div { width: 9px; height: 13px; }
+  #romanceStatus .opponent-hand > div > span { font-size: 11px; }
+  #opponentHandHeaderLabel { max-width: 64px; margin-right: 1px; overflow: hidden; white-space: nowrap; }
+  #playerStatusHint { display: block; font-size: 11px; }
+  .response-clock { gap: 4px; font-size: 11px; }
+  #timerText { font-size: 12px; }
+  #bottomGameHud { gap: 8px; padding: 22px 10px max(10px,env(safe-area-inset-bottom)); }
+  #cinematicSubtitleBox { width: 100%; max-width: none; min-height: 114px; display: block; padding: 25px 22px 17px; border-radius: 5px 17px 5px 17px; }
+  #cinematicSubtitleBox > .dialogue-speaker:first-child { left: 18px; top: -14px; min-width: 132px; gap: 10px; padding: 7px 14px; }
+  #speakerSideBadge { font-size: 11px; }
+  #cinematicSpeakerName { font-size: 17px; }
+  #cinematicSubtitleText { font-size: 18px; line-height: 1.6; padding-right: 5px; }
+  .dialogue-sign { width: 23px; height: 18px; right: 12px; bottom: 10px; }
+  #bottomGameHud > .perspective-runway { width: 100%; }
+  .runway-track { height: 21px; padding: 0 9px; }
+  #lossThresholdLabel, #winThresholdLabel { font-size: 11px; }
+  #tensionDistanceLabel { font-size: 11px; min-width: 88px; }
+  .hand-section { gap: 6px; }
+  .affinity-legend { grid-template-columns: 47px minmax(0,1fr); gap: 2px 5px; padding: 5px 8px; border-radius: 6px; }
+  .affinity-heading { font-size: 11px; }
+  .affinity-relations { gap: 5px; }
+  .affinity-link { gap: 4px; font-size: 11px; }
+  .affinity-from { gap: 2px; }
+  .affinity-from svg { width: 11px; height: 11px; }
+  .affinity-arrow { width: 12px; height: 8px; }
+  #handRules { display: block; font-size: 11px; line-height: 1.45; }
+  #playerHandContainer { gap: 6px; }
+  #playerStanceWrapper { width: 70vw; height: min(56svh,calc(100svh - 374px)); left: -12vw; bottom: 134px; }
+  #opponentStanceWrapper { width: 70vw; height: min(52svh,calc(100svh - 406px)); right: -12vw; bottom: 148px; }
+  #playerNameplate, #opponentNameplate { top: -10px; bottom: auto; padding: 4px 9px; }
+  #playerNameplate span, #opponentNameplate span { font-size: 11px; }
+  #clashStageContainer { position: relative; top: auto; left: auto; transform: none; align-self: end; justify-self: center; width: 232px; margin-bottom: 20px; }
+  #playerClashSlot, #opponentClashSlotWrapper { width: 90px; height: 108px; }
+  #clashStageContainer > div:last-child > div > div:first-child { display: none; }
+  #clashResultBanner { font-size: 11px; padding: 3px 6px; }
+  .judgement-fx { top: 51%; width: 88%; gap: 6px; }
   .judgement-title { font-size: 44px; }
   .judgement-proof { font-size: 12px; }
-  .judgement-damage { font-size: 26px; }
+  .judgement-damage { font-size: 25px; }
 }
 
 @media (max-height: 560px) and (min-width: 768px) {
-  #topGameHud { padding-top: 6px; }
-  #topGameHud > div:last-child > .cinema-hud:first-child { padding: 4px 8px; gap: 8px; }
-  #topGameHud > div:last-child > div:first-child > div:first-child > div:first-child > span:first-child { font-size: 8px; line-height: 11px; letter-spacing: 0; }
-  #actorHeartNum { font-size: 16px; line-height: 20px; }
-  #ekgPulseCanvas { width: 60px; height: 18px; }
-  #bottomGameHud { gap: 4px; padding: 0 16px 8px; }
-  #bottomGameHud > div:last-child > div:first-child { display: none; }
-  #cinematicSubtitleBox { width: 100%; max-width: none; min-height: 68px; grid-template-columns: 74px minmax(0,1fr); gap: 14px; padding: 10px 16px; }
-  #cinematicSpeakerName { font-size: 13px; }
-  #speakerSideBadge { font-size: 8px; padding: 2px 4px; white-space: nowrap; }
-  #cinematicSubtitleText { font-size: 16px; line-height: 1.5; }
-  #bottomGameHud .runway-track { height: 18px; }
-  #lossThresholdLabel, #winThresholdLabel, #tensionDistanceLabel { font-size: 9px; }
+  #gameHeader { height: 40px; padding: 0 20px; gap: 14px; }
+  .game-wordmark { font-size: 23px; }
+  #sceneContextTitle { font-size: 11px; max-width: 320px; }
+  .game-heading { gap: 12px; }
+  .game-tools button, #scenarioSelect { height: 28px; }
+  #scenarioSelect { width: 180px; }
+  .game-tools button > span { display: none; }
+  #topGameHud { padding: 5px 16px 0; }
+  .romance-status { width: 450px; grid-template-columns: minmax(0,1fr) 45px minmax(0,1fr); padding: 8px 22px 6px; column-gap: 8px; row-gap: 3px; border-radius: 12px 12px 18px 18px; }
+  .status-label { font-size: 11px; line-height: 1.2; }
+  #playerStatusTitle { gap: 5px; }
+  #roundCurrent, #actorHeartNum { font-size: 32px; }
+  #roundTotal, .round-divider { font-size: 17px; }
+  .round-unit { font-size: 11px; }
+  .heart-connection svg { width: 33px; height: 37px; }
+  .heart-connection::before, .heart-connection::after { width: 9px; }
+  .heart-connection::before { left: -4px; }
+  .heart-connection::after { right: -4px; }
+  .pulse-reading { gap: 10px; }
+  #ekgPulseCanvas { width: 60px; height: 20px; }
+  .opponent-hand { gap: 4px; height: 11px; }
+  #opponentHandHeaderLabel { font-size: 11px; }
+  #romanceStatus .opponent-hand > div { width: 8px; height: 10px; }
+  #romanceStatus .opponent-hand > div > span { font-size: 11px; }
+  #playerStatusHint { display: block; font-size: 11px; }
+  .response-clock { font-size: 11px; }
+  #timerText { font-size: 11px; }
+  .response-line { gap: 3px 10px; margin-top: 0; }
+  #bottomGameHud { gap: 5px; padding: 18px 16px 8px; }
+  #cinematicSubtitleBox { min-height: 66px; max-width: none; padding: 17px 24px 10px; border-radius: 4px 15px 4px 15px; }
+  #cinematicSubtitleBox > .dialogue-speaker:first-child { left: 20px; top: -12px; min-width: 120px; gap: 10px; padding: 5px 13px; }
+  #speakerSideBadge { font-size: 11px; }
+  #cinematicSpeakerName { font-size: 15px; }
+  #cinematicSubtitleText { font-size: 15px; line-height: 1.55; padding-right: 14px; }
+  .dialogue-sign { width: 22px; height: 17px; }
+  .runway-track { height: 18px; }
+  #lossThresholdLabel, #winThresholdLabel { font-size: 11px; }
+  #tensionDistanceLabel { font-size: 11px; }
+  .hand-section { width: min(560px,100%); gap: 5px; }
+  .affinity-legend { grid-template-columns: 55px minmax(0,1fr); padding: 3px 9px; }
+  .affinity-heading { font-size: 11px; }
+  .affinity-link { gap: 5px; font-size: 11px; padding: 0; }
+  .affinity-from svg { width: 11px; height: 11px; }
+  #handRules { display: none; }
+  #playerHandContainer { width: 424px; max-width: 100%; gap: 8px; }
   #playerStanceWrapper { width: 38vw; height: 70dvh; left: 0; bottom: 24px; }
   #opponentStanceWrapper { width: 38vw; height: 64dvh; right: 0; bottom: 42px; }
-  #playerNameplate, #opponentNameplate { bottom: -23px; top: auto; }
-  .judgement-fx { top: 29%; width: 54%; gap: 3px; }
-  .judgement-title { font-size: 35px; }
-  .judgement-proof { font-size: 10px; }
-  .judgement-damage { font-size: 23px; }
+  #playerNameplate, #opponentNameplate { top: auto; bottom: -23px; padding: 3px 7px; }
+  #clashStageContainer { position: absolute; left: 50%; top: 7px; width: 200px; transform: translateX(-50%); margin: 0; z-index: 27; }
+  #playerClashSlot, #opponentClashSlotWrapper { width: 60px; height: 74px; }
+  #clashResultBanner { font-size: 11px; padding: 3px 7px; }
+  #mainGameStage[data-resolving="true"] .romance-status { opacity: .1; }
+  .judgement-fx { top: 18%; width: 54%; gap: 3px; }
+  .judgement-title { font-size: 32px; }
+  .judgement-proof { font-size: 11px; }
+  .judgement-damage { font-size: 22px; }
 }
-
-@media (prefers-reduced-motion: reduce) { .judgement-enter { animation: none; } .judgement-fx { filter: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .judgement-enter, .actor-breathing { animation: none; }
+  .judgement-fx { filter: none; }
+  .deck-card, #tensionPointer, #turnTimerProgress { transition: none !important; }
+}

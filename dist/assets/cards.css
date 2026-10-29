@@ -4,17 +4,17 @@
 #bottomGameHud { grid-row: 3; }
 #bottomGameHud > div:last-child { max-width: 560px; }
 #playerHandContainer { gap: 12px; }
-#playerHandContainer .deck-card, .deck-card { position: relative; display: block; width: 100%; height: 140px; padding: 0; overflow: hidden; border: 1px solid #756854; border-radius: 8px; background: #16151c; color: #f7f0e6; text-align: left; cursor: pointer; box-shadow: 0 5px 12px rgba(0,0,0,.3); transition: transform .2s ease,border-color .2s ease; }
+#playerHandContainer .deck-card, .deck-card { position: relative; display: block; width: 100%; height: 134px; padding: 0; overflow: hidden; border: 1px solid transparent; border-radius: 12px; background: var(--paper,#fff8fa); color: var(--ink,#493144); text-align: left; cursor: pointer; box-shadow: 0 6px 16px rgba(39,18,36,.2); transition: transform .2s ease,border-color .2s ease; }
 .deck-card__suit { position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--card-accent); }
 .deck-card__suit svg { width: 15px; height: 15px; }
-.deck-card__rank { position: absolute; top: 33px; left: 0; right: 0; height: 39px; display: grid; place-items: center; color: #fff5df; font: 700 36px/1 'Cinzel',Georgia,serif; }
-.deck-card__rank svg { width: 28px; height: 28px; color: #e8d6af; }
+.deck-card__rank { position: absolute; top: 30px; left: 0; right: 0; height: 39px; display: grid; place-items: center; color: var(--rose-deep,#753950); font: 400 38px/1 var(--font-display,serif); }
+.deck-card__rank svg { width: 28px; height: 28px; color: var(--card-accent); }
 .deck-card__caption { position: absolute; bottom: 10px; left: 9px; right: 9px; display: flex; flex-direction: column; gap: 3px; text-align: center; }
-.deck-card__name { color: #f7e9cf; font-size: 13px; line-height: 1.25; font-weight: 700; }
-.deck-card__counter { font-size: 10px; line-height: 1.3; color: var(--card-accent); }
+.deck-card__name { color: var(--ink,#493144); font-size: 14px; line-height: 1.25; font-weight: 400; }
+.deck-card__counter { font-size: 11px; line-height: 1.3; color: var(--card-accent); }
 .deck-card__counter:empty { display: none; }
-.deck-card__effect { font-size: 10px; line-height: 1.35; color: #e8dcc8; }
-#playerHandContainer .deck-card:hover:not(:disabled),#playerHandContainer .deck-card:focus-visible { transform: translateY(-6px) !important; border-color: #efd29a; box-shadow: 0 8px 17px rgba(0,0,0,.42); }
+.deck-card__effect { font-size: 11px; line-height: 1.35; color: var(--ink-soft,#78576a); white-space: pre-line; }
+#playerHandContainer .deck-card:hover:not(:disabled),#playerHandContainer .deck-card:focus-visible { transform: translateY(-6px) !important; border-color: var(--card-accent); box-shadow: 0 10px 20px rgba(39,18,36,.23); }
 #playerHandContainer .deck-card:active:not(:disabled) { transform: translateY(-2px) !important; }
 .deck-card:disabled { cursor: default; }
 #clashStageContainer { position: relative; top: auto; left: auto; width: 344px; max-width: calc(100% - 20px); margin: 0 0 9px; padding: 0; transform: none; grid-row: 2; align-self: end; justify-self: center; }
@@ -41,13 +41,13 @@
 @media (max-width:767px) {
   #playerHandContainer { gap: 6px; }
   #playerHandContainer .deck-card { height: 128px; }
-  .deck-card__suit { top: 8px; left: 7px; gap: 3px; font-size: 10px; }
+  .deck-card__suit { top: 8px; left: 7px; gap: 3px; font-size: 11px; }
   .deck-card__suit svg { width: 12px; height: 12px; }
   .deck-card__rank { top: 29px; height: 34px; font-size: 29px; }
   .deck-card__rank svg { width: 25px; height: 25px; }
   .deck-card__caption { bottom: 8px; left: 6px; right: 6px; gap: 2px; }
   .deck-card__name { font-size: 11px; }
-  .deck-card__counter,.deck-card__effect { font-size: 9px; }
+  .deck-card__counter,.deck-card__effect { font-size: 11px; }
   #clashStageContainer { width: 232px; margin-bottom: 8px; }
   #clashStageContainer > div:last-child { gap: 8px; }
   #playerClashSlot,#opponentClashSlotWrapper { width: 90px; height: 112px; }
@@ -64,14 +64,14 @@
 @media (max-height:560px) and (min-width:768px) {
   #bottomGameHud > div:last-child { max-width: 424px; }
   #playerHandContainer { gap: 8px; }
-  #playerHandContainer .deck-card { height: 96px; }
-  .deck-card__suit { top: 6px; left: 7px; font-size: 9px; gap: 3px; }
+  #playerHandContainer .deck-card { height: 104px; }
+  .deck-card__suit { top: 6px; left: 7px; font-size: 11px; gap: 3px; }
   .deck-card__suit svg { width: 11px; height: 11px; }
   .deck-card__rank { top: 22px; height: 25px; font-size: 23px; }
   .deck-card__rank svg { width: 21px; height: 21px; }
   .deck-card__caption { bottom: 6px; left: 6px; right: 6px; gap: 1px; }
-  .deck-card__name { font-size: 10px; }
-  .deck-card__counter,.deck-card__effect { font-size: 8px; }
+  .deck-card__name { font-size: 11px; }
+  .deck-card__counter,.deck-card__effect { font-size: 11px; }
   #clashStageContainer { position: absolute; grid-row: 1; top: 4px; left: 53%; width: 214px; margin: 0; transform: translateX(-50%); }
   #clashStageContainer > div:last-child { display: flex; gap: 8px; }
   #playerClashSlot,#opponentClashSlotWrapper { width: 60px; height: 74px; }

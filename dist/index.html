@@ -2,22 +2,16 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>舌战</title>
   <meta name="description" content="舌战：双人卡牌对峙，在直球、试探和掩饰之间出牌交锋，体验三幕故事。">
-  <meta name="theme-color" content="#09070d">
+  <meta name="theme-color" content="#f7eaf0">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/character-pink.png" as="image">
   <link rel="preload" href="assets/character-suit.png" as="image">
   <!-- Precompiled Tailwind CSS; no runtime CDN dependency. -->
   <link rel="stylesheet" href="assets/tailwind.css">
-  <link rel="stylesheet" href="assets/stage.css">
-  <link rel="stylesheet" href="assets/cards.css?v=4">
-  <link rel="stylesheet" href="assets/duel-ui.css?v=4">
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Noto+Serif+SC:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/ZCOOLXiaoWei-Regular.ttf" as="font" type="font/ttf" crossorigin>
 
 <style>
     :root {
@@ -42,9 +36,9 @@
     }
 
     /* Fallback utility classes in case Tailwind config loads asynchronously */
-    .text-cinemaGold { color: #dfb76c !important; }
-    .bg-cinemaGold { background-color: #dfb76c !important; }
-    .border-cinemaGold { border-color: #dfb76c !important; }
+    .text-cinemaGold { color: var(--rose-deep, #753950); }
+    .bg-cinemaGold { background-color: var(--plum, #52354d); }
+    .border-cinemaGold { border-color: var(--gold-soft, #c6ab8a); }
     .bg-cinemaRed { background-color: #e11d48 !important; }
     .border-cinemaRed { border-color: #e11d48 !important; }
     .text-cinemaRed { color: #e11d48 !important; }
@@ -274,47 +268,36 @@
       border: 1px solid rgba(232, 121, 249, 0.55);
     }
   </style>
+  <link rel="stylesheet" href="assets/stage.css">
+  <link rel="stylesheet" href="assets/cards.css?v=5">
+  <link rel="stylesheet" href="assets/duel-ui.css?v=5">
 </head>
 <body class="h-screen w-screen overflow-hidden flex flex-col bg-obsidian select-none">
 
   <!-- ========================================================
        TOP FILM LETTERBOX BAR: SCENARIO, AUDIO & CONFIG CONTROLS
        ======================================================== -->
-  <header id="gameHeader" class="relative z-40 h-11 w-full bg-black/95 border-b border-white/10 px-3 sm:px-6 flex items-center justify-between shrink-0">
-    <div class="flex items-center space-x-2 sm:space-x-3">
-      <span class="px-2 py-0.5 rounded bg-rose-500/20 border border-rose-400/40 text-[10px] font-cinzel text-rose-300 font-bold tracking-wider">
-        舌战
-      </span>
-      <h1 id="sceneContextTitle" class="text-xs sm:text-sm font-bold text-cinemaGold tracking-wide truncate max-w-[180px] sm:max-w-md">
-        深夜私人书房 · 禁欲执行官的午夜破防
-      </h1>
+  <header id="gameHeader" class="relative z-40 shrink-0">
+    <div class="game-heading">
+      <span class="game-wordmark">舌战</span>
+      <h1 id="sceneContextTitle">深夜私人书房 · 禁欲执行官的午夜破防</h1>
     </div>
-
-    <div class="flex items-center space-x-2">
-      <!-- Scenario Selector -->
-      <select id="scenarioSelect" class="bg-white/5 border border-cinemaGold/40 rounded-lg px-2 py-1 text-[11px] text-rose-100 outline-none focus:border-cinemaGold cursor-pointer">
-        <option value="scenario_ceo" class="bg-slate-950 text-white">剧本1：深夜书房 · 陆衍 (禁欲执行官)</option>
-        <option value="scenario_fox" class="bg-slate-950 text-white">剧本2：假面舞会 · 齐枭 (白切黑幼子)</option>
-        <option value="scenario_master" class="bg-slate-950 text-white">剧本3：竹影仙门 · 百里华 (清冷师尊)</option>
+    <nav class="game-tools" aria-label="游戏设置">
+      <select id="scenarioSelect" aria-label="切换剧情">
+        <option value="scenario_ceo">深夜书房 · 陆衍</option>
+        <option value="scenario_fox">假面舞会 · 齐枭</option>
+        <option value="scenario_master">竹影仙门 · 百里华</option>
       </select>
-
-      <!-- Replace Actor Portrait Button -->
-      <button id="openSpriteModalBtn" aria-label="设置场景与立绘" title="设置场景与立绘" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 border border-cinemaGold/40 text-[11px] text-cinemaGold transition flex items-center space-x-1">
-        <span>🖼️</span>
-        <span class="hidden sm:inline">场景/立绘</span>
+      <button id="openSpriteModalBtn" aria-label="设置场景与立绘" title="场景与立绘">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.5"/><path d="m4 17 5-5 4 4 3-3 4 4"/></svg><span>场景</span>
       </button>
-
-      <!-- JSON Config Modal Button -->
-      <button id="openConfigModalBtn" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 text-[11px] text-white/80 transition flex items-center space-x-1">
-        <span>⚙</span>
-        <span class="hidden sm:inline">配置表</span>
+      <button id="openConfigModalBtn" aria-label="剧情与对局设置" title="剧情与对局设置">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></svg><span>设置</span>
       </button>
-
-      <!-- Audio Toggle Button -->
-      <button id="toggleAudioBtn" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/15 flex items-center justify-center text-xs text-cinemaGold transition" title="音效开关">
-        🔊
+      <button id="toggleAudioBtn" aria-label="关闭音效" aria-pressed="true" title="关闭音效">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m11 4-6 5H2v6h3l6 5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/><path class="sound-muted" d="m16 9 6 6m0-6-6 6"/></svg>
       </button>
-    </div>
+    </nav>
   </header>
 
   <!-- ========================================================
@@ -442,66 +425,27 @@
     <!-- ========================================================
          TOP HUD: Left (Player Turn & Timer) vs Right (Opponent Pulse & Hand)
          ======================================================== -->
-    <div id="topGameHud" class="relative z-20 w-full px-3 sm:px-6 pt-2.5 flex items-start justify-between pointer-events-none">
-      
-      <!-- LEFT TOP: Player Stance & Turn Countdown -->
-      <div class="flex flex-col items-start space-y-1.5">
-        <div class="cinema-hud rounded-xl px-3 py-1.5 flex items-center space-x-3 border border-rose-400/40 shadow-lg">
-          <div class="flex items-center space-x-1.5">
-            <span class="text-sm">⚔</span>
-            <div class="flex flex-col">
-              <span id="playerStatusTitle" class="text-[10px] uppercase font-cinzel text-rose-300 font-bold tracking-wider"><span class="desktop-stance-label">YOUR STANCE · </span>我方出牌</span>
-              <span id="playerStatusHint" class="text-[11px] text-white/90 font-medium">点击下方手牌，向对手出招</span>
-            </div>
-          </div>
-          <div class="h-6 w-px bg-white/10"></div>
-          <!-- 10s Countdown Bar -->
-          <div class="flex flex-col items-end">
-            <div class="flex items-center space-x-1.5">
-              <span class="text-[9px] text-cinemaGold font-mono">倒计时</span>
-              <span id="timerText" class="text-xs font-mono text-white font-bold">10s</span>
-            </div>
-            <div class="w-16 sm:w-24 h-1.5 bg-black/60 rounded-full overflow-hidden border border-white/10 mt-0.5">
-              <div id="turnTimerProgress" class="h-full bg-gradient-to-r from-rose-500 to-cinemaGold transition-all duration-150 ease-linear" style="width: 100%;"></div>
-            </div>
+    <div id="topGameHud">
+      <section id="romanceStatus" class="romance-status" aria-label="回合与心率">
+        <div class="round-display">
+          <span class="status-label">交锋回合</span>
+          <span id="playerStatusTitle" aria-label="第1回合，共10回合"><strong id="roundCurrent">01</strong><span class="round-divider">/</span><span id="roundTotal">10</span><span class="round-unit">回合</span></span>
+        </div>
+        <div class="heart-connection" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 37 9 23C0 13 14 3 24 15 34 3 48 13 39 23Z"/><path d="m24 3 2 4-2 4-2-4Zm0 36 2 4-2 4-2-4Z"/></svg></div>
+        <div class="pulse-display">
+          <div class="pulse-heading"><span id="heartNameLabel" class="status-label">陆衍的心率</span><span id="rageTag" class="hidden">心跳失序</span></div>
+          <div class="pulse-reading"><strong id="actorHeartNum">22%</strong><canvas id="ekgPulseCanvas" width="112" height="30" aria-hidden="true"></canvas></div>
+          <div class="opponent-hand" aria-label="对方手牌">
+            <span id="opponentHandHeaderLabel">陆衍的手牌</span>
+            <div id="aiHandSlot0"><span>?</span></div><div id="aiHandSlot1"><span>?</span></div><div id="aiHandSlot2"><span>?</span></div><div id="aiHandSlot3"><span>?</span></div>
           </div>
         </div>
-      </div>
-
-      <!-- RIGHT TOP: Opponent Heart Rate Monitor & His 4 Hidden Cards -->
-      <div class="flex flex-col items-end space-y-1.5">
-        <!-- Heart Rate & EKG Monitor -->
-        <div class="cinema-hud rounded-xl px-3 py-1.5 flex items-center space-x-3 border border-sky-400/40 shadow-lg">
-          <div class="flex flex-col">
-            <div class="flex items-center space-x-1.5">
-              <span class="text-[10px] uppercase font-cinzel text-sky-300 font-bold tracking-wider">HIS PULSE · 对手心率</span>
-              <span id="rageTag" class="hidden text-[8px] px-1 bg-cinemaRed text-white rounded font-mono font-bold animate-pulse">OVERLOAD</span>
-            </div>
-            <div class="flex items-baseline space-x-1">
-              <span id="actorHeartNum" class="text-lg sm:text-xl font-mono font-black text-rose-400">22%</span>
-              <span class="text-[9px] text-white/40 font-mono">BPM</span>
-            </div>
-          </div>
-          <canvas id="ekgPulseCanvas" width="84" height="24" class="w-[84px] h-[24px] bg-black/40 rounded border border-white/5"></canvas>
+        <div class="response-line">
+          <span id="playerStatusHint">选择一句回应，听见他的心跳。</span>
+          <div class="response-clock"><span id="timerLabel">回应倒计时</span><strong id="timerText">10s</strong></div>
+          <div class="response-progress" role="progressbar" aria-label="回应倒计时" aria-valuemin="0" aria-valuemax="10" aria-valuenow="10"><div id="turnTimerProgress" style="width:100%"></div></div>
         </div>
-
-        <!-- Opponent's 4 Hidden Face-Down Cards -->
-        <div class="cinema-hud px-2.5 py-1 rounded-lg border border-sky-400/30 flex items-center space-x-1 sm:space-x-1.5">
-          <span id="opponentHandHeaderLabel" class="text-[10px] text-sky-300 font-bold mr-1 tracking-wider">陆衍的手牌:</span>
-          <div id="aiHandSlot0" class="w-5 h-8 sm:w-6 sm:h-9 rounded border border-sky-400/50 bg-gradient-to-br from-sky-950 to-black flex items-center justify-center shadow-lg transition-all duration-200">
-            <span class="text-[9px] text-sky-300/80 font-cinzel">🛡</span>
-          </div>
-          <div id="aiHandSlot1" class="w-5 h-8 sm:w-6 sm:h-9 rounded border border-sky-400/50 bg-gradient-to-br from-sky-950 to-black flex items-center justify-center shadow-lg transition-all duration-200">
-            <span class="text-[9px] text-sky-300/80 font-cinzel">🛡</span>
-          </div>
-          <div id="aiHandSlot2" class="w-5 h-8 sm:w-6 sm:h-9 rounded border border-sky-400/50 bg-gradient-to-br from-sky-950 to-black flex items-center justify-center shadow-lg transition-all duration-200">
-            <span class="text-[9px] text-sky-300/80 font-cinzel">🛡</span>
-          </div>
-          <div id="aiHandSlot3" class="w-5 h-8 sm:w-6 sm:h-9 rounded border border-sky-400/50 bg-gradient-to-br from-sky-950 to-black flex items-center justify-center shadow-lg transition-all duration-200">
-            <span class="text-[9px] text-sky-300/80 font-cinzel">🛡</span>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
 
     <!-- ========================================================
@@ -512,7 +456,7 @@
       <!-- Top Floating Outcome Status Pill -->
       <div class="w-full flex justify-center mb-2.5">
         <div id="clashResultBanner" class="px-4 py-1 rounded-full text-xs font-cinzel uppercase tracking-widest font-bold shadow-2xl bg-black/90 backdrop-blur-md border border-cinemaGold text-cinemaGold transition-all duration-300 text-center">
-          CARDS COMMITTED · DUEL INITIATED
+          心弦交锋
         </div>
       </div>
 
@@ -522,7 +466,7 @@
         <!-- LEFT WING: PLAYER CARD -->
         <div class="flex flex-col items-center space-y-1">
           <div class="flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-rose-950/95 border border-rose-400 shadow-lg">
-            <span class="text-[10px] text-rose-300">👈 ⚔</span>
+            <span class="text-[10px] text-rose-300">我的回应</span>
             <span class="text-[10px] font-bold text-rose-100 tracking-wider">左方【你】打出</span>
           </div>
 
@@ -559,7 +503,7 @@
           </div>
           <div id="clashSparkFx" class="absolute w-28 sm:w-44 h-1 arena-boundary-line opacity-0 transition-opacity duration-200 flex items-center justify-center">
             <div class="px-2.5 py-0.5 rounded-full bg-cinemaRed border border-white text-white font-cinzel font-black text-[10px] shadow-[0_0_25px_#e11d48] whitespace-nowrap">
-              ⚡ 交锋判定 ⚡
+              交锋判定
             </div>
           </div>
         </div>
@@ -568,7 +512,7 @@
         <div class="flex flex-col items-center space-y-1">
           <div class="flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-sky-950/95 border border-sky-400 shadow-lg">
             <span id="opponentSlotOwnerTag" class="text-[10px] font-bold text-sky-100 tracking-wider">右方【陆衍】打出</span>
-            <span class="text-[10px] text-sky-300">🛡 👉</span>
+            <span class="text-[10px] text-sky-300">他的回应</span>
           </div>
 
           <div id="opponentClashSlotWrapper" class="w-36 h-44 sm:w-44 sm:h-52 flip-card-perspective">
@@ -617,55 +561,22 @@
     <!-- ========================================================
          BOTTOM HUD: SUBTITLE BOX, 3D TENSION RUNWAY & HAND CARDS
          ======================================================== -->
-    <div id="bottomGameHud" class="relative z-30 w-full px-3 sm:px-6 pb-2.5 flex flex-col items-center space-y-2 bg-gradient-to-t from-black via-black/90 to-transparent pt-4">
-      
-      <!-- Natural Movie Subtitle Box -->
-      <div id="cinematicSubtitleBox" class="w-full max-w-2xl px-4 py-1.5 rounded-xl cinema-hud gold-foil-border min-h-[52px] flex flex-col justify-center items-center shadow-lg transition-all duration-300">
-        <div class="flex items-center space-x-2 mb-0.5">
-          <span id="speakerSideBadge" class="text-[9px] px-1.5 py-0.2 rounded bg-sky-500/30 text-sky-200 border border-sky-400/40 font-mono">👉 右侧 · 对方</span>
-          <p id="cinematicSpeakerName" class="text-xs text-cinemaGold font-cinzel uppercase tracking-widest font-bold">陆衍</p>
-        </div>
-        <p id="cinematicSubtitleText" class="text-xs sm:text-sm text-rose-100 font-light tracking-wide leading-snug text-center">
-          “深夜擅自来到我的私人书房，你做好承担后果的准备了么？”
-        </p>
+    <div id="bottomGameHud">
+      <div id="cinematicSubtitleBox" data-speaker="OPPONENT">
+        <div class="dialogue-speaker"><span id="speakerSideBadge">他的回应</span><p id="cinematicSpeakerName">陆衍</p></div>
+        <p id="cinematicSubtitleText">“深夜擅自来到我的私人书房，你做好承担后果的准备了么？”</p>
+        <svg class="dialogue-sign" viewBox="0 0 36 28" aria-hidden="true"><path d="M18 23 5 11C-1 3 10-3 18 6c8-9 19-3 13 5Z"/><path d="M1 26h10m14 0h10"/></svg>
       </div>
-
-      <!-- Tension runway; bounds are rendered from GAME_CONFIG.rules. -->
-      <div class="w-full max-w-2xl perspective-runway">
-        <div class="runway-track relative h-6 rounded-full px-4 flex items-center justify-between">
-          <span id="lossThresholdLabel" class="text-[9px] sm:text-[10px] font-bold text-sky-300 tracking-wider z-10">-8 对方主导</span>
-          
-          <!-- Center Graduations -->
-          <div class="absolute inset-x-24 flex items-center justify-between pointer-events-none opacity-40">
-            <span class="w-1 h-2 bg-white/50 rounded"></span>
-            <span class="w-1 h-2 bg-white/50 rounded"></span>
-            <span class="w-1.5 h-3 bg-cinemaGold rounded"></span>
-            <span class="w-1 h-2 bg-white/50 rounded"></span>
-            <span class="w-1 h-2 bg-white/50 rounded"></span>
-          </div>
-
-          <span id="tensionDistanceLabel" class="text-[10px] font-mono font-bold text-cinemaGold z-10 bg-black/70 px-2 py-0.2 rounded-full border border-cinemaGold/30">
-            PROXIMITY : 0
-          </span>
-
-          <span id="winThresholdLabel" class="text-[9px] sm:text-[10px] font-bold text-rose-300 tracking-wider z-10">+8 我方主导</span>
-
-          <!-- Sliding Jeweled Marker -->
-          <div id="tensionPointer" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-rose-400 via-cinemaGold to-rose-600 border-2 border-white shadow-[0_0_15px_#f43f5e] transition-all duration-500 z-20" style="left: 50%;"></div>
-        </div>
+      <div class="perspective-runway" aria-label="交锋进度">
+        <div class="runway-track"><span id="lossThresholdLabel">-8 对方主导</span><span id="tensionDistanceLabel">交锋 0 / 8</span><span id="winThresholdLabel">+8 我方主导</span><div id="tensionPointer" style="left:50%" aria-hidden="true"></div></div>
       </div>
-
-      <!-- Player 4-Card Interactive Hand Tray -->
-      <div class="w-full max-w-3xl flex flex-col items-center">
-        <div class="flex items-center justify-between w-full px-2 mb-1 text-[10px] text-white/60">
-          <span id="handRules">👈 点击下方手牌向右侧【对手】出招（直球 ⚔ 克 掩饰 🛡 | 掩饰 🛡 克 试探 ❧ | 试探 ❧ 克 直球 ⚔）</span>
-          <span id="turnCounterBadge" class="font-mono text-cinemaGold">第 1 / 10 回合</span>
-        </div>
-        <div id="playerHandContainer" class="w-full grid grid-cols-4 gap-2 sm:gap-3.5 pt-1 pb-1 pointer-events-auto">
-          <!-- Dynamically populated by renderPlayerHand() -->
-        </div>
-      </div>
-
+      <section class="hand-section" aria-label="选择你的回应">
+        <aside id="affinityLegend" class="affinity-legend" aria-label="克制关系图例">
+          <strong class="affinity-heading">克制关系</strong><div id="affinityRelations" class="affinity-relations"></div><p id="handRules">箭头指向被克制的一方；同属性比点数。</p>
+        </aside>
+        <span id="turnCounterBadge" hidden>第1/10回合</span>
+        <div id="playerHandContainer" class="grid grid-cols-4" aria-label="你的四张手牌"></div>
+      </section>
     </div>
 
     <!-- ========================================================
@@ -694,10 +605,10 @@
         </p>
         <div class="w-full border-t border-white/10 pt-4 flex items-center justify-center space-x-3">
           <button id="replayScenarioBtn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold shadow-lg transition">
-            ↻ 重新体验本幕交锋
+            再一次靠近
           </button>
           <button id="nextScenarioBtn" class="px-5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-cinemaGold/50 text-cinemaGold text-xs font-bold transition">
-            ▶ 切换下一对手剧本
+            走进下一幕
           </button>
         </div>
       </div>
@@ -715,7 +626,7 @@
           <h3 class="text-sm font-bold font-cinzel text-cinemaGold">本幕场景与双人立绘</h3>
           <p class="text-[10px] text-white/50">场景随剧本切换，也可在这里更换。本次应用仅在当前页面生效。</p>
         </div>
-        <button id="closeSpriteBtn" class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs text-white/70 hover:text-white">✕</button>
+        <button id="closeSpriteBtn" type="button" aria-label="关闭设置" class="modal-close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12m0-12L6 18"/></svg></button>
       </div>
 
       <div class="space-y-2.5 text-xs">
@@ -767,10 +678,10 @@
     <div class="cinema-hud w-full max-w-2xl rounded-2xl p-5 border border-cinemaGold/40 flex flex-col max-h-[90vh]">
       <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
         <div>
-          <h3 class="text-sm font-bold font-cinzel text-cinemaGold">GAME_CONFIG · 实时剧本与规则配置表</h3>
+          <h3 class="text-sm font-bold font-cinzel text-cinemaGold">剧情与对局设置</h3>
           <p class="text-[10px] text-white/50">修改 JSON 中的台词、人物属性或生克倍率后点击应用即可实时生效</p>
         </div>
-        <button id="closeConfigBtn" class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs text-white/70 hover:text-white">✕</button>
+        <button id="closeConfigBtn" type="button" aria-label="关闭设置" class="modal-close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12m0-12L6 18"/></svg></button>
       </div>
 
       <textarea id="configTextarea" class="w-full flex-1 min-h-[300px] bg-black/90 border border-white/15 rounded-xl p-3 text-[11px] font-mono text-emerald-300 outline-none focus:border-cinemaGold resize-none"></textarea>
@@ -1196,7 +1107,7 @@
 
     function renderEKG() {
       ekgCtx.clearRect(0, 0, ekgCanvas.width, ekgCanvas.height);
-      ekgCtx.strokeStyle = heartRate >= 75 ? '#f43f5e' : '#38bdf8';
+      ekgCtx.strokeStyle = heartRate >= 75 ? '#a63d6a' : '#a3758c';
       ekgCtx.lineWidth = 1.5;
       ekgCtx.beginPath();
 
@@ -1261,26 +1172,13 @@
     }
 
     function setSubtitleSpeaker(speakerType, customName, text) {
-      const sideBadge = document.getElementById('speakerSideBadge');
-      const speakerEl = document.getElementById('cinematicSpeakerName');
-      const textEl = document.getElementById('cinematicSubtitleText');
-      const boxEl = document.getElementById('cinematicSubtitleBox');
-
-      if (speakerType === 'PLAYER') {
-        sideBadge.textContent = '👈 左侧 · 我方';
-        sideBadge.className = 'text-[9px] px-1.5 py-0.2 rounded bg-rose-500/30 text-rose-200 border border-rose-400/50 font-mono';
-        speakerEl.textContent = customName || '你';
-        speakerEl.className = 'text-xs text-rose-300 font-cinzel uppercase tracking-widest font-bold';
-        boxEl.style.borderColor = 'rgba(251, 113, 133, 0.55)';
-      } else {
-        sideBadge.textContent = '👉 右侧 · 对方';
-        sideBadge.className = 'text-[9px] px-1.5 py-0.2 rounded bg-sky-500/30 text-sky-200 border border-sky-400/50 font-mono';
-        speakerEl.textContent = customName;
-        speakerEl.className = 'text-xs text-sky-300 font-cinzel uppercase tracking-widest font-bold';
-        boxEl.style.borderColor = 'rgba(56, 189, 248, 0.55)';
-      }
-      textEl.textContent = text;
+      const mine = speakerType === 'PLAYER';
+      document.getElementById('speakerSideBadge').textContent = mine ? '我的回应' : '他的回应';
+      document.getElementById('cinematicSpeakerName').textContent = customName || '你';
+      document.getElementById('cinematicSubtitleText').textContent = text;
+      document.getElementById('cinematicSubtitleBox').dataset.speaker = mine ? 'PLAYER' : 'OPPONENT';
     }
+
 
     function renderPlayerHeroineSVG() {
       const container = document.getElementById('playerSvgContainer');
@@ -1346,7 +1244,7 @@
       const pedName = document.getElementById('opponentPedestalName');
       const handHeader = document.getElementById('opponentHandHeaderLabel');
       if (pedName) pedName.textContent = `${scen.characterName} · ${scen.actorTag}`;
-      if (handHeader) handHeader.textContent = `${scen.characterName}的手牌:`;
+      if (handHeader) handHeader.textContent = '手牌';
 
       // Render Left Heroine (Player)
       const pImg = document.getElementById('playerActorImg');
@@ -1465,13 +1363,20 @@
         oWrap.style.transform = `translateX(${shiftPx}px) scale(${oScale})`;
       }
 
-      const roundText = `第 ${Math.min(turn, GAME_CONFIG.rules.maxRounds)} / ${GAME_CONFIG.rules.maxRounds} 回合`;
-      document.getElementById('playerStatusTitle').textContent = roundText;
+      const stage = document.getElementById('mainGameStage');
+      const finish = DuelRules.getFinish(distance, turn - 1, GAME_CONFIG.rules);
+      const displayRound = Math.min(stage.dataset.judging === 'true' || finish ? Math.max(1, turn - 1) : turn, GAME_CONFIG.rules.maxRounds);
+      const roundText = '第 ' + displayRound + ' / ' + GAME_CONFIG.rules.maxRounds + ' 回合';
+      document.getElementById('roundCurrent').textContent = String(displayRound).padStart(2, '0');
+      document.getElementById('roundTotal').textContent = GAME_CONFIG.rules.maxRounds;
+      document.getElementById('playerStatusTitle').setAttribute('aria-label', roundText);
       document.getElementById('turnCounterBadge').textContent = roundText;
-      document.getElementById('lossThresholdLabel').textContent = `${GAME_CONFIG.rules.minDistance} 对方主导`;
-      document.getElementById('winThresholdLabel').textContent = `+${GAME_CONFIG.rules.maxDistance} 我方主导`;
-      document.getElementById('handRules').textContent = `直球克掩饰 · 掩饰克试探 · 试探克直球｜克制且领先${GAME_CONFIG.rules.crushGap}点才碾压`;
-      document.getElementById('mainGameStage').dataset.round = Math.min(turn, GAME_CONFIG.rules.maxRounds);
+      document.getElementById('lossThresholdLabel').textContent = GAME_CONFIG.rules.minDistance + ' 对方主导';
+      document.getElementById('winThresholdLabel').textContent = '+' + GAME_CONFIG.rules.maxDistance + ' 我方主导';
+      document.getElementById('heartNameLabel').textContent = GAME_CONFIG.scenarios[currentScenarioId].characterName + '的心率';
+      document.getElementById('handRules').textContent = '箭头为克制 · 同类比点数 · 克制＋领先' + GAME_CONFIG.rules.crushGap + '点→伤害' + GAME_CONFIG.rules.crushWinPush;
+      renderAffinityLegend();
+      stage.dataset.round = displayRound;
       document.getElementById('mainGameStage').dataset.completedRounds = turn - 1;
       document.getElementById('mainGameStage').dataset.distance = distance;
       actorHeartNum.textContent = `${heartRate}%`;
@@ -1525,7 +1430,7 @@
       if (card.isSpecial) {
         return {
           moveTitle: `【${card.name}】`,
-          restraintLabel: "✦ 奇策特技",
+          restraintLabel: "奇策特技",
           effectSummary: card.desc,
           quotePreview: card.quote
         };
@@ -1546,7 +1451,7 @@
 
       return {
         moveTitle,
-        restraintLabel: aff.counterLabel,
+        restraintLabel: '克 ' + GAME_CONFIG.affinities[aff.counters].name,
         effectSummary: isOpponent ? `伤害 ${GAME_CONFIG.rules.baseWinPush} · 碾压 ${GAME_CONFIG.rules.crushWinPush}` : `伤害 ${GAME_CONFIG.rules.baseWinPush} · 碾压 ${GAME_CONFIG.rules.crushWinPush}`,
         quotePreview
       };
@@ -1561,11 +1466,11 @@
     }
 
     const CARD_VISUALS = {
-      direct: { color: '#ffadab' },
-      subtle: { color: '#f4d386' },
-      rational: { color: '#a9d9f5' },
-      gaze: { color: '#e1bafa' },
-      reversal: { color: '#f7d994' }
+      direct: { color: '#a34769' },
+      subtle: { color: '#80603c' },
+      rational: { color: '#4c7476' },
+      gaze: { color: '#855f91' },
+      reversal: { color: '#965d53' }
     };
 
     function getCardVisual(card) {
@@ -1577,7 +1482,7 @@
 
     function getCardGlyph(key) {
       const paths = {
-        direct: '<path d="m4 20 4-9L17 3l4 4-8 9-9 4Zm0 0 8-8M8 11l5 5"/>',
+        direct: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
         subtle: '<circle cx="8" cy="8" r="5"/><path d="m12 12 9 9m-5-5 3-3m0 6 3-3"/>',
         rational: '<path d="M3 7q9 4 18 0v6q-3 8-9 3-6 5-9-3Z"/><path d="M6 11h3m6 0h3"/>',
         gaze: '<path d="M2 12q10-14 20 0-10 14-20 0Z"/><circle cx="12" cy="12" r="3"/>',
@@ -1586,6 +1491,38 @@
       };
       return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">${paths[key]}</svg>`;
     }
+
+    function renderAffinityLegend() {
+      const container = document.getElementById('affinityRelations');
+      container.replaceChildren();
+      const order = ['DIRECT', 'RATIONAL', 'SUBTLE'];
+      for (const [key, affinity] of Object.entries(GAME_CONFIG.affinities).sort(function (a,b) { return order.indexOf(a[0]) - order.indexOf(b[0]); })) {
+        const target = GAME_CONFIG.affinities[affinity.counters];
+        const relation = document.createElement('div');
+        relation.className = 'affinity-link';
+        relation.dataset.affinity = key;
+        relation.setAttribute('aria-label', affinity.name + '克制' + target.name);
+        relation.style.setProperty('--affinity-accent', CARD_VISUALS[key.toLowerCase()].color);
+        relation.innerHTML = '<span class="affinity-from">' + getCardGlyph(key.toLowerCase()) + '<b></b></span><svg class="affinity-arrow" viewBox="0 0 24 12" aria-hidden="true"><path d="M1 6h20m-5-4 5 4-5 4"/></svg><span class="affinity-target"></span>';
+        relation.querySelector('b').textContent = affinity.name;
+        relation.querySelector('.affinity-target').textContent = target.name;
+        container.appendChild(relation);
+      }
+    }
+    function highlightAffinity(affinity) {
+      document.querySelectorAll('.affinity-link').forEach(function (el) { el.classList.toggle('is-active', el.dataset.affinity === affinity); });
+    }
+    const handSurface = document.getElementById('playerHandContainer');
+    handSurface.addEventListener('pointerover', function (event) {
+      const card = event.target.closest('button[data-affinity]');
+      if (card && !card.disabled) highlightAffinity(card.dataset.affinity);
+    });
+    handSurface.addEventListener('pointerleave', function () { highlightAffinity(''); });
+    handSurface.addEventListener('focusin', function (event) {
+      const card = event.target.closest('button[data-affinity]');
+      if (card) highlightAffinity(card.dataset.affinity);
+    });
+    handSurface.addEventListener('focusout', function () { highlightAffinity(''); });
 
     function renderPlayerHand() {
       const container = document.getElementById('playerHandContainer');
@@ -1607,6 +1544,7 @@
         cardEl.className = `card-item deck-card ${disabledClass}`;
         cardEl.disabled = isInteracting;
         cardEl.dataset.cardFamily = visual.key;
+        cardEl.dataset.affinity = card.isSpecial ? 'SPECIAL' : card.affinity;
         cardEl.style.setProperty('--card-accent', visual.color);
         cardEl.setAttribute('aria-label', `${family}，${meta.moveTitle}${card.isSpecial ? '' : `，${card.value}点`}，${counter}，${meta.effectSummary}，${meta.quotePreview}`);
         cardEl.title = `${meta.moveTitle} · ${counter}\n${meta.effectSummary}\n${meta.quotePreview}`;
@@ -1623,7 +1561,9 @@
         else cardEl.querySelector('.deck-card__rank').textContent = card.value;
         cardEl.querySelector('.deck-card__name').textContent = meta.moveTitle.replace(/[【】]/g, '');
         cardEl.querySelector('.deck-card__counter').textContent = counter;
-        cardEl.querySelector('.deck-card__effect').textContent = meta.effectSummary;
+        cardEl.querySelector('.deck-card__effect').textContent = card.isSpecial
+          ? (card.effectType === 'IMMUNE_AND_HEART' ? '抵消 · 推进0\n心率+22%' : '无视克制\n推进1')
+          : meta.effectSummary;
 
         cardEl.addEventListener('click', (e) => {
           if (isInteracting) return;
@@ -1659,7 +1599,11 @@
     function updateTimerUI() {
       const timerText = document.getElementById('timerText');
       const timerProgress = document.getElementById('turnTimerProgress');
-      if (timerText) timerText.textContent = `${turnTimeRemaining}s`;
+      if (timerText) timerText.textContent = isInteracting ? '…' : turnTimeRemaining + 's';
+      document.getElementById('timerLabel').textContent = isInteracting ? '交锋中' : '回应倒计时';
+      document.getElementById('playerStatusHint').textContent = isInteracting ? '听听他的回应…' : '选择一句回应，听见他的心跳。';
+      document.getElementById('romanceStatus').dataset.urgent = !isInteracting && turnTimeRemaining <= 3 ? 'true' : 'false';
+      document.querySelector('.response-progress').setAttribute('aria-valuenow', turnTimeRemaining);
       if (timerProgress) {
         const pct = Math.max(0, (turnTimeRemaining / 10) * 100);
         timerProgress.style.width = `${pct}%`;
@@ -1756,6 +1700,8 @@
       const epoch = matchEpoch;
       isInteracting = true;
       clearInterval(turnTimer);
+      updateTimerUI();
+      document.getElementById('mainGameStage').dataset.resolving = 'true';
 
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
       const pCard = playerHand[cardIdx];
@@ -1784,12 +1730,12 @@
       const oCallout = document.getElementById('opponentActionCallout');
 
       if (oppOwnerTag) {
-        oppOwnerTag.textContent = `右方【${scen.characterName}】打出`;
+        oppOwnerTag.textContent = scen.characterName + '的回应';
       }
 
       // Reset opponent flip card to face-down
       flipInner.classList.remove('is-flipped');
-      banner.textContent = "⚔ 左方【你】出招逼问 · 等待右方接招...";
+      banner.textContent = "你的回应已送达 · 等待他的回答…";
       banner.className = "px-4 py-1 rounded-full text-xs font-cinzel uppercase tracking-widest font-bold shadow-2xl bg-black/90 border border-cinemaGold text-cinemaGold text-center";
 
       // Populate Player Left Slot
@@ -1799,15 +1745,15 @@
       setSubtitleSpeaker('PLAYER', '你', getPlayerLine(pCard));
 
       if (pCard.isSpecial) {
-        document.getElementById('playerClashAffinityIcon').textContent = pCard.icon;
+        document.getElementById('playerClashAffinityIcon').innerHTML = getCardGlyph(getCardVisual(pCard).key);
         document.getElementById('playerClashType').textContent = "特技";
-        document.getElementById('playerClashRestraintTag').textContent = "✦ 奇策";
-        document.getElementById('playerClashVal').textContent = "★";
+        document.getElementById('playerClashRestraintTag').textContent = "奇策";
+        document.getElementById('playerClashVal').innerHTML = getCardGlyph('special');
       } else {
         const pAff = GAME_CONFIG.affinities[pCard.affinity];
-        document.getElementById('playerClashAffinityIcon').textContent = pAff.icon;
+        document.getElementById('playerClashAffinityIcon').innerHTML = getCardGlyph(pCard.affinity.toLowerCase());
         document.getElementById('playerClashType').textContent = pAff.name;
-        document.getElementById('playerClashRestraintTag').textContent = pAff.counterLabel;
+        document.getElementById('playerClashRestraintTag').textContent = pMeta.restraintLabel;
         document.getElementById('playerClashVal').textContent = pCard.value;
       }
       document.getElementById('playerClashTitle').textContent = pMeta.moveTitle;
@@ -1827,15 +1773,15 @@
           setActiveActorSpotlight('OPPONENT');
 
           if (aiCard.isSpecial) {
-            document.getElementById('opponentClashAffinityIcon').textContent = aiCard.icon;
+            document.getElementById('opponentClashAffinityIcon').innerHTML = getCardGlyph(getCardVisual(aiCard).key);
             document.getElementById('opponentClashType').textContent = "特技";
-            document.getElementById('opponentClashRestraintTag').textContent = "✦ 奇策";
-            document.getElementById('opponentClashVal').textContent = "★";
+            document.getElementById('opponentClashRestraintTag').textContent = "奇策";
+            document.getElementById('opponentClashVal').innerHTML = getCardGlyph('special');
           } else {
             const oAff = GAME_CONFIG.affinities[aiCard.affinity];
-            document.getElementById('opponentClashAffinityIcon').textContent = oAff.icon;
+            document.getElementById('opponentClashAffinityIcon').innerHTML = getCardGlyph(aiCard.affinity.toLowerCase());
             document.getElementById('opponentClashType').textContent = oAff.name;
-            document.getElementById('opponentClashRestraintTag').textContent = oAff.counterLabel;
+            document.getElementById('opponentClashRestraintTag').textContent = oMeta.restraintLabel;
             document.getElementById('opponentClashVal').textContent = aiCard.value;
           }
           document.getElementById('opponentClashTitle').textContent = oMeta.moveTitle;
@@ -1926,6 +1872,7 @@
           if (epoch !== matchEpoch) return;
           document.getElementById('judgementFx').hidden = true;
           mainStage.dataset.judging = 'false';
+          updateCinematicHUD();
           document.getElementById('clashStageContainer').classList.add('opacity-0', 'pointer-events-none');
           document.getElementById('clashStageContainer').setAttribute('aria-hidden', 'true');
           document.getElementById('playerWinCrownBadge').classList.add('hidden');
@@ -1935,6 +1882,7 @@
           renderActorFrame();
           if (!checkBranchTransition()) {
             isInteracting = false;
+            mainStage.dataset.resolving = 'false';
             renderPlayerHand();
             startCountdown();
           }
@@ -1964,8 +1912,8 @@
         pHalo.classList.remove('hidden');
         pCrown.textContent = '🏆 终局胜出 · 彻底攻破心防！';
         pCrown.classList.remove('hidden');
-        cutInIcon.textContent = '👑';
-        cutInText.textContent = `ABSOLUTE DOMINANCE · 【你】彻底击穿了${scen.characterName}的心防！`;
+        cutInIcon.innerHTML = getCardGlyph('direct');
+        cutInText.textContent = '心弦轻动 · 这一局，你赢得了' + scen.characterName + '的回应';
         spawnVictoryBurst(0.32, '#fb7185', 65);
         setTimeout(() => { if (epoch === matchEpoch) spawnVictoryBurst(0.38, '#dfb76c', 55); }, 400);
       } else {
@@ -1975,8 +1923,8 @@
         oHalo.classList.remove('hidden');
         oCrown.textContent = `🔥 终局反噬 · ${scen.characterName}掌控全局！`;
         oCrown.classList.remove('hidden');
-        cutInIcon.textContent = '🔥';
-        cutInText.textContent = `REVERSED CLIMAX · 【${scen.characterName}】反客为主掌控了全局！`;
+        cutInIcon.innerHTML = getCardGlyph('direct');
+        cutInText.textContent = '心绪交错 · 这一局，' + scen.characterName + '暂居上风';
         spawnVictoryBurst(0.68, '#38bdf8', 65);
         setTimeout(() => { if (epoch === matchEpoch) spawnVictoryBurst(0.62, '#dfb76c', 55); }, 400);
       }
@@ -2012,6 +1960,10 @@
         overlay.dataset.rounds = finish.roundsPlayed;
         overlay.classList.remove('hidden');
         isInteracting = false;
+        document.getElementById('mainGameStage').dataset.resolving = 'false';
+        document.getElementById('playerStatusHint').textContent = '这一幕，心绪已有了回应。';
+        document.getElementById('timerLabel').textContent = '本幕结束';
+        document.getElementById('timerText').textContent = '—';
       };
       if (finish.winner === 'DRAW') present();
       else triggerGrandFinaleSequence(finish.winner, present);
@@ -2025,9 +1977,11 @@
       resetGameWithScenario(e.target.value);
     });
 
-    document.getElementById('toggleAudioBtn').addEventListener('click', (e) => {
+    document.getElementById('toggleAudioBtn').addEventListener('click', function (event) {
       audioEnabled = !audioEnabled;
-      e.currentTarget.textContent = audioEnabled ? '🔊' : '🔇';
+      event.currentTarget.setAttribute('aria-pressed', String(audioEnabled));
+      event.currentTarget.setAttribute('aria-label', audioEnabled ? '关闭音效' : '开启音效');
+      event.currentTarget.title = audioEnabled ? '关闭音效' : '开启音效';
     });
 
     document.getElementById('replayScenarioBtn').addEventListener('click', () => {
@@ -2086,6 +2040,7 @@
     document.getElementById('openConfigModalBtn').addEventListener('click', () => {
       document.getElementById('configTextarea').value = JSON.stringify(GAME_CONFIG, null, 2);
       document.getElementById('configErrorMsg').textContent = '';
+      document.getElementById('configTextarea').removeAttribute('aria-invalid');
       document.getElementById('configModal').classList.remove('hidden');
     });
 
@@ -2099,10 +2054,18 @@
         DuelRules.validateRules(parsed.rules);
         if (!parsed.scenarios || !parsed.scenarios[currentScenarioId]) throw new Error('需要保留当前剧本的配置');
         GAME_CONFIG = parsed;
+        document.getElementById('configTextarea').removeAttribute('aria-invalid');
         document.getElementById('configModal').classList.add('hidden');
         resetGameWithScenario(currentScenarioId);
       } catch (err) {
-        document.getElementById('configErrorMsg').textContent = '配置未应用：' + err.message;
+        const message = document.getElementById('configErrorMsg');
+        document.getElementById('configTextarea').setAttribute('aria-invalid', 'true');
+        if (err instanceof SyntaxError) {
+          const location = err.message.match(/line\s+(\d+)\s+column\s+(\d+)/i);
+          message.textContent = 'JSON格式有误' + (location ? '（第' + location[1] + '行，第' + location[2] + '列）' : '') + '：请检查引号、逗号或括号，修正后重新应用。';
+        } else {
+          message.textContent = '配置未应用：' + err.message + '。请修正后重新应用。';
+        }
       }
     });
 
@@ -2112,6 +2075,7 @@
       document.querySelectorAll('[data-card-flight="true"]').forEach(el => el.remove());
       document.getElementById('judgementFx').hidden = true;
       document.getElementById('mainGameStage').dataset.judging = 'false';
+      document.getElementById('mainGameStage').dataset.resolving = 'false';
       document.getElementById('clashStageContainer').classList.add('opacity-0', 'pointer-events-none');
       document.getElementById('clashStageContainer').setAttribute('aria-hidden', 'true');
       document.getElementById('playerViewport').classList.remove('round-triumph-player', 'actor-flinch');

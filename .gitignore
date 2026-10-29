@@ -1,6 +1,9 @@
 node_modules/
 .local/
 .cache/
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/config.local.json
 *.log
 .DS_Store
 *.tar.gz

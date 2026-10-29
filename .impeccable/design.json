@@ -1,0 +1,492 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T02:40:39.850Z",
+  "title": "Design System: 舌战",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "暖白信笺",
+        "tonalRamp": [
+          "oklch(15% 0.0079 357.79)",
+          "oklch(27% 0.0079 357.79)",
+          "oklch(38% 0.0079 357.79)",
+          "oklch(49% 0.0079 357.79)",
+          "oklch(61% 0.0079 357.79)",
+          "oklch(72% 0.0079 357.79)",
+          "oklch(84% 0.0079 357.79)",
+          "oklch(95% 0.0079 357.79)"
+        ]
+      },
+      "paper-blush": {
+        "role": "neutral",
+        "displayName": "粉雾纸色",
+        "tonalRamp": [
+          "oklch(15% 0.0203 345.70)",
+          "oklch(27% 0.0203 345.70)",
+          "oklch(38% 0.0203 345.70)",
+          "oklch(49% 0.0203 345.70)",
+          "oklch(61% 0.0203 345.70)",
+          "oklch(72% 0.0203 345.70)",
+          "oklch(84% 0.0203 345.70)",
+          "oklch(95% 0.0203 345.70)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "雾紫墨",
+        "tonalRamp": [
+          "oklch(15% 0.0460 334.19)",
+          "oklch(27% 0.0460 334.19)",
+          "oklch(38% 0.0460 334.19)",
+          "oklch(49% 0.0460 334.19)",
+          "oklch(61% 0.0460 334.19)",
+          "oklch(72% 0.0460 334.19)",
+          "oklch(84% 0.0460 334.19)",
+          "oklch(95% 0.0460 334.19)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "次级墨",
+        "tonalRamp": [
+          "oklch(15% 0.0515 343.67)",
+          "oklch(27% 0.0515 343.67)",
+          "oklch(38% 0.0515 343.67)",
+          "oklch(49% 0.0515 343.67)",
+          "oklch(61% 0.0515 343.67)",
+          "oklch(72% 0.0515 343.67)",
+          "oklch(84% 0.0515 343.67)",
+          "oklch(95% 0.0515 343.67)"
+        ]
+      },
+      "rose": {
+        "role": "primary",
+        "displayName": "玫瑰色",
+        "tonalRamp": [
+          "oklch(15% 0.1324 356.22)",
+          "oklch(27% 0.1324 356.22)",
+          "oklch(38% 0.1324 356.22)",
+          "oklch(49% 0.1324 356.22)",
+          "oklch(61% 0.1324 356.22)",
+          "oklch(72% 0.1324 356.22)",
+          "oklch(84% 0.1324 356.22)",
+          "oklch(95% 0.1324 356.22)"
+        ]
+      },
+      "rose-deep": {
+        "role": "primary",
+        "displayName": "深玫瑰",
+        "tonalRamp": [
+          "oklch(15% 0.0884 357.20)",
+          "oklch(27% 0.0884 357.20)",
+          "oklch(38% 0.0884 357.20)",
+          "oklch(49% 0.0884 357.20)",
+          "oklch(61% 0.0884 357.20)",
+          "oklch(72% 0.0884 357.20)",
+          "oklch(84% 0.0884 357.20)",
+          "oklch(95% 0.0884 357.20)"
+        ]
+      },
+      "plum": {
+        "role": "primary",
+        "displayName": "雾紫",
+        "tonalRamp": [
+          "oklch(15% 0.0557 332.94)",
+          "oklch(27% 0.0557 332.94)",
+          "oklch(38% 0.0557 332.94)",
+          "oklch(49% 0.0557 332.94)",
+          "oklch(61% 0.0557 332.94)",
+          "oklch(72% 0.0557 332.94)",
+          "oklch(84% 0.0557 332.94)",
+          "oklch(95% 0.0557 332.94)"
+        ]
+      },
+      "gold-soft": {
+        "role": "tertiary",
+        "displayName": "柔金",
+        "tonalRamp": [
+          "oklch(15% 0.0549 72.43)",
+          "oklch(27% 0.0549 72.43)",
+          "oklch(38% 0.0549 72.43)",
+          "oklch(49% 0.0549 72.43)",
+          "oklch(61% 0.0549 72.43)",
+          "oklch(72% 0.0549 72.43)",
+          "oklch(84% 0.0549 72.43)",
+          "oklch(95% 0.0549 72.43)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "粉线",
+        "tonalRamp": [
+          "oklch(15% 0.0427 348.94)",
+          "oklch(27% 0.0427 348.94)",
+          "oklch(38% 0.0427 348.94)",
+          "oklch(49% 0.0427 348.94)",
+          "oklch(61% 0.0427 348.94)",
+          "oklch(72% 0.0427 348.94)",
+          "oklch(84% 0.0427 348.94)",
+          "oklch(95% 0.0427 348.94)"
+        ]
+      },
+      "direct": {
+        "role": "secondary",
+        "displayName": "直球",
+        "tonalRamp": [
+          "oklch(15% 0.1267 359.18)",
+          "oklch(27% 0.1267 359.18)",
+          "oklch(38% 0.1267 359.18)",
+          "oklch(49% 0.1267 359.18)",
+          "oklch(61% 0.1267 359.18)",
+          "oklch(72% 0.1267 359.18)",
+          "oklch(84% 0.1267 359.18)",
+          "oklch(95% 0.1267 359.18)"
+        ]
+      },
+      "subtle": {
+        "role": "secondary",
+        "displayName": "试探",
+        "tonalRamp": [
+          "oklch(15% 0.0660 68.75)",
+          "oklch(27% 0.0660 68.75)",
+          "oklch(38% 0.0660 68.75)",
+          "oklch(49% 0.0660 68.75)",
+          "oklch(61% 0.0660 68.75)",
+          "oklch(72% 0.0660 68.75)",
+          "oklch(84% 0.0660 68.75)",
+          "oklch(95% 0.0660 68.75)"
+        ]
+      },
+      "rational": {
+        "role": "secondary",
+        "displayName": "掩饰",
+        "tonalRamp": [
+          "oklch(15% 0.0449 199.87)",
+          "oklch(27% 0.0449 199.87)",
+          "oklch(38% 0.0449 199.87)",
+          "oklch(49% 0.0449 199.87)",
+          "oklch(61% 0.0449 199.87)",
+          "oklch(72% 0.0449 199.87)",
+          "oklch(84% 0.0449 199.87)",
+          "oklch(95% 0.0449 199.87)"
+        ]
+      },
+      "gaze": {
+        "role": "secondary",
+        "displayName": "凝视",
+        "tonalRamp": [
+          "oklch(15% 0.0877 317.87)",
+          "oklch(27% 0.0877 317.87)",
+          "oklch(38% 0.0877 317.87)",
+          "oklch(49% 0.0877 317.87)",
+          "oklch(61% 0.0877 317.87)",
+          "oklch(72% 0.0877 317.87)",
+          "oklch(84% 0.0877 317.87)",
+          "oklch(95% 0.0877 317.87)"
+        ]
+      },
+      "reversal": {
+        "role": "secondary",
+        "displayName": "逆转",
+        "tonalRamp": [
+          "oklch(15% 0.0771 30.56)",
+          "oklch(27% 0.0771 30.56)",
+          "oklch(38% 0.0771 30.56)",
+          "oklch(49% 0.0771 30.56)",
+          "oklch(61% 0.0771 30.56)",
+          "oklch(72% 0.0771 30.56)",
+          "oklch(84% 0.0771 30.56)",
+          "oklch(95% 0.0771 30.56)"
+        ]
+      },
+      "on-plum": {
+        "role": "neutral",
+        "displayName": "雾紫上浅色文字",
+        "tonalRamp": [
+          "oklch(15% 0.0134 347.94)",
+          "oklch(27% 0.0134 347.94)",
+          "oklch(38% 0.0134 347.94)",
+          "oklch(49% 0.0134 347.94)",
+          "oklch(61% 0.0134 347.94)",
+          "oklch(72% 0.0134 347.94)",
+          "oklch(84% 0.0134 347.94)",
+          "oklch(95% 0.0134 347.94)"
+        ]
+      },
+      "on-dark": {
+        "role": "neutral",
+        "displayName": "深底浅色文字",
+        "tonalRamp": [
+          "oklch(15% 0.0174 355.10)",
+          "oklch(27% 0.0174 355.10)",
+          "oklch(38% 0.0174 355.10)",
+          "oklch(49% 0.0174 355.10)",
+          "oklch(61% 0.0174 355.10)",
+          "oklch(72% 0.0174 355.10)",
+          "oklch(84% 0.0174 355.10)",
+          "oklch(95% 0.0174 355.10)"
+        ]
+      },
+      "plum-hover": {
+        "role": "primary",
+        "displayName": "悬停雾紫",
+        "tonalRamp": [
+          "oklch(15% 0.0761 341.16)",
+          "oklch(27% 0.0761 341.16)",
+          "oklch(38% 0.0761 341.16)",
+          "oklch(49% 0.0761 341.16)",
+          "oklch(61% 0.0761 341.16)",
+          "oklch(72% 0.0761 341.16)",
+          "oklch(84% 0.0761 341.16)",
+          "oklch(95% 0.0761 341.16)"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "编辑纸面",
+        "tonalRamp": [
+          "oklch(15% 0.0021 17.19)",
+          "oklch(27% 0.0021 17.19)",
+          "oklch(38% 0.0021 17.19)",
+          "oklch(49% 0.0021 17.19)",
+          "oklch(61% 0.0021 17.19)",
+          "oklch(72% 0.0021 17.19)",
+          "oklch(84% 0.0021 17.19)",
+          "oklch(95% 0.0021 17.19)"
+        ]
+      },
+      "field-line": {
+        "role": "neutral",
+        "displayName": "编辑细线",
+        "tonalRamp": [
+          "oklch(15% 0.0540 346.92)",
+          "oklch(27% 0.0540 346.92)",
+          "oklch(38% 0.0540 346.92)",
+          "oklch(49% 0.0540 346.92)",
+          "oklch(61% 0.0540 346.92)",
+          "oklch(72% 0.0540 346.92)",
+          "oklch(84% 0.0540 346.92)",
+          "oklch(95% 0.0540 346.92)"
+        ]
+      },
+      "error": {
+        "role": "tertiary",
+        "displayName": "错误玫瑰",
+        "tonalRamp": [
+          "oklch(15% 0.1396 1.40)",
+          "oklch(27% 0.1396 1.40)",
+          "oklch(38% 0.1396 1.40)",
+          "oklch(49% 0.1396 1.40)",
+          "oklch(61% 0.1396 1.40)",
+          "oklch(72% 0.1396 1.40)",
+          "oklch(84% 0.1396 1.40)",
+          "oklch(95% 0.1396 1.40)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "判定大字",
+        "purpose": "场景上的短暂判定，手机与短横屏使用固定较小字号。"
+      },
+      "headline": {
+        "displayName": "回合与心率",
+        "purpose": "同级的大回合数字和百分比心率。"
+      },
+      "title": {
+        "displayName": "说话人姓名",
+        "purpose": "信笺上缘的独立签名片。"
+      },
+      "body": {
+        "displayName": "台词",
+        "purpose": "左对齐的信笺阅读正文。"
+      },
+      "label": {
+        "displayName": "功能说明",
+        "purpose": "紧凑的规则、属性、倒计时和状态说明。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "paper-reading",
+        "value": "0 10px 28px rgba(39,18,36,.24)",
+        "purpose": "中央状态与对话纸面的柔影。"
+      },
+      {
+        "name": "card-rest",
+        "value": "0 6px 16px rgba(39,18,36,.2)",
+        "purpose": "手牌静态柔影。"
+      },
+      {
+        "name": "card-interaction",
+        "value": "0 10px 20px rgba(39,18,36,.23)",
+        "purpose": "手牌悬停或键盘聚焦。"
+      },
+      {
+        "name": "modal",
+        "value": "0 14px 36px rgba(39,18,36,.3)",
+        "purpose": "结局、场景、配置弹层。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-romance",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "现有交锋指针与判定进入。"
+      },
+      {
+        "name": "card-transition",
+        "value": "transform .2s ease, border-color .2s ease",
+        "purpose": "手牌抬起与属性边框变化。"
+      },
+      {
+        "name": "tool-hover",
+        "value": "background .2s ease",
+        "purpose": "顶部工具的浅色底反馈。"
+      },
+      {
+        "name": "tension-pointer",
+        "value": "left .5s cubic-bezier(.16,1,.3,1)",
+        "purpose": "交锋指针。"
+      },
+      {
+        "name": "judgement-arrive",
+        "value": ".8s cubic-bezier(.16,1,.3,1) both",
+        "purpose": "现有判定进入动画；减少动态时关闭。"
+      },
+      {
+        "name": "actor-breathing",
+        "value": "4.2s ease-in-out infinite",
+        "purpose": "既有立绘呼吸；减少动态时关闭。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "(max-width: 767px)"
+      },
+      {
+        "name": "short-landscape",
+        "value": "(max-height: 560px) and (min-width: 768px)"
+      },
+      {
+        "name": "reduced-motion",
+        "value": "(prefers-reduced-motion: reduce)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "应用操作按钮",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "场景与配置弹层中的深雾紫应用操作。",
+      "html": "<button type=\"button\" class=\"ds-primary\">应用场景与立绘</button>",
+      "css": ".ds-primary{padding:6px 16px;border:0;border-radius:8px;background:var(--plum,#52354d);color:#fff4f9;font:700 12px/16px var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif);cursor:pointer;box-shadow:none;transition:background-color .15s cubic-bezier(.4,0,.2,1),filter .15s cubic-bezier(.4,0,.2,1)}.ds-primary:hover{background:#714361;filter:brightness(1.1)}.ds-primary:focus-visible{outline:2px solid var(--rose,#a5466e);outline-offset:4px;}"
+    },
+    {
+      "name": "顶部工具按钮",
+      "kind": "button",
+      "refersTo": "button-tool",
+      "description": "透明底轻边框菜单工具，保留图标和可访问名称。",
+      "html": "<div class=\"ds-tool-canvas\"><button type=\"button\" class=\"ds-tool\" aria-label=\"剧情与对局设置\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 7h16M4 17h16\"/><circle cx=\"9\" cy=\"7\" r=\"3\"/><circle cx=\"15\" cy=\"17\" r=\"3\"/></svg><span>设置</span></button></div>",
+      "css": ".ds-tool-canvas{display:inline-block;padding:12px;background:rgba(48,31,45,.94)}.ds-tool{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;min-width:34px;padding:0 10px;border:1px solid rgba(225,187,204,.48);border-radius:8px;background:transparent;color:#fff0f5;font:400 11px/1 var(--font-ui,\"Microsoft YaHei\",\"PingFang SC\",sans-serif);cursor:pointer;transition:background .2s ease}.ds-tool svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ds-tool:hover{background:rgba(255,236,244,.13)}.ds-tool:focus-visible{outline:2px solid var(--rose,#a5466e);outline-offset:4px;}"
+    },
+    {
+      "name": "场景链接输入框",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "现有编辑弹层的纸面单行字段；示例值使用实际场景路径。",
+      "html": "<label class=\"ds-field-label\" for=\"ds-scene-url\">本幕背景图片链接：</label><input class=\"ds-field\" id=\"ds-scene-url\" type=\"text\" value=\"assets/backgrounds/study.png\" placeholder=\"assets/backgrounds/study.png 或 https://...\">",
+      "css": ".ds-field-label{display:block;margin-bottom:4px;color:var(--rose-deep,#753950);font:700 11px/1.6 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif)}.ds-field{width:100%;padding:6px 10px;border:1px solid #cba3b7;border-radius:4px;background:#fffdfd;color:var(--ink,#493144);font:400 12px/16px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace;caret-color:var(--rose,#a5466e);user-select:text;-webkit-user-select:text}.ds-field::placeholder{color:var(--ink-soft,#78576a);opacity:1}.ds-field:focus-visible{outline:2px solid var(--rose,#a5466e);outline-offset:4px;}"
+    },
+    {
+      "name": "剧情与工具导航",
+      "kind": "nav",
+      "description": "桌面顶部菜单的实际选择框与设置入口。",
+      "html": "<nav class=\"ds-nav\" aria-label=\"游戏设置\"><select class=\"ds-scenario\" aria-label=\"切换剧情\"><option>深夜书房 · 陆衍</option><option>假面舞会 · 齐枭</option><option>竹影仙门 · 百里华</option></select><button class=\"ds-nav-tool\" type=\"button\" aria-label=\"剧情与对局设置\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 7h16M4 17h16\"/><circle cx=\"9\" cy=\"7\" r=\"3\"/><circle cx=\"15\" cy=\"17\" r=\"3\"/></svg><span>设置</span></button></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:8px;padding:12px;background:rgba(48,31,45,.94)}.ds-scenario,.ds-nav-tool{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;min-width:34px;padding:0 10px;border:1px solid rgba(225,187,204,.48);border-radius:8px;background:transparent;color:#fff0f5;font:400 11px/1 var(--font-ui,\"Microsoft YaHei\",\"PingFang SC\",sans-serif);cursor:pointer;transition:background .2s ease}.ds-scenario{width:202px;padding-right:4px}.ds-scenario option{background:var(--paper,#fff8fa);color:var(--ink,#493144)}.ds-nav-tool svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ds-scenario:hover,.ds-nav-tool:hover{background:rgba(255,236,244,.13)}.ds-scenario:focus-visible,.ds-nav-tool:focus-visible{outline:2px solid var(--rose,#a5466e);outline-offset:4px;}"
+    },
+    {
+      "name": "普通回应手牌",
+      "kind": "card",
+      "refersTo": "card-response",
+      "description": "实际直球手牌的类型、点数、名称与短效果层级。",
+      "html": "<div class=\"ds-card-space\"><button type=\"button\" class=\"ds-card\" aria-label=\"直球，直击真心，6点，克掩饰，伤害1，碾压3\"><span class=\"ds-card-suit\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z\"/></svg><span>直球</span></span><span class=\"ds-card-rank\">6</span><span class=\"ds-card-caption\"><strong class=\"ds-card-name\">直击真心</strong><span class=\"ds-card-counter\">克 掩饰</span><span class=\"ds-card-effect\">伤害 1 · 碾压 3</span></span></button></div>",
+      "css": ".ds-card-space{width:146px;padding:12px 4px}.ds-card{--card-accent:#a34769;position:relative;display:block;width:100%;height:134px;padding:0;overflow:hidden;border:1px solid transparent;border-radius:12px;background:var(--paper,#fff8fa);color:var(--ink,#493144);font-family:var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif);text-align:left;cursor:pointer;box-shadow:0 6px 16px rgba(39,18,36,.2);transition:transform .2s ease,border-color .2s ease}.ds-card-suit{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--card-accent)}.ds-card-suit svg{width:15px;height:15px}.ds-card-rank{position:absolute;top:30px;left:0;right:0;height:39px;display:grid;place-items:center;color:var(--rose-deep,#753950);font:400 38px/1 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif)}.ds-card-caption{position:absolute;bottom:10px;left:9px;right:9px;display:flex;flex-direction:column;gap:3px;text-align:center}.ds-card-name{color:var(--ink,#493144);font-size:14px;line-height:1.25;font-weight:400}.ds-card-counter{font-size:11px;line-height:1.3;color:var(--card-accent)}.ds-card-effect{font-size:11px;line-height:1.35;color:var(--ink-soft,#78576a)}.ds-card:hover:not(:disabled),.ds-card:focus-visible{transform:translateY(-6px);border-color:var(--card-accent);box-shadow:0 10px 20px rgba(39,18,36,.23)}.ds-card:focus-visible{outline:2px solid var(--rose,#a5466e);outline-offset:4px;}.ds-card:active:not(:disabled){transform:translateY(-2px)}.ds-card:disabled{cursor:default}"
+    },
+    {
+      "name": "定向克制关系",
+      "kind": "custom",
+      "refersTo": "affinity-legend",
+      "description": "当前三组关系中的一组，展示由来源属性指向被克制属性的箭头；高亮由游戏交互设置。",
+      "html": "<div class=\"ds-affinity\"><div class=\"ds-relation\"><span class=\"ds-from\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z\"/></svg><b>直球</b></span><svg class=\"ds-arrow\" viewBox=\"0 0 24 12\" aria-hidden=\"true\"><path d=\"M1 6h20m-5-4 5 4-5 4\"/></svg><span>掩饰</span></div><div class=\"ds-relation ds-is-active\"><span class=\"ds-from\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z\"/></svg><b>直球</b></span><svg class=\"ds-arrow\" viewBox=\"0 0 24 12\" aria-hidden=\"true\"><path d=\"M1 6h20m-5-4 5 4-5 4\"/></svg><span>掩饰</span></div></div>",
+      "css": ".ds-affinity{--affinity-accent:#a34769;display:flex;align-items:center;gap:24px;padding:6px 12px 5px;border-radius:9px;background:var(--paper,#fff8fa);color:var(--ink-soft,#78576a)}.ds-relation{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:2px 0;border-bottom:1px solid transparent;font:400 11px/1.3 var(--font-ui,\"Microsoft YaHei\",\"PingFang SC\",sans-serif);transition:color .2s,border-color .2s}.ds-from{display:flex;align-items:center;gap:4px;color:var(--affinity-accent)}.ds-from b{font-weight:600}.ds-from svg{width:13px;height:13px}.ds-arrow{width:18px;height:9px;fill:none;stroke:#986b81;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}.ds-is-active{border-color:var(--affinity-accent);color:var(--affinity-accent);background:#f8e5ee}"
+    },
+    {
+      "name": "回合与心率纸面",
+      "kind": "custom",
+      "refersTo": "romance-status",
+      "description": "中央心形连接同级的大回合数与百分比心率；静态示例省略动态 canvas。",
+      "html": "<section class=\"ds-status\" aria-label=\"回合与心率\"><div class=\"ds-round\"><span class=\"ds-label\">交锋回合</span><div class=\"ds-round-values\"><strong>01</strong><span>/</span><span class=\"ds-total\">10</span><span class=\"ds-unit\">回合</span></div></div><div class=\"ds-heart\"><svg viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path d=\"M24 37 9 23C0 13 14 3 24 15 34 3 48 13 39 23Z\"/><path d=\"m24 3 2 4-2 4-2-4Zm0 36 2 4-2 4-2-4Z\"/></svg></div><div class=\"ds-pulse\"><span class=\"ds-label\">陆衍的心率</span><strong class=\"ds-pulse-value\">22%</strong><span class=\"ds-hand\">陆衍的手牌　? ? ? ?</span></div><div class=\"ds-response\"><span>选择一句回应，听见他的心跳。</span><span>回应倒计时 <b>10s</b></span><div class=\"ds-progress\"><div></div></div></div></section>",
+      "css": ".ds-status{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 76px minmax(0,1fr);column-gap:12px;row-gap:8px;width:min(640px,100%);padding:18px 32px 10px;border-radius:20px 20px 28px 28px;background:var(--paper,#fff8fa);color:var(--ink,#493144);font-family:var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif);box-shadow:0 10px 28px rgba(39,18,36,.24)}.ds-status::after{content:\"\";position:absolute;left:18%;right:18%;bottom:-5px;height:1px;background:var(--gold-soft,#c6ab8a)}.ds-round{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.ds-label{color:var(--ink-soft,#78576a);font:400 12px/1.3 var(--font-ui,\"Microsoft YaHei\",\"PingFang SC\",sans-serif)}.ds-round-values{display:flex;align-items:baseline;gap:8px;white-space:nowrap;color:var(--rose-deep,#753950);font:400 22px/1 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif)}.ds-round-values strong{font-size:54px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}.ds-total{font-size:23px}.ds-unit{font:400 11px/1 var(--font-ui,\"Microsoft YaHei\",\"PingFang SC\",sans-serif)}.ds-heart{position:relative;display:flex;align-items:center;justify-content:center}.ds-heart svg{width:48px;height:48px;fill:#f4dbe6;stroke:var(--rose,#a5466e);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}.ds-heart::before,.ds-heart::after{content:\"\";position:absolute;top:50%;width:18px;height:1px;background:var(--line,#d8b7c6)}.ds-heart::before{left:-8px}.ds-heart::after{right:-8px}.ds-pulse{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;min-width:0}.ds-pulse-value{color:var(--rose,#a5466e);font:400 54px/1 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif);font-variant-numeric:tabular-nums}.ds-hand{color:var(--ink-soft,#78576a);font:400 11px/1 var(--font-ui,\"Microsoft YaHei\",\"PingFang SC\",sans-serif)}.ds-response{display:grid;grid-template-columns:1fr auto;align-items:center;gap:5px 12px;grid-column:1/-1;margin-top:2px;color:var(--ink-soft,#78576a);font:400 11px/1.4 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif)}.ds-response b{color:var(--rose-deep,#753950);font:400 14px/1 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif)}.ds-progress{grid-column:1/-1;height:2px;overflow:hidden;border-radius:2px;background:#ead3de}.ds-progress>div{height:100%;width:100%;background:#b77a97;transition:width .2s linear}@media(max-width:767px){.ds-status{grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);column-gap:8px;row-gap:4px;padding:12px 18px 8px;border-radius:14px 14px 20px 20px}.ds-round-values strong,.ds-pulse-value{font-size:40px}.ds-label{font-size:11px}.ds-heart svg{width:36px;height:42px}.ds-heart::before,.ds-heart::after{width:9px}.ds-heart::before{left:-5px}.ds-heart::after{right:-5px}}@media(prefers-reduced-motion:reduce){.ds-progress>div{transition:none}}"
+    },
+    {
+      "name": "信笺对话与签名片",
+      "kind": "custom",
+      "refersTo": "dialogue-paper",
+      "description": "宽幅阅读纸面与跨越上缘的独立说话人签名片。",
+      "html": "<div class=\"ds-dialogue-space\"><section class=\"ds-dialogue\"><div class=\"ds-speaker\"><span>他的回应</span><p>陆衍</p></div><p class=\"ds-dialogue-text\">“深夜擅自来到我的私人书房，你做好承担后果的准备了么？”</p><svg class=\"ds-dialogue-sign\" viewBox=\"0 0 36 28\" aria-hidden=\"true\"><path d=\"M18 23 5 11C-1 3 10-3 18 6c8-9 19-3 13 5Z\"/><path d=\"M1 26h10m14 0h10\"/></svg></section></div>",
+      "css": ".ds-dialogue-space{padding-top:20px}.ds-dialogue{position:relative;display:block;width:100%;max-width:1120px;min-height:110px;padding:30px 42px 23px;border:0;border-radius:6px 22px 6px 22px;background:var(--paper,#fff8fa);color:var(--ink,#493144);box-shadow:0 10px 28px rgba(39,18,36,.24)}.ds-dialogue::after{content:\"\";position:absolute;inset:7px;border:1px solid #dfbecd;border-radius:2px 16px 2px 16px;pointer-events:none}.ds-speaker{position:absolute;display:flex;align-items:center;gap:14px;left:28px;top:-17px;min-width:168px;margin:0;padding:8px 22px;border-radius:3px 14px 3px 14px;background:var(--plum,#52354d);color:#fff2f7;z-index:1}.ds-speaker span{color:#ebc6d7;font:400 11px/1.3 var(--font-ui,\"Microsoft YaHei\",\"PingFang SC\",sans-serif)}.ds-speaker p{margin:0;color:#fff1f6;font:400 20px/1.15 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif);letter-spacing:.04em}.ds-dialogue-text{margin:0;padding:0 20px 0 0;color:var(--ink,#493144);text-align:left;font:400 22px/1.65 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif);letter-spacing:.015em;overflow-wrap:anywhere}.ds-dialogue-sign{position:absolute;right:18px;bottom:13px;width:31px;height:24px;fill:none;stroke:#bc8b9f;stroke-width:1}@media(max-width:767px){.ds-dialogue{min-height:114px;padding:25px 22px 17px;border-radius:5px 17px 5px 17px}.ds-speaker{left:18px;top:-14px;min-width:132px;gap:10px;padding:7px 14px}.ds-speaker p{font-size:17px}.ds-dialogue-text{font-size:18px;line-height:1.6;padding-right:5px}.ds-dialogue-sign{width:23px;height:18px;right:12px;bottom:10px}}"
+    },
+    {
+      "name": "对局结果徽记",
+      "kind": "chip",
+      "refersTo": "result-badge",
+      "description": "实际结局状态徽记，非点击操作。",
+      "html": "<span class=\"ds-result-badge\">交锋结果 · 我方主导</span>",
+      "css": ".ds-result-badge{display:inline-block;padding:6px 12px;border:1px solid var(--line,#d8b7c6);border-radius:4px;color:var(--rose-deep,#753950);font:400 12px/1.4 var(--font-display,DuelSerif,\"Noto Serif SC\",\"Songti SC\",SimSun,serif)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "恋爱沉浸优先",
+    "overview": "《舌战》的现行界面以暖白纸面、花瓣粉和雾紫墨色承载人物关系。中文宋体用于台词、人物签名、回合与心率数字；较小的操作说明使用中文无衬线字体。纸面从既有场景中轻轻浮起，心形细线将回合和心动状态连在一起。\n\n这里记录的是已实现的对局视觉语言，描述性名称均来自现有代码与已确认方向。全屏场景和原人物立绘构成情绪背景，界面用清晰的阅读面、简洁卡牌与克制的规则提示支持恋爱沉浸。当前对局的具体组成和内容策略见 `.impeccable/surfaces/duel.md`；本文件不新增品牌设定。",
+    "keyCharacteristics": [
+      "暖白纸面、玫瑰色关键状态、雾紫墨色正文。",
+      "自托管中文宋体与紧凑的无衬线功能说明并用。",
+      "非对称信笺圆角、独立说话人签名片和细线心形。",
+      "普通牌与对应克制关系共享属性色，箭头保持明确方向。"
+    ],
+    "rules": [
+      {
+        "name": "The Paper and Ink Rule",
+        "body": "阅读面使用纸色，正文使用墨色；柔金保留在细线与边缘装饰中。",
+        "section": "colors"
+      },
+      {
+        "name": "The Shared Accent Rule",
+        "body": "同一属性在手牌、克制文字与图例高亮中使用同一属性色；关系仍由文字和定向箭头表达。",
+        "section": "colors"
+      },
+      {
+        "name": "The Measured Motion Rule",
+        "body": "牌面位移、进度变化和判定出现沿用现有时序；减少动态偏好会关闭牌面/指针/计时条过渡与判定、呼吸动画。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 以纸色提供阅读面，以墨色和次级墨色承载正文与功能说明。",
+      "Do 在当前对局保留回合、百分比心率、对话和四张手牌之间已实现的视觉层级。",
+      "Do 让属性色同时标识手牌与对应克制箭头，并同时保留文字与 SVG 图形。",
+      "Do 保留输入焦点、可选择的编辑文本和中文错误修正指导。"
+    ],
+    "donts": [
+      "Don't 把柔金装饰线扩展成正文、关键数字或按钮主文字颜色。",
+      "Don't 给当前简洁手牌添加会挤压点数、名称或短效果的大幅卡面装饰。",
+      "Don't 将现行百分比心率写成 BPM。",
+      "Don't 将被覆盖的旧玻璃/金色样式或隐藏的皇冠与动作气泡当成新界面的公共组件。"
+    ]
+  }
+}
+
