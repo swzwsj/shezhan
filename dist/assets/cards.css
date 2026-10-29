@@ -4,17 +4,17 @@
 #bottomGameHud { grid-row: 3; }
 #bottomGameHud > div:last-child { max-width: 560px; }
 #playerHandContainer { gap: 12px; }
-#playerHandContainer .deck-card, .deck-card { position: relative; display: block; width: 100%; height: 134px; padding: 0; overflow: hidden; border: 1px solid transparent; border-radius: 12px; background: var(--paper,#fff8fa); color: var(--ink,#493144); text-align: left; cursor: pointer; box-shadow: 0 6px 16px rgba(39,18,36,.2); transition: transform .2s ease,border-color .2s ease; }
+#playerHandContainer .deck-card, .deck-card { position: relative; display: block; width: 100%; height: 134px; padding: 0; overflow: hidden; border: 1px solid rgba(213,154,187,.36); border-radius: 12px; background: linear-gradient(155deg,rgba(88,47,76,.91),rgba(28,22,40,.94) 55%); color: var(--ink,#fff0f7); text-align: left; cursor: pointer; box-shadow: 0 6px 16px rgba(9,6,17,.3); transition: transform .2s ease,border-color .2s ease; }
 .deck-card__suit { position: absolute; top: 10px; left: 10px; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--card-accent); }
 .deck-card__suit svg { width: 15px; height: 15px; }
-.deck-card__rank { position: absolute; top: 30px; left: 0; right: 0; height: 39px; display: grid; place-items: center; color: var(--rose-deep,#753950); font: 400 38px/1 var(--font-display,serif); }
+.deck-card__rank { position: absolute; top: 30px; left: 0; right: 0; height: 39px; display: grid; place-items: center; color: var(--rose-light,#f9d5e5); font: 400 38px/1 var(--font-display,serif); }
 .deck-card__rank svg { width: 28px; height: 28px; color: var(--card-accent); }
 .deck-card__caption { position: absolute; bottom: 10px; left: 9px; right: 9px; display: flex; flex-direction: column; gap: 3px; text-align: center; }
-.deck-card__name { color: var(--ink,#493144); font-size: 14px; line-height: 1.25; font-weight: 400; }
+.deck-card__name { color: var(--ink,#fff0f7); font-size: 14px; line-height: 1.25; font-weight: 400; }
 .deck-card__counter { font-size: 11px; line-height: 1.3; color: var(--card-accent); }
 .deck-card__counter:empty { display: none; }
-.deck-card__effect { font-size: 11px; line-height: 1.35; color: var(--ink-soft,#78576a); white-space: pre-line; }
-#playerHandContainer .deck-card:hover:not(:disabled),#playerHandContainer .deck-card:focus-visible { transform: translateY(-6px) !important; border-color: var(--card-accent); box-shadow: 0 10px 20px rgba(39,18,36,.23); }
+.deck-card__effect { font-size: 11px; line-height: 1.35; color: var(--ink-soft,#edd6e4); white-space: pre-line; }
+#playerHandContainer .deck-card:hover:not(:disabled),#playerHandContainer .deck-card:focus-visible { transform: translateY(-6px) !important; border-color: var(--card-accent); box-shadow: 0 10px 20px rgba(9,6,17,.4); }
 #playerHandContainer .deck-card:active:not(:disabled) { transform: translateY(-2px) !important; }
 .deck-card:disabled { cursor: default; }
 #clashStageContainer { position: relative; top: auto; left: auto; width: 344px; max-width: calc(100% - 20px); margin: 0 0 9px; padding: 0; transform: none; grid-row: 2; align-self: end; justify-self: center; }

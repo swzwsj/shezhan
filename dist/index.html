@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>舌战</title>
   <meta name="description" content="舌战：双人卡牌对峙，在直球、试探和掩饰之间出牌交锋，体验三幕故事。">
-  <meta name="theme-color" content="#f7eaf0">
+  <meta name="theme-color" content="#21192d">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/character-pink.png" as="image">
   <link rel="preload" href="assets/character-suit.png" as="image">
@@ -36,7 +36,7 @@
     }
 
     /* Fallback utility classes in case Tailwind config loads asynchronously */
-    .text-cinemaGold { color: var(--rose-deep, #753950); }
+    .text-cinemaGold { color: var(--rose-light, #f9d5e5); }
     .bg-cinemaGold { background-color: var(--plum, #52354d); }
     .border-cinemaGold { border-color: var(--gold-soft, #c6ab8a); }
     .bg-cinemaRed { background-color: #e11d48 !important; }
@@ -269,8 +269,8 @@
     }
   </style>
   <link rel="stylesheet" href="assets/stage.css">
-  <link rel="stylesheet" href="assets/cards.css?v=5">
-  <link rel="stylesheet" href="assets/duel-ui.css?v=5">
+  <link rel="stylesheet" href="assets/cards.css?v=6">
+  <link rel="stylesheet" href="assets/duel-ui.css?v=6">
 </head>
 <body class="h-screen w-screen overflow-hidden flex flex-col bg-obsidian select-none">
 
@@ -1107,7 +1107,7 @@
 
     function renderEKG() {
       ekgCtx.clearRect(0, 0, ekgCanvas.width, ekgCanvas.height);
-      ekgCtx.strokeStyle = heartRate >= 75 ? '#a63d6a' : '#a3758c';
+      ekgCtx.strokeStyle = heartRate >= 75 ? '#ffc5df' : '#ddb5ce';
       ekgCtx.lineWidth = 1.5;
       ekgCtx.beginPath();
 
@@ -1466,11 +1466,11 @@
     }
 
     const CARD_VISUALS = {
-      direct: { color: '#a34769' },
-      subtle: { color: '#80603c' },
-      rational: { color: '#4c7476' },
-      gaze: { color: '#855f91' },
-      reversal: { color: '#965d53' }
+      direct: { color: '#f3b3ce' },
+      subtle: { color: '#ebd09f' },
+      rational: { color: '#b7dce1' },
+      gaze: { color: '#dfbdeb' },
+      reversal: { color: '#f3c7b8' }
     };
 
     function getCardVisual(card) {
