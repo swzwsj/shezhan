@@ -1,0 +1,495 @@
+{
+  "version": 7,
+  "date": "2026-10-30",
+  "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89",
+  "method": "api-create saved two-key round-robin pool; gpt-image-2; medium; exact prompts retained",
+  "nativeTransparency": false,
+  "alphaMethod": "Bundled imagegen remove_chroma_key.py: #00ff00 soft matte and spill cleanup; panel crops and head alignment with Pillow",
+  "jobs": [
+    {
+      "id": "lu-base",
+      "prompt": "01-lu-xinghe.txt",
+      "keyAlias": "key-2",
+      "model": "gpt-image-2",
+      "size": "1024x1536",
+      "quality": "medium",
+      "requestId": "req_6956c79968ed4bedab6b789341b0f76d",
+      "usage": {
+        "input_tokens": 1929,
+        "input_tokens_details": {
+          "image_tokens": 1508,
+          "text_tokens": 421
+        },
+        "output_tokens": 1372,
+        "total_tokens": 3301,
+        "output_tokens_details": {
+          "image_tokens": 1372,
+          "text_tokens": 0
+        }
+      },
+      "sourceSha256": "2c0b3449bb505660c3b5e740b0cbfd850e2d341c83f83e078c602c1aa23ca696"
+    },
+    {
+      "id": "cheng-base",
+      "prompt": "02-cheng-yan.txt",
+      "keyAlias": "key-1",
+      "model": "gpt-image-2",
+      "size": "1024x1536",
+      "quality": "medium",
+      "requestId": "req_be749b46b9494c90b003ccc925691a91",
+      "usage": {
+        "input_tokens": 1968,
+        "input_tokens_details": {
+          "image_tokens": 1508,
+          "text_tokens": 460
+        },
+        "output_tokens": 1372,
+        "total_tokens": 3340,
+        "output_tokens_details": {
+          "image_tokens": 1372,
+          "text_tokens": 0
+        }
+      },
+      "sourceSha256": "38d37315c354dda17b1ae5efc5d1f1946cd2953aee625a508a51d1504c55dc77"
+    },
+    {
+      "id": "cafe",
+      "prompt": "03-cafe.txt",
+      "keyAlias": "key-2",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "quality": "medium",
+      "requestId": "req_e364ad4058f14277900bb81783b1204c",
+      "usage": {
+        "input_tokens": 428,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 428
+        },
+        "output_tokens": 1372,
+        "total_tokens": 1800,
+        "output_tokens_details": {
+          "image_tokens": 1372,
+          "text_tokens": 0
+        }
+      },
+      "sourceSha256": "15ab82670cee6d668b9c51ef784eec026c4074eb20b42db5ffe875d69396b269"
+    },
+    {
+      "id": "ui",
+      "prompt": "04-ui-frames.txt",
+      "keyAlias": "key-1",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "quality": "medium",
+      "requestId": "req_253e05bf717340758251ed0f863cdff8",
+      "usage": {
+        "input_tokens": 489,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 489
+        },
+        "output_tokens": 1372,
+        "total_tokens": 1861,
+        "output_tokens_details": {
+          "image_tokens": 1372,
+          "text_tokens": 0
+        }
+      },
+      "sourceSha256": "14e92eda3a5ebd4feb40666ba20d63f7a18bae1a37fb1669852abdfad65086ad"
+    },
+    {
+      "id": "cheng-expressions",
+      "prompt": "05-cheng-expressions.txt",
+      "keyAlias": "key-2",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "quality": "medium",
+      "requestId": "req_8e7830e4fdc54ad9979252a4b5e1f1f3",
+      "usage": {
+        "input_tokens": 2021,
+        "input_tokens_details": {
+          "image_tokens": 1536,
+          "text_tokens": 485
+        },
+        "output_tokens": 1372,
+        "total_tokens": 3393,
+        "output_tokens_details": {
+          "image_tokens": 1372,
+          "text_tokens": 0
+        }
+      },
+      "sourceSha256": "ef37ff2c150228adebb33deedff702daf402f2fe8805097a950c15ee95b1c891"
+    },
+    {
+      "id": "lu-expressions",
+      "prompt": "06-lu-expressions.txt",
+      "keyAlias": "key-1",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "quality": "medium",
+      "requestId": "req_2d959890a37149e8a19816773faa5156",
+      "usage": {
+        "input_tokens": 1899,
+        "input_tokens_details": {
+          "image_tokens": 1536,
+          "text_tokens": 363
+        },
+        "output_tokens": 1372,
+        "total_tokens": 3271,
+        "output_tokens_details": {
+          "image_tokens": 1372,
+          "text_tokens": 0
+        }
+      },
+      "sourceSha256": "315aa4171583d891ce14703c079d6101d2ff8db064642202b609ca4bcbb80497"
+    }
+  ],
+  "assets": [
+    {
+      "file": "dist/assets/h02/lu-idle.png",
+      "job": "lu-base",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "8c29dc75ffcdb224abd6fb161983ff87ce28cf6716a473a215ed34b0e42f6c93"
+    },
+    {
+      "file": "dist/assets/h02/cheng-idle.png",
+      "job": "cheng-base",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "2a5ccf98b0ebc3033b5297c570521a9d2bee0e6481497fef15a562865fe1e255"
+    },
+    {
+      "file": "dist/assets/h02/background-cafe.png",
+      "job": "cafe",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "9045ad558454d4f06639447ac018de572d97bf98d45dc37cb0de571344eab215"
+    },
+    {
+      "file": "dist/assets/h02/cheng-flustered.png",
+      "job": "cheng-expressions",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "72aa635b10253aeaaa4cde6981c3f20e21bf196aa8e4475f501f4e09be3cb57d"
+    },
+    {
+      "file": "dist/assets/h02/cheng-overload.png",
+      "job": "cheng-expressions",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "ba43784d06ea1209b6a2041f39ae09b8941261504fa54d5e79117375be59c736"
+    },
+    {
+      "file": "dist/assets/h02/cheng-defeated.png",
+      "job": "cheng-expressions",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "472ba89f27a27b282d712fcdcdb3eaa57a11b31d8b55b1536290811d678b777b"
+    },
+    {
+      "file": "dist/assets/h02/lu-playful.png",
+      "job": "lu-expressions",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "cb003ba9370ce472460a02ec8b9331e20245d1b39cdf977cb1eaeb906b78a14a"
+    },
+    {
+      "file": "dist/assets/h02/lu-intent.png",
+      "job": "lu-expressions",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "sha256": "d64a2768b6b3a62145223cd5d637c78cc28e3e9a8650fe8e1714e9b6ab9b88a3"
+    },
+    {
+      "file": "dist/assets/h02/ui-dialogue.png",
+      "job": "ui",
+      "size": [
+        667,
+        236
+      ],
+      "mode": "RGBA",
+      "sha256": "51c94607711b8f53c4ca1bf796ab4bc0958c7063bd07de834bdc72a8b2546998"
+    },
+    {
+      "file": "dist/assets/h02/ui-status.png",
+      "job": "ui",
+      "size": [
+        685,
+        339
+      ],
+      "mode": "RGBA",
+      "sha256": "81449db32a924b78b6ba44068cd3fb8dfdf3b5a43462fbd9f5b5cd33e4cc2152"
+    },
+    {
+      "file": "dist/assets/h02/ui-card.png",
+      "job": "ui",
+      "size": [
+        301,
+        437
+      ],
+      "mode": "RGBA",
+      "sha256": "4a20cfa13779b9defae0ed14c06929fb8fcd2666011058bc3f9503a8ef75e810"
+    },
+    {
+      "file": "dist/assets/h02/ui-speaker.png",
+      "job": "ui",
+      "size": [
+        631,
+        119
+      ],
+      "mode": "RGBA",
+      "sha256": "2c5eef501e2e2af085a0450050aaab48bf2665bfce095fb7edbbd5b15c6425df"
+    },
+    {
+      "file": "dist/assets/h02/table-front.png",
+      "job": "cheng-base",
+      "size": [
+        1024,
+        136
+      ],
+      "mode": "RGB",
+      "sha256": "171d4082f4ef67c56e7e226f19260d63e0e8a8eb4de7f3fb8de6619313e8a713"
+    }
+  ],
+  "operations": [
+    {
+      "asset": "cheng-flustered.png",
+      "crop": [
+        0,
+        0,
+        531,
+        1024
+      ],
+      "scale": 1.5203619909502262,
+      "offset": [
+        68,
+        -16
+      ],
+      "referenceHead": [
+        354,
+        133,
+        690,
+        307
+      ],
+      "sourceHead": [
+        188,
+        98,
+        409,
+        205
+      ]
+    },
+    {
+      "asset": "cheng-overload.png",
+      "crop": [
+        531,
+        0,
+        1008,
+        1024
+      ],
+      "scale": 1.5342465753424657,
+      "offset": [
+        150,
+        -17
+      ],
+      "referenceHead": [
+        354,
+        133,
+        690,
+        307
+      ],
+      "sourceHead": [
+        133,
+        98,
+        352,
+        205
+      ]
+    },
+    {
+      "asset": "cheng-defeated.png",
+      "crop": [
+        1008,
+        0,
+        1536,
+        1024
+      ],
+      "scale": 1.5555555555555556,
+      "offset": [
+        128,
+        -26
+      ],
+      "referenceHead": [
+        354,
+        133,
+        690,
+        307
+      ],
+      "sourceHead": [
+        145,
+        102,
+        361,
+        205
+      ]
+    },
+    {
+      "asset": "lu-playful.png",
+      "crop": [
+        0,
+        0,
+        768,
+        1024
+      ],
+      "scale": 1.6261682242990654,
+      "offset": [
+        -172,
+        -18
+      ],
+      "referenceHead": [
+        298,
+        26,
+        646,
+        369
+      ],
+      "sourceHead": [
+        289,
+        27,
+        503,
+        246
+      ]
+    },
+    {
+      "asset": "lu-intent.png",
+      "crop": [
+        768,
+        0,
+        1536,
+        1024
+      ],
+      "scale": 1.6261682242990654,
+      "offset": [
+        -99,
+        -24
+      ],
+      "referenceHead": [
+        298,
+        26,
+        646,
+        369
+      ],
+      "sourceHead": [
+        244,
+        31,
+        458,
+        246
+      ]
+    },
+    {
+      "asset": "ui-dialogue.png",
+      "sheetRegion": [
+        0,
+        60,
+        768,
+        440
+      ],
+      "alphaCrop": [
+        60,
+        74,
+        723,
+        306
+      ]
+    },
+    {
+      "asset": "ui-status.png",
+      "sheetRegion": [
+        768,
+        0,
+        1536,
+        480
+      ],
+      "alphaCrop": [
+        51,
+        84,
+        732,
+        419
+      ]
+    },
+    {
+      "asset": "ui-card.png",
+      "sheetRegion": [
+        0,
+        470,
+        768,
+        1024
+      ],
+      "alphaCrop": [
+        235,
+        35,
+        532,
+        468
+      ]
+    },
+    {
+      "asset": "ui-speaker.png",
+      "sheetRegion": [
+        768,
+        540,
+        1536,
+        920
+      ],
+      "alphaCrop": [
+        54,
+        135,
+        681,
+        250
+      ]
+    },
+    {
+      "asset": "table-front.png",
+      "sourceJob": "cheng-base",
+      "crop": [
+        0,
+        1400,
+        1024,
+        1536
+      ],
+      "purpose": "Carry the generated portrait table plane to the viewport boundary without changing the face or hand scale; no additional API call"
+    }
+  ],
+  "usage": {
+    "input_tokens": 8734,
+    "output_tokens": 8232,
+    "total_tokens": 16966
+  },
+  "metadataVerification": {
+    "method": "native Impeccable executable, shell=False; avoids Windows cmd multiline truncation",
+    "fullPromptReceiptEquality": 13,
+    "rasterCount": 13,
+    "pixelsUnchanged": true,
+    "additionalApiCalls": 0
+  }
+}

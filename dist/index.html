@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>舌战</title>
-  <meta name="description" content="舌战：双人卡牌对峙，在直球、试探和掩饰之间出牌交锋，体验三幕故事。">
+  <meta name="description" content="舌战：在直球、试探和掩饰之间争到一句回应。新版《心防》咖啡厅交锋与三幕演示故事。">
   <meta name="theme-color" content="#21192d">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/character-pink.png" as="image">
-  <link rel="preload" href="assets/character-suit.png" as="image">
+  <link rel="preload" href="assets/h02/lu-idle.png" as="image">
+  <link rel="preload" href="assets/h02/cheng-idle.png" as="image">
   <!-- Precompiled Tailwind CSS; no runtime CDN dependency. -->
   <link rel="stylesheet" href="assets/tailwind.css">
   <link rel="preload" href="assets/fonts/ZCOOLXiaoWei-Regular.ttf" as="font" type="font/ttf" crossorigin>
@@ -271,6 +271,7 @@
   <link rel="stylesheet" href="assets/stage.css">
   <link rel="stylesheet" href="assets/cards.css?v=6">
   <link rel="stylesheet" href="assets/duel-ui.css?v=6">
+  <link rel="stylesheet" href="assets/h02-ui.css?v=7">
 </head>
 <body class="h-screen w-screen overflow-hidden flex flex-col bg-obsidian select-none">
 
@@ -280,10 +281,11 @@
   <header id="gameHeader" class="relative z-40 shrink-0">
     <div class="game-heading">
       <span class="game-wordmark">舌战</span>
-      <h1 id="sceneContextTitle">深夜私人书房 · 禁欲执行官的午夜破防</h1>
+      <h1 id="sceneContextTitle">BeReal咖啡厅 · 昼夜之间</h1>
     </div>
     <nav class="game-tools" aria-label="游戏设置">
       <select id="scenarioSelect" aria-label="切换剧情">
+        <option value="scenario_h02">心防 · 陆星河 × 程严</option>
         <option value="scenario_ceo">深夜书房 · 陆衍</option>
         <option value="scenario_fox">假面舞会 · 齐枭</option>
         <option value="scenario_master">竹影仙门 · 百里华</option>
@@ -306,7 +308,7 @@
   <main id="mainGameStage" class="relative flex-1 w-full flex flex-col justify-between overflow-hidden">
 
     <div id="sceneBackdrop" aria-hidden="true">
-      <img id="sceneBackground" src="assets/backgrounds/study.png" alt="" fetchpriority="high">
+      <img id="sceneBackground" src="assets/h02/background-cafe.png" alt="" fetchpriority="high">
     </div>
     <div id="sceneLoadNotice" role="status" hidden>场景图片未加载，可通过右上角“场景/立绘”更换。</div>
 
@@ -565,6 +567,10 @@
       <div id="cinematicSubtitleBox" data-speaker="OPPONENT">
         <div class="dialogue-speaker"><span id="speakerSideBadge">他的回应</span><p id="cinematicSpeakerName">陆衍</p></div>
         <p id="cinematicSubtitleText">“深夜擅自来到我的私人书房，你做好承担后果的准备了么？”</p>
+        <div id="storyDialogueControls" class="story-dialogue-controls" hidden>
+          <span id="storyDialogueCaption"></span>
+          <button id="advanceDialogueBtn" type="button">继续对话 <span aria-hidden="true">›</span></button>
+        </div>
         <svg class="dialogue-sign" viewBox="0 0 36 28" aria-hidden="true"><path d="M18 23 5 11C-1 3 10-3 18 6c8-9 19-3 13 5Z"/><path d="M1 26h10m14 0h10"/></svg>
       </div>
       <div class="perspective-runway" aria-label="交锋进度">
@@ -604,6 +610,7 @@
           “……算我输了。从你踏进这间书房的第一秒起，我的心跳就没有一刻属于我自己。”
         </p>
         <div class="w-full border-t border-white/10 pt-4 flex items-center justify-center space-x-3">
+          <button id="continueH02Btn" type="button" class="story-continue" hidden>继续剧情</button>
           <button id="replayScenarioBtn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold shadow-lg transition">
             再一次靠近
           </button>
@@ -699,6 +706,7 @@
        GAME ENGINE & CONFIGURATION SCRIPT
        ======================================================== -->
   <script src="assets/duel-rules.js?v=4"></script>
+  <script src="assets/h02-story.js?v=7"></script>
   <script>
     /* ========================================================
        1. DECOUPLED GAME CONFIGURATION TABLE (GAME_CONFIG)
@@ -886,7 +894,8 @@
     /* ========================================================
        2. CORE STATE VARIABLES (Declared early to avoid TDZ)
        ======================================================== */
-    let currentScenarioId = "scenario_ceo";
+    GAME_CONFIG.scenarios = { scenario_h02: H02Story.scenario, ...GAME_CONFIG.scenarios };
+    let currentScenarioId = "scenario_h02";
     let distance = 0;
     let heartRate = 22;
     let turn = 1;
@@ -896,6 +905,11 @@
     let playerHand = [];
     let aiHand = [];
     let turnTimer = null;
+    let storyQueue = [];
+    let storyQueueDone = null;
+    let playedStoryStages = new Set();
+    let heroineExpression = 'idle';
+    let pendingH02Finish = null;
     let turnTimeRemaining = 10;
     let audioEnabled = true;
     let audioCtx = null;
@@ -1066,7 +1080,7 @@
         } else {
           atmosCtx.fillStyle = scen.themeBg === 'masquerade'
             ? `rgba(251, 113, 133, ${p.alpha})`
-            : `rgba(167, 243, 208, ${p.alpha})`;
+            : scen.themeBg === 'cafe' ? `rgba(241, 215, 187, ${p.alpha * 0.24})` : `rgba(167, 243, 208, ${p.alpha})`;
           atmosCtx.beginPath();
           atmosCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           atmosCtx.fill();
@@ -1135,10 +1149,7 @@
     let currentEmotionalState = "idle";
 
     function evaluateEmotionalState() {
-      if (distance >= GAME_CONFIG.rules.maxDistance) return "defeated";
-      if (heartRate >= GAME_CONFIG.rules.heartPanicThreshold) return "overload";
-      if (gazeAversion === 1 || distance >= 2) return "flustered";
-      return "idle";
+      return H02Story.emotionalState({ distance, heartRate, gazeAversion }, GAME_CONFIG.rules);
     }
 
     function setActiveActorSpotlight(activeSide) {
@@ -1173,10 +1184,78 @@
 
     function setSubtitleSpeaker(speakerType, customName, text) {
       const mine = speakerType === 'PLAYER';
-      document.getElementById('speakerSideBadge').textContent = mine ? '我的回应' : '他的回应';
+      document.getElementById('speakerSideBadge').textContent = speakerType === 'NARRATOR' ? '此刻' : mine ? '我的回应' : '他的回应';
       document.getElementById('cinematicSpeakerName').textContent = customName || '你';
       document.getElementById('cinematicSubtitleText').textContent = text;
       document.getElementById('cinematicSubtitleBox').dataset.speaker = mine ? 'PLAYER' : 'OPPONENT';
+    }
+
+    function playStoryQueue(lines, label, onComplete) {
+      const epoch = matchEpoch;
+      clearInterval(turnTimer);
+      isInteracting = true;
+      storyQueue = lines.map(line => ({ ...line, label: line.label || label }));
+      storyQueueDone = () => { if (epoch === matchEpoch && onComplete) onComplete(); };
+      document.getElementById('mainGameStage').dataset.dialogue = 'true';
+      renderPlayerHand();
+      showStoryQueueLine();
+    }
+
+    function showStoryQueueLine() {
+      const line = storyQueue[0];
+      const controls = document.getElementById('storyDialogueControls');
+      if (!line) {
+        controls.hidden = true;
+        document.getElementById('mainGameStage').dataset.dialogue = 'false';
+        const done = storyQueueDone;
+        storyQueueDone = null;
+        if (done) done();
+        return;
+      }
+      controls.hidden = false;
+      const scen = GAME_CONFIG.scenarios[currentScenarioId];
+      const side = line.speaker === scen.playerName ? 'PLAYER' : line.speaker === scen.characterName ? 'OPPONENT' : 'NARRATOR';
+      if (line.heroineExpression) heroineExpression = line.heroineExpression;
+      if (line.hideOpponent) document.getElementById('mainGameStage').dataset.opponentLeft = 'true';
+      setSubtitleSpeaker(side, line.speaker, line.text);
+      setActiveActorSpotlight(side);
+      renderActorFrame();
+      updateCinematicHUD();
+      document.getElementById('storyDialogueCaption').textContent = [line.label, line.tone].filter(Boolean).join(' · ');
+      document.getElementById('advanceDialogueBtn').textContent = storyQueue.length > 1 ? '继续对话 ›' : pendingH02Finish ? '读完这一幕 ›' : line.label === '昼夜之间' ? '开始交锋 ›' : '继续交锋 ›';
+      document.getElementById('timerLabel').textContent = '对白进行中';
+      document.getElementById('timerText').textContent = '暂停';
+      document.getElementById('playerStatusHint').textContent = '读完这句，再继续。';
+      document.getElementById('mainGameStage').dataset.storyLine = line.label;
+    }
+
+    document.getElementById('advanceDialogueBtn').addEventListener('click', () => {
+      if (!storyQueue.length) return;
+      storyQueue.shift();
+      showStoryQueueLine();
+    });
+
+    function resumeCardPlay() {
+      const wasReading = document.activeElement === document.getElementById('advanceDialogueBtn');
+      isInteracting = false;
+      document.getElementById('mainGameStage').dataset.resolving = 'false';
+      updateCinematicHUD();
+      renderPlayerHand();
+      startCountdown();
+      if (wasReading) document.querySelector('#playerHandContainer button:not(:disabled)')?.focus({ preventScroll: true });
+    }
+
+    function playTriggeredStages(before, after, onComplete) {
+      if (currentScenarioId !== 'scenario_h02') return onComplete();
+      const stages = H02Story.crossedStages(before, after, playedStoryStages, GAME_CONFIG.scenarios[currentScenarioId].stages);
+      const lines = [];
+      for (const stage of stages) {
+        playedStoryStages.add(stage.id);
+        for (const line of stage.lines) lines.push({ ...line, label: stage.title, heroineExpression: stage.heroineExpression });
+      }
+      document.getElementById('mainGameStage').dataset.playedStages = [...playedStoryStages].join(',');
+      if (lines.length) playStoryQueue(lines, '', onComplete);
+      else onComplete();
     }
 
 
@@ -1249,11 +1328,15 @@
       // Render Left Heroine (Player)
       const pImg = document.getElementById('playerActorImg');
       const pSvg = document.getElementById('playerSvgContainer');
+      pImg.alt = scen.playerName ? scen.playerName + ' · 持杯站在桌侧' : '女主（图1，粉色人物）';
+      imgEl.alt = scen.playerName ? scen.characterName + ' · 正装坐于桌前' : '男主（图2，西装人物）';
+      document.querySelector('#playerNameplate span:nth-child(2)').textContent = scen.playerName ? scen.playerName + ' · 你' : '女主 · 你';
+      const playerSrc = H02Story.playerSpriteFor(scen, heroineExpression);
       if (scen.usePhotoSprite && scen.playerSprite) {
         pImg.classList.remove('hidden');
         pSvg.classList.add('hidden');
-        if (pImg.getAttribute('src') !== scen.playerSprite) {
-          pImg.src = scen.playerSprite;
+        if (pImg.getAttribute('src') !== playerSrc) {
+          pImg.src = playerSrc;
           pImg.onerror = () => {
             pImg.classList.add('hidden');
             pSvg.classList.remove('hidden');
@@ -1268,12 +1351,15 @@
 
       // Render Right Male Lead (Opponent)
       currentEmotionalState = evaluateEmotionalState();
+      imgLayer.dataset.table = 'false';
+      document.getElementById('mainGameStage').dataset.emotion = currentEmotionalState;
 
       if (scen.usePhotoSprite && scen.sprites && scen.sprites[currentEmotionalState]) {
         imgLayer.classList.remove('hidden');
         svgContainer.classList.add('hidden');
 
         const targetSrc = scen.sprites[currentEmotionalState] || scen.sprites.idle;
+        imgLayer.dataset.table = scen.artLayout === 'h02' && targetSrc.startsWith('assets/h02/cheng-') ? 'true' : 'false';
         if (imgEl.getAttribute('src') !== targetSrc) {
           imgEl.style.opacity = '0.4';
           imgEl.src = targetSrc;
@@ -1365,7 +1451,7 @@
 
       const stage = document.getElementById('mainGameStage');
       const finish = DuelRules.getFinish(distance, turn - 1, GAME_CONFIG.rules);
-      const displayRound = Math.min(stage.dataset.judging === 'true' || finish ? Math.max(1, turn - 1) : turn, GAME_CONFIG.rules.maxRounds);
+      const displayRound = Math.min(stage.dataset.judging === 'true' || (stage.dataset.dialogue === 'true' && turn > 1) || finish ? Math.max(1, turn - 1) : turn, GAME_CONFIG.rules.maxRounds);
       const roundText = '第 ' + displayRound + ' / ' + GAME_CONFIG.rules.maxRounds + ' 回合';
       document.getElementById('roundCurrent').textContent = String(displayRound).padStart(2, '0');
       document.getElementById('roundTotal').textContent = GAME_CONFIG.rules.maxRounds;
@@ -1432,7 +1518,7 @@
           moveTitle: `【${card.name}】`,
           restraintLabel: "奇策特技",
           effectSummary: card.desc,
-          quotePreview: card.quote
+          quotePreview: isOpponent ? (GAME_CONFIG.scenarios[currentScenarioId].opponentLine || card.quote) : getPlayerLine(card)
         };
       }
       const aff = GAME_CONFIG.affinities[card.affinity];
@@ -1446,7 +1532,7 @@
       }
 
       const quotePreview = isOpponent
-        ? "“你以为这样就能让我失态么？”"
+        ? (GAME_CONFIG.scenarios[currentScenarioId].opponentLine || "“你以为这样就能让我失态么？”")
         : getPlayerLine(card);
 
       return {
@@ -1458,8 +1544,8 @@
     }
 
     function getPlayerLine(card) {
-      if (card.isSpecial) return card.quote;
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
+      if (card.isSpecial) return (scen.specialLines && scen.specialLines[card.effectType]) || card.quote;
       const tier = card.value >= 6 ? "HIGH" : "LOW";
       const key = `${card.affinity}_${tier}`;
       return (scen.playerLines && scen.playerLines[key]) || "“看着我的眼睛回答我。”";
@@ -1696,6 +1782,7 @@
 
     function playPlayerCard(cardIdx, originEl) {
       if (isInteracting) return;
+      gazeAversion = 0;
       const flightOriginBounds = originEl ? originEl.getBoundingClientRect() : null;
       const epoch = matchEpoch;
       isInteracting = true;
@@ -1742,7 +1829,7 @@
       const pMeta = getCardMoveMeta(pCard, false);
       if (pCallout) pCallout.textContent = `⚔ 出招：${pMeta.moveTitle}`;
       setActiveActorSpotlight('PLAYER');
-      setSubtitleSpeaker('PLAYER', '你', getPlayerLine(pCard));
+      setSubtitleSpeaker('PLAYER', scen.playerName || '你', getPlayerLine(pCard));
 
       if (pCard.isSpecial) {
         document.getElementById('playerClashAffinityIcon').innerHTML = getCardGlyph(getCardVisual(pCard).key);
@@ -1825,6 +1912,7 @@
       if (epoch !== matchEpoch) return;
       const result = DuelRules.resolveRound(pCard, oCard, GAME_CONFIG.rules, GAME_CONFIG.affinities);
       const { outcome, distDelta, heartDelta } = result;
+      const distanceBefore = distance;
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
       const banner = document.getElementById('clashResultBanner');
       const pSlot = document.getElementById('playerClashSlot');
@@ -1877,15 +1965,13 @@
           document.getElementById('clashStageContainer').setAttribute('aria-hidden', 'true');
           document.getElementById('playerWinCrownBadge').classList.add('hidden');
           document.getElementById('opponentWinCrownBadge').classList.add('hidden');
-          gazeAversion = 0;
+          if (currentScenarioId !== 'scenario_h02') gazeAversion = 0;
           setActiveActorSpotlight('NONE');
           renderActorFrame();
-          if (!checkBranchTransition()) {
-            isInteracting = false;
-            mainStage.dataset.resolving = 'false';
-            renderPlayerHand();
-            startCountdown();
-          }
+          mainStage.dataset.resolving = 'false';
+          playTriggeredStages(distanceBefore, distance, () => {
+            if (!checkBranchTransition()) resumeCardPlay();
+          });
         }, 2000);
       }, 260);
     }
@@ -1939,6 +2025,7 @@
       if (!finish) return false;
       const epoch = matchEpoch;
       const scen = GAME_CONFIG.scenarios[currentScenarioId];
+      const isH02 = currentScenarioId === 'scenario_h02';
       clearInterval(turnTimer);
       const present = () => {
         if (epoch !== matchEpoch) return;
@@ -1949,10 +2036,17 @@
         badge.className = 'match-result-badge';
         if (finish.winner === 'DRAW') {
           title.textContent = `【${GAME_CONFIG.rules.maxRounds}轮交锋 · 难分高下】`;
-          diag.textContent = '双方都守住了最后的心防。这场舌战暂时平手，下一次交锋再见分晓。';
+          diag.textContent = scen.endings.drawText || '双方都守住了最后的心防。这场舌战暂时平手，下一次交锋再见分晓。';
         } else {
           title.textContent = finish.winner === 'PLAYER' ? scen.endings.winTitle : scen.endings.loseTitle;
           diag.textContent = finish.winner === 'PLAYER' ? scen.endings.winText : scen.endings.loseText;
+        }
+        if (isH02) {
+          pendingH02Finish = finish;
+          title.textContent = finish.winner === 'PLAYER' ? scen.endings.winTitle : finish.winner === 'OPPONENT' ? scen.endings.loseTitle : scen.endings.drawTitle;
+          badge.textContent = `第 ${finish.roundsPlayed} / 10 回合 · 交锋 ${distance > 0 ? '+' : ''}${distance}`;
+          document.getElementById('continueH02Btn').hidden = false;
+          document.getElementById('nextScenarioBtn').hidden = true;
         }
         const overlay = document.getElementById('branchingOverlay');
         overlay.dataset.winner = finish.winner;
@@ -1965,7 +2059,7 @@
         document.getElementById('timerLabel').textContent = '本幕结束';
         document.getElementById('timerText').textContent = '—';
       };
-      if (finish.winner === 'DRAW') present();
+      if (finish.winner === 'DRAW' || isH02) present();
       else triggerGrandFinaleSequence(finish.winner, present);
       return true;
     }
@@ -1975,6 +2069,25 @@
        ======================================================== */
     document.getElementById('scenarioSelect').addEventListener('change', (e) => {
       resetGameWithScenario(e.target.value);
+    });
+
+    document.getElementById('continueH02Btn').addEventListener('click', () => {
+      if (!pendingH02Finish) return;
+      const finish = pendingH02Finish;
+      const scen = GAME_CONFIG.scenarios[currentScenarioId];
+      const key = finish.winner === 'PLAYER' ? 'win' : finish.winner === 'OPPONENT' ? 'lose' : 'draw';
+      document.getElementById('branchingOverlay').classList.add('hidden');
+      const lines = scen.outcomes[key].lines.map(line => ({ ...line, label: '局后回应' }))
+        .concat(scen.commonExit.map(line => ({ ...line, label: '离场之后' })));
+      playStoryQueue(lines, '局后回应', () => {
+        document.getElementById('branchTitle').textContent = '这一幕，暂告一段落';
+        document.getElementById('branchDialogue').textContent = '程严离开，助理留下接待。未说完的话，留在下一次见面。';
+        document.getElementById('continueH02Btn').hidden = true;
+        document.getElementById('nextScenarioBtn').hidden = false;
+        document.getElementById('branchingOverlay').classList.remove('hidden');
+        document.getElementById('timerLabel').textContent = '本幕结束';
+        document.getElementById('timerText').textContent = '—';
+      });
     });
 
     document.getElementById('toggleAudioBtn').addEventListener('click', function (event) {
@@ -2072,6 +2185,19 @@
     function resetGameWithScenario(scenarioKey) {
       matchEpoch++;
       clearInterval(turnTimer);
+      storyQueue = [];
+      storyQueueDone = null;
+      playedStoryStages = new Set();
+      heroineExpression = 'idle';
+      pendingH02Finish = null;
+      const mainStage = document.getElementById('mainGameStage');
+      mainStage.dataset.dialogue = 'false';
+      mainStage.dataset.opponentLeft = 'false';
+      mainStage.dataset.playedStages = '';
+      mainStage.dataset.storyLine = '';
+      document.getElementById('storyDialogueControls').hidden = true;
+      document.getElementById('continueH02Btn').hidden = true;
+      document.getElementById('nextScenarioBtn').hidden = false;
       document.querySelectorAll('[data-card-flight="true"]').forEach(el => el.remove());
       document.getElementById('judgementFx').hidden = true;
       document.getElementById('mainGameStage').dataset.judging = 'false';
@@ -2083,6 +2209,8 @@
       document.getElementById('branchingOverlay').classList.add('hidden');
       currentScenarioId = scenarioKey;
       const scen = GAME_CONFIG.scenarios[scenarioKey];
+      mainStage.dataset.artLayout = scen.artLayout || 'original';
+      document.getElementById('scenarioSelect').value = scenarioKey;
 
       distance = GAME_CONFIG.rules.startingDistance;
       heartRate = 22;
@@ -2108,17 +2236,19 @@
       document.getElementById('sceneContextTitle').textContent = scen.title;
       renderSceneBackground();
       setActiveActorSpotlight('NONE');
-      setSubtitleSpeaker('OPPONENT', scen.characterName, scen.initialDialogue);
+      setSubtitleSpeaker(scen.initialSpeaker || 'OPPONENT', scen.initialSpeaker === 'PLAYER' ? scen.playerName : scen.characterName, scen.initialDialogue);
 
       initHands();
       updateCinematicHUD();
       renderPlayerHand();
-      startCountdown();
+      if (scenarioKey === 'scenario_h02') {
+        playStoryQueue([{ speaker: scen.playerName, tone: '握杯站在桌侧', text: scen.initialDialogue }], '昼夜之间', resumeCardPlay);
+      } else startCountdown();
     }
 
     // Boot Game on Load
     window.addEventListener('DOMContentLoaded', () => {
-      resetGameWithScenario('scenario_ceo');
+      resetGameWithScenario('scenario_h02');
     });
   </script>
 </body>

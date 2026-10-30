@@ -1,0 +1,72 @@
+/* Generated frame plates sit around live UI; rules and text stay in HTML. */
+[hidden] { display: none !important; }
+#mainGameStage[data-art-layout="h02"] #sceneBackground { object-position: center 54%; }
+#mainGameStage[data-art-layout="h02"] #sceneBackdrop::after { background: linear-gradient(180deg,rgba(27,22,33,.22),transparent 40%,rgba(27,22,33,.14)); }
+#mainGameStage[data-art-layout="h02"] #playerStanceWrapper { width: 42vw; height: min(80dvh,820px); left: -2vw; bottom: -18px; }
+#mainGameStage[data-art-layout="h02"] #opponentStanceWrapper { --male-art-height: min(74dvh,760px); --male-art-bottom: 4px; width: 42vw; height: var(--male-art-height); right: -3vw; bottom: var(--male-art-bottom); }
+#mainGameStage[data-art-layout="h02"] #playerActorImg,
+#mainGameStage[data-art-layout="h02"] #primaryActorImg { object-fit: contain; filter: drop-shadow(0 12px 17px rgba(24,16,22,.25)) !important; }
+#mainGameStage[data-art-layout="h02"] #actorEmotionalFxOverlay { display: none; }
+#mainGameStage[data-art-layout="h02"] #actorImageLayer { isolation: isolate; }
+#mainGameStage[data-art-layout="h02"] #primaryActorImg { position: relative; z-index: 1; }
+#mainGameStage[data-art-layout="h02"] #actorImageLayer[data-table="true"]::before { content: ""; position: absolute; z-index: 0; left: calc(50% - var(--male-art-height) / 3); width: calc(var(--male-art-height) * 2 / 3 + 15vw); top: 83%; bottom: calc(0px - var(--male-art-bottom) - 12px); background: url("h02/table-front.png") left top/100% 100% no-repeat; }
+#mainGameStage[data-opponent-left="true"] #opponentStanceWrapper { opacity: 0; transition: opacity .8s ease; }
+#mainGameStage[data-art-layout="h02"] #playerNameplate,
+#mainGameStage[data-art-layout="h02"] #opponentNameplate { display: none; }
+
+#romanceStatus::before { inset: -12px -7px -5px; border: 0; border-radius: 0; background: url("h02/ui-status.png") center/100% 100% no-repeat; }
+#romanceStatus::after { display: none; }
+#romanceStatus { border-radius: 25px 25px 14px 14px; }
+#cinematicSubtitleBox { border-radius: 22px; }
+#cinematicSubtitleBox::after { inset: 0; border: 0; border-radius: 0; background: url("h02/ui-dialogue.png") center/100% 100% no-repeat; }
+#cinematicSubtitleBox > .dialogue-speaker:first-child { min-width: 184px; justify-content: center; border-radius: 4px; }
+#cinematicSubtitleBox > .dialogue-speaker:first-child::before { content: ""; position: absolute; inset: -4px -7px; background: url("h02/ui-speaker.png") center/100% 100% no-repeat; pointer-events: none; }
+#cinematicSubtitleBox > .dialogue-speaker:first-child > * { position: relative; z-index: 1; }
+.dialogue-sign { display: none; }
+#playerHandContainer .deck-card { border-color: rgba(239,205,222,.22); }
+#playerHandContainer .deck-card::after { content: ""; position: absolute; inset: 0; background: url("h02/ui-card.png") center/100% 100% no-repeat; opacity: .67; pointer-events: none; }
+.deck-card__suit { left: 15px; }
+.deck-card__caption { bottom: 13px; }
+
+.story-dialogue-controls { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 12px; position: relative; z-index: 2; }
+#storyDialogueCaption { color: var(--ink-soft); font: 400 12px/1.5 var(--font-ui); }
+#advanceDialogueBtn { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 6px 14px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 5px; background: #633b55; color: #fff0f7; font: 400 14px/1.4 var(--font-display); cursor: pointer; }
+#advanceDialogueBtn:hover { background: #80516c; }
+#mainGameStage[data-dialogue="true"] #cinematicSubtitleBox { min-height: 140px; }
+#mainGameStage[data-dialogue="true"] .deck-card { opacity: .48; }
+#mainGameStage[data-dialogue="true"] .response-progress { opacity: .4; }
+#mainGameStage[data-art-layout="h02"] #branchingOverlay > div { max-width: 520px; }
+#branchingOverlay .story-continue { padding: 8px 16px; border-radius: 8px; background: #74425e; color: #fff4f9; font: 400 14px/1.5 var(--font-display); }
+#branchDialogue { white-space: pre-line; }
+
+@media (max-width: 767px) {
+  #mainGameStage[data-art-layout="h02"] #playerStanceWrapper { width: 66vw; height: min(52dvh,440px); left: -15vw; bottom: 128px; }
+  #mainGameStage[data-art-layout="h02"] #opponentStanceWrapper { --male-art-height: min(48dvh,406px); --male-art-bottom: 172px; width: 66vw; right: -15vw; }
+  #romanceStatus::before { inset: -7px -2px -3px; }
+  #cinematicSubtitleBox > .dialogue-speaker:first-child { min-width: 150px; }
+  #mainGameStage[data-dialogue="true"] #cinematicSubtitleBox { min-height: 146px; }
+  .story-dialogue-controls { gap: 8px; margin-top: 8px; }
+  #storyDialogueCaption { max-width: 56%; font-size: 11px; }
+  #advanceDialogueBtn { min-height: 44px; padding: 6px 10px; font-size: 12px; }
+  .deck-card__suit { left: 9px; }
+  .deck-card__caption { bottom: 10px; }
+}
+
+@media (min-width: 768px) and (min-height: 561px) and (max-height: 800px) {
+  #mainGameStage[data-art-layout="h02"] #opponentStanceWrapper { --male-art-bottom: 56px; }
+}
+
+@media (min-width: 768px) and (max-height: 560px) {
+  #mainGameStage[data-art-layout="h02"] #playerStanceWrapper { width: 40vw; height: 68dvh; left: -1vw; bottom: 75px; }
+  #mainGameStage[data-art-layout="h02"] #opponentStanceWrapper { --male-art-height: 65dvh; --male-art-bottom: 78px; width: 40vw; right: -2vw; }
+  #romanceStatus::before { inset: -5px -4px -3px; }
+  #mainGameStage[data-dialogue="true"] #cinematicSubtitleBox { min-height: 90px; }
+  #mainGameStage[data-dialogue="true"] .hand-section { display: none; }
+  .story-dialogue-controls { margin-top: 4px; }
+  #storyDialogueCaption { font-size: 11px; }
+  #advanceDialogueBtn { min-height: 28px; padding: 3px 10px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #mainGameStage[data-opponent-left="true"] #opponentStanceWrapper { transition: none; }
+}

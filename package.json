@@ -4,7 +4,7 @@
   "private": true,
   "description": "舌战 · 双人卡牌对峙游戏",
   "scripts": {
-    "check": "node qa/check-game.cjs",
+    "check": "node qa/check-game.cjs && node qa/check-h02.cjs",
     "build": "tailwindcss -c tailwind.config.cjs -i styles/tailwind.css -o dist/assets/tailwind.css --minify",
     "preview": "node preview.mjs"
   },

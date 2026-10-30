@@ -75,5 +75,133 @@
     "origin": "Pre-existing generated game art from earlier game revisions; original local production records retained",
     "sourceCommit": "fe1443f4570b1037683d29a436196c87e449097f",
     "unchangedInV5": true
+  },
+  {
+    "path": "dist/assets/h02/lu-idle.png",
+    "sha256": "8c29dc75ffcdb224abd6fb161983ff87ce28cf6716a473a215ed34b0e42f6c93",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/01-lu-xinghe.txt",
+    "requestId": "req_6956c79968ed4bedab6b789341b0f76d",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/cheng-idle.png",
+    "sha256": "2a5ccf98b0ebc3033b5297c570521a9d2bee0e6481497fef15a562865fe1e255",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/02-cheng-yan.txt",
+    "requestId": "req_be749b46b9494c90b003ccc925691a91",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/background-cafe.png",
+    "sha256": "9045ad558454d4f06639447ac018de572d97bf98d45dc37cb0de571344eab215",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/03-cafe.txt",
+    "requestId": "req_e364ad4058f14277900bb81783b1204c",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/cheng-flustered.png",
+    "sha256": "72aa635b10253aeaaa4cde6981c3f20e21bf196aa8e4475f501f4e09be3cb57d",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/05-cheng-expressions.txt",
+    "requestId": "req_8e7830e4fdc54ad9979252a4b5e1f1f3",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/cheng-overload.png",
+    "sha256": "ba43784d06ea1209b6a2041f39ae09b8941261504fa54d5e79117375be59c736",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/05-cheng-expressions.txt",
+    "requestId": "req_8e7830e4fdc54ad9979252a4b5e1f1f3",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/cheng-defeated.png",
+    "sha256": "472ba89f27a27b282d712fcdcdb3eaa57a11b31d8b55b1536290811d678b777b",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/05-cheng-expressions.txt",
+    "requestId": "req_8e7830e4fdc54ad9979252a4b5e1f1f3",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/lu-playful.png",
+    "sha256": "cb003ba9370ce472460a02ec8b9331e20245d1b39cdf977cb1eaeb906b78a14a",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/06-lu-expressions.txt",
+    "requestId": "req_2d959890a37149e8a19816773faa5156",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/lu-intent.png",
+    "sha256": "d64a2768b6b3a62145223cd5d637c78cc28e3e9a8650fe8e1714e9b6ab9b88a3",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/06-lu-expressions.txt",
+    "requestId": "req_2d959890a37149e8a19816773faa5156",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/ui-dialogue.png",
+    "sha256": "51c94607711b8f53c4ca1bf796ab4bc0958c7063bd07de834bdc72a8b2546998",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/04-ui-frames.txt",
+    "requestId": "req_253e05bf717340758251ed0f863cdff8",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/ui-status.png",
+    "sha256": "81449db32a924b78b6ba44068cd3fb8dfdf3b5a43462fbd9f5b5cd33e4cc2152",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/04-ui-frames.txt",
+    "requestId": "req_253e05bf717340758251ed0f863cdff8",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/ui-card.png",
+    "sha256": "4a20cfa13779b9defae0ed14c06929fb8fcd2666011058bc3f9503a8ef75e810",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/04-ui-frames.txt",
+    "requestId": "req_253e05bf717340758251ed0f863cdff8",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/ui-speaker.png",
+    "sha256": "2c5eef501e2e2af085a0450050aaab48bf2665bfce095fb7edbbd5b15c6425df",
+    "origin": "Generated via explicitly requested api-create saved two-key pool",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/04-ui-frames.txt",
+    "requestId": "req_253e05bf717340758251ed0f863cdff8",
+    "operations": "art/h02/manifest.json",
+    "sourceVersion": "edf045ff-12d3-4c71-8020-88aa78204d89"
+  },
+  {
+    "path": "dist/assets/h02/table-front.png",
+    "sha256": "171d4082f4ef67c56e7e226f19260d63e0e8a8eb4de7f3fb8de6619313e8a713",
+    "origin": "Table texture crop from the produced Cheng Yan base sprite",
+    "model": "gpt-image-2",
+    "prompt": "art/h02/02-cheng-yan.txt",
+    "operations": "art/h02/manifest.json"
   }
 ]

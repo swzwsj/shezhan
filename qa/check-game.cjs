@@ -7,6 +7,8 @@ const html = fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8');
 const configMatch = html.match(/let GAME_CONFIG = ([\s\S]*?\n    });/);
 assert(configMatch, 'Live configuration must be readable');
 const config = JSON.parse(JSON.stringify(vm.runInNewContext('(' + configMatch[1] + ')')));
+const h02 = require('../dist/assets/h02-story.js').scenario;
+config.scenarios = { scenario_h02: h02, ...config.scenarios };
 const api = require('../dist/assets/duel-rules.js');
 api.validateRules(config.rules);
 assert.equal(config.rules.maxRounds, 10);
@@ -41,6 +43,13 @@ for (let round = 1; round < 8; round++) assert.equal(api.getFinish(round, round,
 assert.throws(() => api.validateRules({ ...config.rules, maxRounds: 0 }));
 assert.throws(() => api.validateRules({ ...config.rules, crushGap: 0 }));
 for (const scenario of Object.values(config.scenarios)) {
+  if (scenario.id === 'scenario_h02') {
+    assert.equal(scenario.playerName, '陆星河');
+    assert.equal(scenario.characterName, '程严');
+    assert(scenario.playerSprite.includes('/lu-'));
+    for (const value of Object.values(scenario.sprites)) assert(value.includes('/cheng-'));
+    continue;
+  }
   assert.equal(scenario.playerSprite, 'assets/character-pink.png');
   for (const value of Object.values(scenario.sprites)) assert.equal(value, 'assets/character-suit.png');
 }
@@ -92,7 +101,7 @@ for (const [policy, select] of Object.entries(policies)) {
   assert(meanRounds >= 6, policy + ' average must exceed 6 rounds');
   statistics.push({policy,matches:10000,seedBase:20261028,meanRounds,minRounds:min,maxRounds:max,under7WithCrush:early,roundLimitFinishes:byLimit});
 }
-const report = { ordinaryPairsChecked:checked, specialPairsChecked:54, roleMapping:'pink heroine left / suit male lead right', invariants:'large damage only counter + gap >= 4; no non-crush ending before round 8; max 10; ties stay draws', statistics };
+const report = { ordinaryPairsChecked:checked, specialPairsChecked:54, roleMapping:'H02: Lu Xinghe left / Cheng Yan right; original images retained in three legacy demos', invariants:'large damage only counter + gap >= 4; no non-crush ending before round 8; max 10; ties stay draws', statistics };
 const reportArg = process.argv.indexOf('--report');
 if (reportArg >= 0) fs.writeFileSync(path.resolve(process.argv[reportArg+1]), JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));

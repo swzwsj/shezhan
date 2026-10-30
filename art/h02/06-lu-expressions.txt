@@ -1,0 +1,8 @@
+Use case: identity-preserve.
+Asset type: TWO aligned natural expression variants of the same heroine visual-novel sprite in the input reference. Generate a production sprite sheet, landscape 1536x1024.
+Input image 1 is the ACTUAL base sprite of 陆星河. Preserve her exact adult face, swept-back dark hair, pearl earrings, dusty-rose coat, ivory white shirt with visible cuffs, dark trousers, standing pose, coffee cup and relaxed natural hands. Match her semi-realistic painted otome game rendering and gentle lighting. She is a mature confident adult psychologist. Never use the male lead's numerical emotion states for this heroine.
+Layout exactly TWO separate isolated head-to-mid-thigh sprites in equal 768px-wide columns, same pose and scale. Head tops align near y35, all shoulders, hands and coffee cups inside each column. Keep enough uniform green gap that sprites do not touch. Faces large enough for expression detail. No frame, no labels or text.
+Left column PLAYFUL: her eye corners hold a faint knowing amusement, very slight tilted smile, direct eye contact toward viewer right, teasing with poise. No exaggerated laugh, no wink.
+Right column INTENT: measured inquisitive gaze, quietly certain expression, lips relaxed, head level, confidence without hostility. Keep her standing still holding the cup, no physical leaning toward the man.
+The change is expression only. Preserve identity, attire, body position, hands, cup and lighting between columns and relative to input. No doctor coat, no hospital equipment, no cards, no bag, no exposed chest.
+Background uniformly flat chroma green #00FF00 with no shadows, gradients or vignette and no green spill. Green only behind the isolated sprites. No watermark or extra person.
